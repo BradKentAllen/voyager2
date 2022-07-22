@@ -35,7 +35,7 @@ import config
 class Brain:
 	def __init__(self):
 		# define gpio_zero objects
-		self.blue_LED_1 = LED(config.RPI_PINOUT_BCM.get('blue_LED_1'))
+		self.blue_LED_1 = LED(config.RPi_PINOUT_BCM.get('blue_LED_1'))
 
 	def LED(self, name, state):
 		''' turn LED on or off using name and state

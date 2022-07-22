@@ -62,7 +62,7 @@ while True:
             last_second = HHMMSS[2]
             #### Every second jobs ####
             print(f'\n{HHMMSS}')
-            if Goop.flash_flag is True:
+            if goop.flash_flag is True:
                 brain.LED("blue_LED_1", "ON")
                 goop.flash_flag = False
             else:
