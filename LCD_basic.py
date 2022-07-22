@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# LCD_I2C.py
+# LCD_basic.py
 
 '''
+RPi_voyager project
+LCD driver for both I2C and wired LCD
+
 Based on I2C_LCD_driver5.py
 which was originally heavily modified code found at:
 https://gist.github.com/DenisFromHR/cc863375a6e19dce359d
@@ -54,7 +57,10 @@ from time import sleep
 # customized config
 import my_RPi_config as config
 
-#### this is a hardware utility, not the function call
+#### these are hardware utilities, not the function call
+class wired_device:
+    pass
+
 class i2c_device:
     '''utility function for I2C hardware
     '''
@@ -142,13 +148,19 @@ Rs = 0b00000001 # Register select bit
 class LCD:
     #### Stock LCD functions ####
     #initializes objects and lcd
-    def __init__(self, LCDaddress=0):
+    def __init__(self, LCDaddress=None):
         '''LCD class for 2 or 4 line lcd display
         '''
         # this allows assigning a second LCD
-        if LCDaddress == 0:
+        if LCDaddress is None:
+            # Wired LCD
+            # XXXX  self.lcd_device = wired_device()
+            pass
+        elif LCDaddress == 0 or LCDaddress == 'use config':
             LCDaddress = config.I2C_LCD_ADDRESS
-        self.lcd_device = i2c_device(LCDaddress)
+            self.lcd_device = i2c_device(LCDaddress)
+        else:
+            self.lcd_device = i2c_device(LCDaddress)
 
         self.lcd_write(0x03)
         self.lcd_write(0x03)
@@ -164,27 +176,26 @@ class LCD:
 
     # clocks EN to latch command
     def lcd_strobe(self, data):
+        '''from I2C_LCD_driver
+        '''
         self.lcd_device.write_cmd(data | En | LCD_BACKLIGHT)
         sleep(.0005)
         self.lcd_device.write_cmd(((data & ~En) | LCD_BACKLIGHT))
         sleep(.0001)
 
     def lcd_write_four_bits(self, data):
+        '''from I2C_LCD_driver
+        '''
         self.lcd_device.write_cmd(data | LCD_BACKLIGHT)
         self.lcd_strobe(data)
 
-    ################################
-    ### Methods Required for API ###
-    ################################
-
-    # write a command to lcd
+     # write a command to lcd
     def lcd_write(self, cmd, mode=0):
         '''lcd_write is referenced as a lower level function
         at several points.
         '''
         self.lcd_write_four_bits(mode | (cmd & 0xF0))
         self.lcd_write_four_bits(mode | ((cmd << 4) & 0xF0))
-
 
     # write a character to lcd (or character rom) 0x09: backlight | RS=DR<
     def write_char(self, charvalue, mode=1):
@@ -194,6 +205,15 @@ class LCD:
         self.lcd_write_four_bits(mode | (charvalue & 0xF0))
         self.lcd_write_four_bits(mode | ((charvalue << 4) & 0xF0))
 
+
+    ################################
+    ### Methods Required for API ###
+    ################################
+
+    # clear lcd and set to home
+    def clear(self):
+        self.lcd_write(LCD_CLEARDISPLAY)
+        self.lcd_write(LCD_RETURNHOME)
     
     def write_string(self, string, line=1, pos=0):
         '''Main String Write Function
@@ -215,10 +235,7 @@ class LCD:
             self.lcd_write(ord(char), Rs)
     
 
-    # clear lcd and set to home
-    def clear(self):
-        self.lcd_write(LCD_CLEARDISPLAY)
-        self.lcd_write(LCD_RETURNHOME)
+    
 
     # define backlight on/off (lcd.backlight(1); off= lcd.backlight(0)
     def backlight(self, state): # for state, 1 = on, 0 = off
@@ -226,4 +243,27 @@ class LCD:
            self.lcd_device.write_cmd(LCD_BACKLIGHT)
         elif state == 0:
            self.lcd_device.write_cmd(LCD_NOBACKLIGHT)
+
+    # add custom characters (0 - 7)
+    def lcd_load_custom_chars(self, fontdata):
+        self.lcd_write(0x40);
+        for char in fontdata:
+           for line in char:
+              self.write_char(line)
+
+
+    def LCDalign(self, message, line, index, justification):
+        '''aligns text around an indexed location
+        index: location for justification (e.g. 10 is center of display)
+        justification: 'left', 'center', or 'right'
+        '''
+        length = int(len(message))
+        if justification == 'center':
+            location = index - (length / 2)
+        elif justification == 'right':
+            location = (index - length) + 1
+        else:
+            location = index
+
+        self.lcd_display_string(message, line, int(location))
 

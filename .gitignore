@@ -1,6 +1,5 @@
 # ignore specific files
 blob
-config.py
 key.key
 key*
 .DS_Store
