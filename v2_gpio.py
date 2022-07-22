@@ -23,27 +23,46 @@ from gpiozero import LED, Button, DigitalOutputDevice, DigitalInputDevice, Servo
 # The pigpio daemon must be running for this to work
 # To enable and will run on boot:
 # sudo systemctl enable pigpiod
-'''
+
 from gpiozero.pins.pigpio import PiGPIOFactory
 from gpiozero import Device
 Device.pin_factory = PiGPIOFactory()
-'''
+
 
 import config
 
 
 class Machine:
     def __init__(self):
-        # define gpio_zero objects
+        # #### define gpio_zero objects
+        # start with standard LED's
         self.gpio_objects = {
-            'blue_LED_1': LED(config.RPi_PINOUT_BCM.get('blue_LED_1')),
+            'blue_LED_1': LED(config.RPi_PINOUT_BCM.get('blue_LED_1', Device.pin_factory)),
             "blue_LED_2": LED(config.RPi_PINOUT_BCM.get('blue_LED_2')),
             "yellow_LED": LED(config.RPi_PINOUT_BCM.get('yellow_LED')),
             "red_LED": LED(config.RPi_PINOUT_BCM.get('red_LED')),
-            "i_o_12": LED(config.RPi_PINOUT_BCM.get('i_o_12')),
-            "i_o_16": LED(config.RPi_PINOUT_BCM.get('i_o_16')),
-            "i_o_20": LED(config.RPi_PINOUT_BCM.get('i_o_20')),
         }
+
+        customizable_objects = {
+            "i_o_12": None,
+            "i_o_16": None,
+            "i_o_20": None,
+        }
+
+        # add custom pins
+        for key, value in customizable_objects.items():
+            if key in customizable_objects:
+                print(key)
+                print(config.RPi_PINOUT_BCM[key])
+                print(config.RPi_PINOUT_BCM[key])
+                self.gpio_objects[config.RPi_PINOUT_BCM[key]['name']] = LED(config.RPi_PINOUT_BCM[key].get('pin'))
+
+
+
+
+
+
+        
 
     def LED(self, name, state):
         ''' turn LED on or off using name and state

@@ -76,9 +76,9 @@ RPi_PINOUT_BCM = {
     'yellow_LED': 11,
     'blue_LED_1': 9,
     'blue_LED_2': 10,
-    'i_o_12': 12,
-    'i_o_16': 16,
-    'i_o_20': 20,
+    'i_o_12': {'name': 'Internet_Good', 'pin': 12},
+    'i_o_16': {'name': 'Internet_Good', 'pin': 16},
+    'i_o_20': {'name': 'Internet_Good', 'pin': 20},
     
 }
 
