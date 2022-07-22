@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 '''
-file name:  brain.py 	#### Modem_Rider
+file name:  brain.py    #### Modem_Rider
 date created:
 created by:
-project/support: voyager2 Modem_Rider	# root or script it supports
+project/support: voyager2 Modem_Rider   # root or script it supports
 description:
-	Brain contains all machine related objects such as gpio and sensor objects
+    Brain contains all machine related objects such as gpio and sensor objects
 
 special instruction:
 '''
@@ -32,19 +32,19 @@ Device.pin_factory = PiGPIOFactory()
 import config
 
 
-class Brain:
-	def __init__(self):
-		# define gpio_zero objects
-		self.blue_LED_1 = LED(config.RPi_PINOUT_BCM.get('blue_LED_1'))
+class Machine:
+    def __init__(self):
+        # define gpio_zero objects
+        self.blue_LED_1 = LED(config.RPi_PINOUT_BCM.get('blue_LED_1'))
 
-	def LED(self, name, state):
-		''' turn LED on or off using name and state
-		name: name listed in config.RPI_PINOUT_BCM
-		state:  ON or OFF
-		'''
-		state = state.upper()
-		if name == "blue_LED_1":
-			if state == "ON":
-				self.blue_LED_1.on()
-			else:
-				self.blue_LED_1.off()
+    def LED(self, name, state):
+        ''' turn LED on or off using name and state
+        name: name listed in config.RPI_PINOUT_BCM
+        state:  ON or OFF
+        '''
+        state = state.upper()
+        if name == "blue_LED_1":
+            if state == "ON":
+                self.blue_LED_1.on()
+            else:
+                self.blue_LED_1.off()

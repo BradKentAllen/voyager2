@@ -8,9 +8,9 @@ description:  initial tests for timing loop, runs on MacPro
 
 special instruction:
     Voyager2 files:
-    1. Modem_Rider_main.py # DO NOT PUT STATE PARAMETERS AND FLAGS HERE!
-    2. Modem_Rider_brain.py # contains all gpio and sensor objects
-    3. Modem_Rider_goop.py # contains all parameters
+    1. MR_main.py # DO NOT PUT STATE PARAMETERS AND FLAGS HERE!
+    2. v2_gpio.py # contains all gpio and sensor objects
+    3. MR_goop.py # contains all parameters
     configuration and timing loop
     Should not contain any class objects (e.g. sensors, etc.)
     brain contains gpio, sensors, LCD manager, etc.
@@ -28,11 +28,11 @@ import RPi_utilities as RPi_util
 
 # #### Application-Specific Imports ####
 import config
-from MR_brain import Brain
+from v2_gpio import Machine
 from MR_goop import Goop
 
 # instantiate key objects
-brain = Brain()
+machine = Machine()
 goop = Goop()
 
 last_milli = 0
@@ -63,10 +63,10 @@ while True:
             #### Every second jobs ####
             print(f'\n{HHMMSS}')
             if goop.flash_flag is True:
-                brain.LED("blue_LED_1", "ON")
+                machine.LED("blue_LED_1", "ON")
                 goop.flash_flag = False
             else:
-                brain.LED("blue_LED_1", "OFF")
+                machine.LED("blue_LED_1", "OFF")
                 goop.flash_flag = True
 
 
