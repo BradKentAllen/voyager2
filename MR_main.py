@@ -64,9 +64,11 @@ while True:
             print(f'\n{HHMMSS}')
             if goop.flash_flag is True:
                 machine.LED("blue_LED_1", "ON")
+                machine.LED("blue_LED_2", "OFF")
                 goop.flash_flag = False
             else:
                 machine.LED("blue_LED_1", "OFF")
+                machine.LED("blue_LED_2", "ON")
                 goop.flash_flag = True
 
 

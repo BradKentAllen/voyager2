@@ -35,7 +35,10 @@ import config
 class Machine:
     def __init__(self):
         # define gpio_zero objects
-        self.blue_LED_1 = LED(config.RPi_PINOUT_BCM.get('blue_LED_1'))
+        self.gpio_objects = {
+            'blue_LED_1': LED(config.RPi_PINOUT_BCM.get('blue_LED_1')),
+            "blue_LED_2": LED(config.RPi_PINOUT_BCM.get('blue_LED_2')),
+        }
 
     def LED(self, name, state):
         ''' turn LED on or off using name and state
@@ -43,8 +46,11 @@ class Machine:
         state:  ON or OFF
         '''
         state = state.upper()
-        if name == "blue_LED_1":
+
+        try:
             if state == "ON":
-                self.blue_LED_1.on()
+                self.gpio_objects.get(name).on()
             else:
-                self.blue_LED_1.off()
+                self.gpio_objects.get(name).off()
+        except AttributeError:
+            print('bad LED object passed in v2_gpio.py')
