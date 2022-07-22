@@ -72,8 +72,13 @@ WIFI_AUTO = True
 # These are non-sequentially numbered pins on most diagrams
 
 RPi_PINOUT_BCM = {
+    'red_LED': 5,
+    'yellow_LED': 11,
     'blue_LED_1': 9,
     'blue_LED_2': 10,
+    'i_o_12': 12,
+    'i_o_16': 16,
+    'i_o_20': 20,
     
 }
 

@@ -65,10 +65,20 @@ while True:
             if goop.flash_flag is True:
                 machine.LED("blue_LED_1", "ON")
                 machine.LED("blue_LED_2", "OFF")
+                machine.LED("yellow_LED", "OFF")
+                machine.LED("red_LED", "ON")
+                machine.LED("i_o_12", "ON")
+                machine.LED("i_o_16", "OFF")
+                machine.LED("i_o_20", "ON")
                 goop.flash_flag = False
             else:
                 machine.LED("blue_LED_1", "OFF")
                 machine.LED("blue_LED_2", "ON")
+                machine.LED("yellow_LED", "ON")
+                machine.LED("red_LED", "OFF")
+                machine.LED("i_o_12", "OFF")
+                machine.LED("i_o_16", "ON")
+                machine.LED("i_o_20", "OFF")
                 goop.flash_flag = True
 
 

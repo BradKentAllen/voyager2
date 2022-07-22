@@ -38,6 +38,11 @@ class Machine:
         self.gpio_objects = {
             'blue_LED_1': LED(config.RPi_PINOUT_BCM.get('blue_LED_1')),
             "blue_LED_2": LED(config.RPi_PINOUT_BCM.get('blue_LED_2')),
+            "yellow_LED": LED(config.RPi_PINOUT_BCM.get('yellow_LED')),
+            "red_LED": LED(config.RPi_PINOUT_BCM.get('red_LED')),
+            "i_o_12": LED(config.RPi_PINOUT_BCM.get('i_o_12')),
+            "i_o_16": LED(config.RPi_PINOUT_BCM.get('i_o_16')),
+            "i_o_20": LED(config.RPi_PINOUT_BCM.get('i_o_20')),
         }
 
     def LED(self, name, state):
