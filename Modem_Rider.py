@@ -24,14 +24,16 @@ __status__ = 'DEV' # 'DEV', 'alpha', 'beta', 'production'
 from time import time
 
 # voyager2 imports
-#import RPi_utilities as RPi_util
+import RPi_utilities as RPi_util
 
 # #### Application-Specific Imports ####
 import config
-from brain import Brain
-from goop import Goop
+from MR_brain import Brain
+from MR_goop import Goop
 
-
+# instantiate key objects
+brain = Brain()
+goop = Goop()
 
 last_milli = 0
 start_milli = time() * 1000
@@ -52,14 +54,20 @@ while True:
         HHMMSS = RPi_util.get_time(config.local_time_zone)
 
         #### Jobs that run every poll
-        print(HHMMSS)
+        # none
 
         #### Second ####
         if last_second != HHMMSS[2]:
             # redo last_second
             last_second = HHMMSS[2]
             #### Every second jobs ####
-            print('***')
+            print(f'\n{HHMMSS}')
+            if Goop.flash_flag is True:
+                brain.LED("blue_LED_1", "ON")
+                goop.flash_flag = False
+            else:
+                brain.LED("blue_LED_1", "OFF")
+                goop.flash_flag = True
 
 
             # ----------------------------------------------
