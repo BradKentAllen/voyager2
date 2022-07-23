@@ -54,8 +54,7 @@ self.mylcd.lcd_load_custom_chars(customCharacters)
 import smbus
 from time import sleep
 
-# customized config
-import my_RPi_config as config
+import config
 
 #### these are hardware utilities, not the function call
 class wired_device:

@@ -74,7 +74,6 @@ class LCD_manager:
         elif config.LCD_TYPE == 'wired/16x2':
             print('UI.py no LCD driver set up')
             pass
-
     
     def restart_LCD(self, this_lcd=None):
         '''restart function for occasional redo
@@ -89,11 +88,29 @@ class LCD_manager:
             self.load_custom_chars(this_lcd)
             return this_lcd
  
-
     def display_clear(self, this_lcd=None):
         if this_lcd is None:
             this_lcd = self.main_lcd
         this_lcd.clear()
+
+    def display_menu(self, menu_dict, this_lcd=None):
+        '''shows message using standard voyager2 dict in this format
+
+        '''
+        display_list = []
+        display_list.append((menu_dict.get('line1'), menu_dict.get('line1_justification'), ))
+        display_list.append((menu_dict.get('line2'), menu_dict.get('line2_justification'), ))
+
+        if len(menu_dict) > 4:
+            # 4-line LCD
+            display_list.append((menu_dict.get('line3'), menu_dict.get('line3_justification'), ))
+            display_list.append((menu_dict.get('line4'), menu_dict.get('line4_justification'), ))
+
+        print('\n>>>> HERE')
+        print(menu_dict)
+        print(display_list)
+
+        self.display_multi_line(display_list, this_lcd)
 
     def display_multi_line(self, message_list, this_lcd=None):
         '''allows sending a full display in one command.

@@ -24,20 +24,25 @@ __status__ = 'DEV' # 'DEV', 'alpha', 'beta', 'production'
 from time import time
 
 # voyager2 imports
+from v2_gpio import Machine
 import RPi_utilities as RPi_util
+from v2_LCD_utility import LCD_manager
 
 # #### Application-Specific Imports ####
 import config
-from v2_gpio import Machine
 from MR_goop import Goop
 
 # instantiate key objects
 machine = Machine()
 goop = Goop()
+lcd_mgr = LCD_manager()
 
 last_milli = 0
 start_milli = time() * 1000
 (last_hour, last_minute, last_second) = RPi_util.get_time(config.local_time_zone)
+
+# LCD welcome display
+lcd_mgr.display_menu(config.display_dict.get('welcome'))
 
 
 while True:

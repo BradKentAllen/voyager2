@@ -102,7 +102,7 @@ USE_PIGPIO = False
 #### (3.1) # LCD setup
 # 'I2C/16x2', 'I2C/20x4', 'wired/16x2', None
 LCD_TYPE = 'I2C/16x2'
-I2C_LCD_ADDRESS = 0x23
+I2C_LCD_ADDRESS = 0x27
 BACKLIGHT_OFF_TIME = 3  # minutes until backlight goes off
 
 custom_chars = {
@@ -121,12 +121,31 @@ button_pull_up = False
 button_hold_time = 2
 
 
-#### (3.3) # Scroll interface
-scroll_dict = {
-    'main' : ('S/W rev', 'IP address', 'clock', 'network',
+#### (3.3) # Display Scroll Interface
+# this is the source for all material put on LCD display
+display_dict = {
+    'welcome': {
+        'line1': 'Welcome',
+        'line1_justification': 'left',
+        'line2': f'revision: {__revision__}',
+        'line2_justification': 'left',
+        },
+    'home': {
+        'main': {
+            'line1': 'home screen',
+            'line2': 'line 2'
+            }
+        }  
+    } 
+
+
+
+'''
+    ('S/W rev', 'IP address', 'clock', 'network',
         'copy wpa', 'shutdown', 'reboot', 'Display Data'),
     'data' : ('Internet', 'Internet day', 'climate', 'climate day', 'main')
     }
+'''
 
 
     #####################################################
