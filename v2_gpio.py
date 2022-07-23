@@ -37,7 +37,7 @@ class Machine:
         # #### define gpio_zero objects
         # start with standard LED's
         self.gpio_objects = {
-            'blue_LED_1': LED(config.RPi_PINOUT_BCM.get('blue_LED_1', Device.pin_factory)),
+            'blue_LED_1': LED(config.RPi_PINOUT_BCM.get('blue_LED_1')),
             "blue_LED_2": LED(config.RPi_PINOUT_BCM.get('blue_LED_2')),
             "yellow_LED": LED(config.RPi_PINOUT_BCM.get('yellow_LED')),
             "red_LED": LED(config.RPi_PINOUT_BCM.get('red_LED')),
@@ -52,17 +52,15 @@ class Machine:
         # add custom pins
         for key, value in customizable_objects.items():
             if key in customizable_objects:
-                print(key)
-                print(config.RPi_PINOUT_BCM[key])
-                print(config.RPi_PINOUT_BCM[key])
-                self.gpio_objects[config.RPi_PINOUT_BCM[key]['name']] = LED(config.RPi_PINOUT_BCM[key].get('pin'))
+                if config.RPi_PINOUT_BCM[key].get('type') == "LED": 
+                    self.gpio_objects[config.RPi_PINOUT_BCM[key].get('name')] = LED(config.RPi_PINOUT_BCM[key].get('pin'))
+                elif config.RPi_PINOUT_BCM[key].get('type') == "Output":
+                    self.gpio_objects[config.RPi_PINOUT_BCM[key].get('name')] = DigitalOutputDevice(config.RPi_PINOUT_BCM[key].get('pin'))
+                else:
+                    print('error v2_gpio: called output type that does not exist')
+            else:
+                print('error v2_gpio: called for key that is not in customizable objects')
 
-
-
-
-
-
-        
 
     def LED(self, name, state):
         ''' turn LED on or off using name and state
@@ -77,4 +75,19 @@ class Machine:
             else:
                 self.gpio_objects.get(name).off()
         except AttributeError:
-            print('bad LED object passed in v2_gpio.py')
+            print('bad LED object passed in v2_gpio.py/LED')
+
+    def output(self, name, state):
+        ''' turn digital output on or off using name and state
+        name: name listed in config.RPI_PINOUT_BCM
+        state:  ON or OFF
+        '''
+        state = state.upper()
+
+        try:
+            if state == "ON":
+                self.gpio_objects.get(name).on()
+            else:
+                self.gpio_objects.get(name).off()
+        except AttributeError:
+            print('bad digital output object passed in v2_gpio.py/output')

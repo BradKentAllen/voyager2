@@ -67,18 +67,18 @@ while True:
                 machine.LED("blue_LED_2", "OFF")
                 machine.LED("yellow_LED", "OFF")
                 machine.LED("red_LED", "ON")
-                machine.LED("i_o_12", "ON")
-                machine.LED("i_o_16", "OFF")
-                machine.LED("i_o_20", "ON")
+                machine.LED("working_LED", "ON")
+                machine.LED("Internet_Bad_LED", "OFF")
+                machine.LED("Internet_Good_LED", "ON")
                 goop.flash_flag = False
             else:
                 machine.LED("blue_LED_1", "OFF")
                 machine.LED("blue_LED_2", "ON")
                 machine.LED("yellow_LED", "ON")
                 machine.LED("red_LED", "OFF")
-                machine.LED("i_o_12", "OFF")
-                machine.LED("i_o_16", "ON")
-                machine.LED("i_o_20", "OFF")
+                machine.LED("working_LED", "OFF")
+                machine.LED("Internet_Bad_LED", "ON")
+                machine.LED("Internet_Good_LED", "OFF")
                 goop.flash_flag = True
 
 
