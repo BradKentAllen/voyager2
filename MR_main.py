@@ -42,7 +42,7 @@ start_milli = time() * 1000
 (last_hour, last_minute, last_second) = RPi_util.get_time(config.local_time_zone)
 
 # LCD welcome display
-lcd_mgr.display_menu(config.display_dict.get('welcome'))
+lcd_mgr.display_menu(config.display_dict['welcome'].get('screen'))
 
 
 while True:
