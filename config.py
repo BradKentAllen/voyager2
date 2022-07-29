@@ -227,6 +227,9 @@ DATA_RECORD_DETAILS = {
     #### 6.0 Unique Function Parameters ####
     ########################################
 ####
+#### Weather
+phoneBrad = '14259856203'
+phoneAnn = '14254171516'
 
 # for checking Internet status
 check_URL1 = 'http://google.com'

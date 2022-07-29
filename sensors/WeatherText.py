@@ -19,6 +19,7 @@ class weather_text():
     def __init__(self):
         weatherData = self.getWeatherJSON()
         weatherString = self.getWeather(weatherData)
+        print(weatherString)
         nexmo.sendNexmoSMS(weatherString, config.phoneBrad, config.phoneAnn)
     
     def getWeatherJSON(self):
