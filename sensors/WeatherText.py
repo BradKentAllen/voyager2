@@ -1,8 +1,9 @@
 # WeatherText.py
 '''Uses Open Weather API to get forecast
 Formats forecast for nice looking text
-Sends using Nexmo
-Requires config.py for Nexmo keys
+Sends using Twilio
+Requires giblets.py for Nexmo keys
+Requires local config for phone numbers
 '''
 
 from datetime import datetime
@@ -11,8 +12,11 @@ import json
 import signal
 
 # must be in folder
-import config
-import NEXMOmessage as nexmo
+try:
+    import config
+except ModuleNotFoundError:
+    import config_sms_test as config
+import Twilio_SMS as sms_msg
 
 
 class weather_text():
@@ -20,14 +24,15 @@ class weather_text():
         weatherData = self.getWeatherJSON()
         weatherString = self.getWeather(weatherData)
         print(weatherString)
-        nexmo.sendNexmoSMS(weatherString, config.phoneBrad, config.phoneAnn)
+        sms_msg.send_SMS_message(weatherString, config.phoneBrad, config.phoneAnn)
     
     def getWeatherJSON(self):
         '''
         gets weather data from openweathermap.org
         saves as LatestForecast.json
         '''
-        cityID = 5789198
+        # cityID = 5789198 # Carnation
+        cityID = 5812944  # Tacoma
         API = '32c27777152e3fa00b10f320b4cf3a9d'
 
         # this line will not work below python 3.6
