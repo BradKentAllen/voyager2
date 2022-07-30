@@ -27,6 +27,7 @@ from time import time
 from v2_gpio import Machine
 import RPi_utilities as RPi_util
 from v2_LCD_utility import LCD_manager
+from .sensors.check_internet import check_URL
 
 # #### Application-Specific Imports ####
 import config
@@ -81,6 +82,14 @@ while True:
                 
                 goop.flash_flag = True
 
+            # ### cycle modem and WIFI
+            # IMPORANT: check Internet is called in 15 sec functions
+            if goop.modem_cycle_monitor.get('cycling') is True:
+                machine.LED("cycling_LED", "ON")
+                # XXXX add cycling logic here
+            else:
+                machine.LED("cycling_LED", "OFF")
+
 
             # ----------------------------------------------
 
@@ -91,8 +100,30 @@ while True:
                 # ----------------------------------------------
 
             if int(HHMMSS[2])%15 == 0 or int(HHMMSS[2]) == 0:
-                ### every 5 second jobs ####
+                ### every 15 second jobs ####
                 print('run 15 second job')
+
+                # ### check internet
+                # IMPORTANT: more logic and cycling LED are in 1 second functions
+                goop.internet_good = self.check_URL(config.check_URL2, config.URL_timeout)
+
+                if goop.internet_good is True:
+                    machine.LED("Internet_Bad_LED", "OFF")
+                    machine.LED("Internet_Good_LED", "ON")
+
+                    # #### turn off cycling
+                    goop.modem_cycle_monitor = goop.modem_cycle_monitor_DEFAULTS
+
+                else:
+                    machine.LED("Internet_Bad_LED", "ON")
+                    machine.LED("Internet_Good_LED", "OFF")
+
+                    # ### start cycling modem and WIFI
+                    # this is the only place this occurs
+                    goop.modem_cycle_monitor['cycling'] = True
+
+
+
                 # ----------------------------------------------
 
 
@@ -112,17 +143,7 @@ while True:
 
                 if int(HHMMSS[1])%15 == 0 or int(HHMMSS[1]) == 0:
                     #### Every 15 minute jobs ####
-                    # check internet
-                    goop.internet_good = self.check_URL(config.check_URL2, config.URL_timeout)
-
-                    if goop.internet_good is True:
-                        machine.LED("cycling_LED", "OFF")
-                        machine.LED("Internet_Bad_LED", "OFF")
-                        machine.LED("Internet_Good_LED", "ON")
-                    else:
-                        machine.LED("cycling_LED", "OFF")
-                        machine.LED("Internet_Bad_LED", "ON")
-                        machine.LED("Internet_Good_LED", "OFF")
+                    pass
 
                     # ----------------------------------------------
 
