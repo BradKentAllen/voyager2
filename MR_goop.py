@@ -17,14 +17,21 @@ from dataclasses import dataclass
 class Goop():
     ''' data
     '''
-    flash_flag: bool = True
-    RH: int = 0
-    temp: float = 0.0
+    ### Internet Monitor
+    internet_good: bool = False
+    modem_cycle_monitor = {
+        'off count': 15,
+        'modem count': 15,
+        'WIFI count': 15,
+        'cycling': False,
+        }
 
-    RH_max: int = 0
-    RH_min: int = 100
-    Temp_max: int = 0
-    Temp_min: int = 100
+    modem_cycle_monitor_DEFAULTS = {
+        'off count': 15,
+        'modem count': 15,
+        'WIFI count': 15,
+        'cycling': False,
+        }
 
     min_Good_Internet: int = 0
     min_No_Internet: int = 0
@@ -32,8 +39,7 @@ class Goop():
     day_min_No_Internet: int = 0
 
     #### general voyager2 parameters ####
-    lcd_line1: str = "Welcome"
-    lcd_line2: str = "to TV Cabinet"
+    flash_flag: bool = True
 
     button1: bool = False
     button2: bool = False

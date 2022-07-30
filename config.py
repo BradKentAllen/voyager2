@@ -79,7 +79,7 @@ RPi_PINOUT_BCM = {
 
     # these are customizable
     # availabe types:  'LED', 'Output'
-    'i_o_12': {'name': 'working_LED', 'type': 'LED', 'pin': 12},
+    'i_o_12': {'name': 'cycling_LED', 'type': 'LED', 'pin': 12},
     'i_o_16': {'name': 'Internet_Bad_LED', 'type': 'LED', 'pin': 16},
     'i_o_20': {'name': 'Internet_Good_LED', 'type': 'Output', 'pin': 20},
     

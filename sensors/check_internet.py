@@ -12,7 +12,7 @@ special instruction:
 import urllib.request
 
 
-def check_URL(URL, URLtimout):
+def check_URL(URL, URLtimout=10):
     '''checks input URL and returns True if connects
     '''
     try:

@@ -72,18 +72,13 @@ while True:
                 machine.LED("blue_LED_2", "OFF")
                 machine.LED("yellow_LED", "OFF")
                 machine.LED("red_LED", "ON")
-                machine.LED("working_LED", "ON")
-                machine.LED("Internet_Bad_LED", "OFF")
-                machine.LED("Internet_Good_LED", "ON")
                 goop.flash_flag = False
             else:
                 machine.LED("blue_LED_1", "OFF")
                 machine.LED("blue_LED_2", "ON")
                 machine.LED("yellow_LED", "ON")
                 machine.LED("red_LED", "OFF")
-                machine.LED("working_LED", "OFF")
-                machine.LED("Internet_Bad_LED", "ON")
-                machine.LED("Internet_Good_LED", "OFF")
+                
                 goop.flash_flag = True
 
 
@@ -117,7 +112,18 @@ while True:
 
                 if int(HHMMSS[1])%15 == 0 or int(HHMMSS[1]) == 0:
                     #### Every 15 minute jobs ####
-                    pass
+                    # check internet
+                    goop.internet_good = self.check_URL(config.check_URL2, config.URL_timeout)
+
+                    if goop.internet_good is True:
+                        machine.LED("cycling_LED", "OFF")
+                        machine.LED("Internet_Bad_LED", "OFF")
+                        machine.LED("Internet_Good_LED", "ON")
+                    else:
+                        machine.LED("cycling_LED", "OFF")
+                        machine.LED("Internet_Bad_LED", "ON")
+                        machine.LED("Internet_Good_LED", "OFF")
+
                     # ----------------------------------------------
 
                 if int(HHMMSS[1])%30 == 0 or int(HHMMSS[1]) == 0:
