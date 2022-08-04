@@ -44,6 +44,12 @@ class Machine:
         }
 
         customizable_objects = {
+            "i_o_4": None,
+            "i_o_5": None,
+            "i_o_8": None,
+            "i_o_23": None,
+            "i_o_24": None,
+
             "i_o_12": None,
             "i_o_16": None,
             "i_o_20": None,
@@ -56,6 +62,8 @@ class Machine:
                     self.gpio_objects[config.RPi_PINOUT_BCM[key].get('name')] = LED(config.RPi_PINOUT_BCM[key].get('pin'))
                 elif config.RPi_PINOUT_BCM[key].get('type') == "Output":
                     self.gpio_objects[config.RPi_PINOUT_BCM[key].get('name')] = DigitalOutputDevice(config.RPi_PINOUT_BCM[key].get('pin'))
+                elif config.RPi_PINOUT_BCM[key].get('type') == "Button":
+                    self.gpio_objects[config.RPi_PINOUT_BCM[key].get('name')] = Button(config.RPi_PINOUT_BCM[key].get('pin'))
                 else:
                     print('error v2_gpio: called output type that does not exist')
             else:
