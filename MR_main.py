@@ -101,15 +101,16 @@ while True:
             # #####################################
             # #### Startup and Regular Actions ####
             # #####################################
-            
-            if goop.startup_seconds > 0:
+
+            if goop.startup_seconds > 1:
                 # #### Startup Actions Only ####
                 goop.startup_seconds -= 1
-            elif goop.startup_seconds == 0:
+            elif goop.startup_seconds == 1:
                 # #### actions that run once after startup
                 # XXXX DEBUG - test
                 goop.button3_args[0] = 'new button 3'
                 machine.redefine_button_actions(buttons.next_screen, buttons.test, buttons.test3_with_args)
+                goop.startup_seconds -= 1
             else:
                 # #### Regular Actions (not startup) ####
 
