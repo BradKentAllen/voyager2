@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 '''
-file name:  Modem_Rider_main.py
+file name:  MR_main.py
 date created:  July 10, 2022
 created by:
 project/support: voyager2       # root or script it supports
@@ -35,6 +35,7 @@ from sensors.check_internet import check_URL
 # #### Application-Specific Imports ####
 import config
 from MR_goop import Goop
+import MR_buttons as buttons
 
 # instantiate key objects
 machine = Machine()
@@ -50,6 +51,14 @@ print('\nDEBUG LCD call')
 print(type(config.display_dict['welcome'].get('screen')))
 print(config.display_dict['welcome'].get('screen'))
 lcd_mgr.display_menu(config.display_dict['welcome'].get('screen'))
+
+
+# ### set up button function for lambda call
+def button_func(func):
+    func()
+
+def button_func_test():
+    print('DEBUG button_func_test only')
 
 
 while True:
@@ -110,6 +119,9 @@ while True:
             if int(HHMMSS[2]) % 15 == 0 or int(HHMMSS[2]) == 0:
                 ### every 15 second jobs ####
                 print('run 15 second job')
+
+                # XXXX DEBUG - test
+                machine.redefine_button_actions(buttons.next_screen, button_func_test, button_func(buttons.test))
 
                 # ### check internet
                 # IMPORTANT: more logic and cycling LED are in 1 second functions
