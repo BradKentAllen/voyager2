@@ -143,7 +143,7 @@ display_dict = {
                 'line1': 'home screen',
                 'line1_justification': 'left',
                 'line2': 'line 2',
-                'line2_justification': 'left',
+                'line2_justification': 'right',
                 },
             'button2': None,
             'button3': None,

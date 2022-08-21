@@ -46,10 +46,7 @@ last_milli = 0
 start_milli = time() * 1000
 (last_hour, last_minute, last_second) = RPi_util.get_time(config.local_time_zone)
 
-# LCD welcome display
-print('\nDEBUG LCD call')
-print(type(config.display_dict['welcome'].get('screen')))
-print(config.display_dict['welcome'].get('screen'))
+# LCD welcome display (will stay on for goop.startup_seconds)
 lcd_mgr.display_menu(config.display_dict['welcome'].get('screen'))
 
 
@@ -74,7 +71,9 @@ while True:
             # redo last_second
             last_second = HHMMSS[2]
             #### Every second jobs ####
-            print(f'\n{HHMMSS}')
+            # print(f'\n{HHMMSS}')
+
+            # ### always actions (startup and regular)
             ''' XXX test flash LED's
             if goop.flash_flag is True:
                 machine.LED("blue_LED_1", "ON")
@@ -99,6 +98,27 @@ while True:
             else:
                 machine.LED("cycling_LED", "OFF")
 
+            # #####################################
+            # #### Startup and Regular Actions ####
+            # #####################################
+            
+            if goop.startup_seconds > 0:
+                # #### Startup Actions Only ####
+                goop.startup_seconds -= 1
+            elif goop.startup_seconds == 0:
+                # #### actions that run once after startup
+                # XXXX DEBUG - test
+                goop.button3_args[0] = 'new button 3'
+                machine.redefine_button_actions(buttons.next_screen, buttons.test, buttons.test3_with_args)
+            else:
+                # #### Regular Actions (not startup) ####
+
+                # ### update LCD
+                lcd_mgr.display_menu(config.display_dict[goop.current_screen_group][goop.current_screen].get('screen'))
+
+
+            
+
 
             # ----------------------------------------------
 
@@ -111,10 +131,6 @@ while True:
             if int(HHMMSS[2]) % 15 == 0 or int(HHMMSS[2]) == 0:
                 ### every 15 second jobs ####
                 print('run 15 second job')
-
-                # XXXX DEBUG - test
-                goop.button3_args[0] = 'new button 3'
-                machine.redefine_button_actions(buttons.next_screen, buttons.test, buttons.test3_with_args)
 
                 # ### check internet
                 # IMPORTANT: more logic and cycling LED are in 1 second functions

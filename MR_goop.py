@@ -39,6 +39,7 @@ class Goop():
     day_min_No_Internet: int = 0
 
     #### general voyager2 parameters ####
+    startup_seconds = 15
     flash_flag: bool = True
 
     button1: bool = False
@@ -49,6 +50,10 @@ class Goop():
     button1_args = [None]
     button2_args = [None]
     button3_args = [None]
+
+    # ### Screens
+    current_screen_group = 'home'
+    current_screen = 'main'
 
 
 

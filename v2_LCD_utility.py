@@ -11,6 +11,9 @@ thread_manager assures LCD commands are executed one at a time
 main_LCD is managed as class variable
 second LCD can be created by creating a second LCD_manager
 or, second LCD object must be managed in parent object
+
+rev:
+8/21/22 - changed display_line to include spaces and overwrite old content
 '''
 
 import config
@@ -97,7 +100,6 @@ class LCD_manager:
         '''shows message using standard voyager2 dict in this format
 
         '''
-        print('\n### display menus')
         display_list = []
         display_list.append((menu_dict.get('line1'), menu_dict.get('line1_justification'), ))
         display_list.append((menu_dict.get('line2'), menu_dict.get('line2_justification'), ))
@@ -106,10 +108,6 @@ class LCD_manager:
             # 4-line LCD
             display_list.append((menu_dict.get('line3'), menu_dict.get('line3_justification'), ))
             display_list.append((menu_dict.get('line4'), menu_dict.get('line4_justification'), ))
-
-        print('\n>>>> HERE')
-        print(menu_dict)
-        print(display_list)
 
         self.display_multi_line(display_list, this_lcd)
 
@@ -123,8 +121,6 @@ class LCD_manager:
         ('line four message', justification)
         ]
         '''
-        print('\n\n#### display multi line ####')
-        print(f'\n{message_list}')
         for count, message_tuple in enumerate(message_list):
             # lines are numbered from 1
             line = count + 1
@@ -143,6 +139,9 @@ class LCD_manager:
                     self.display_line(message_tuple[0], line, 0, 'left', this_lcd)
             elif len(message_tuple) == 2:
                 # determine index for justification based on display size
+                # XXXX No longer needed because justification is taken care of with
+                # spaces in display line
+                '''
                 if message_list[1] == 'left':
                     index = 0
                 elif message_list[1] == 'right':
@@ -151,19 +150,19 @@ class LCD_manager:
                     index = int(config.LCD_TYPE[4:6]) / 2
                 else:
                     index = 0
+                '''
 
                 # display line
                 if this_lcd == None:
-                    self.display_line(message_tuple[0], line, index, message_tuple[1])
+                    self.display_line(message_tuple[0], line, message_tuple[1])
                 else:
-                    self.display_line(message_tuple[0], line, index, message_tuple[1], this_lcd)
+                    self.display_line(message_tuple[0], line, message_tuple[1], this_lcd)
 
             else:
                 # something is wrong
                 pass
 
-
-    def display_line(self, message, line, index, justification='left', this_lcd=None):
+    def display_line(self, message, line, justification='left', this_lcd=None):
         '''aligns text around an indexed location
         index: location for justification (e.g. 10 is center of display)
         justification: 'left', 'center', or 'right'
@@ -172,6 +171,9 @@ class LCD_manager:
             this_lcd = self.main_lcd
 
         length = int(len(message))
+
+        # XXX old method of doing justification that did not blank out rest of display
+        '''
         if justification == 'center':
             location = index - (length / 2)
         elif justification == 'right':
@@ -180,6 +182,17 @@ class LCD_manager:
             location = index
 
         this_lcd.write_string(message, line, int(location))
+        '''
+        lcd_digits = int(config.LCD_TYPE[4:6])
+        if justification == 'center':
+            even_space = (lcd_digits - length) / 2
+            message = (even_space * ' ') + message + (even_space * ' ')
+        elif justification == 'right':         
+            message = ((lcd_digits - length) * ' ') + message
+        else:
+            message = message + ((lcd_digits - length) * ' ')
+
+        this_lcd.write_string(message, line, 0)
 
     def display_char(self, char, line, pos, this_lcd=None):
         '''places cursor then character

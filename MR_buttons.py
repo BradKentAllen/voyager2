@@ -6,8 +6,8 @@ created by:
 project/support: voyager2       # root or script it supports
 description:  
     MR_buttons has all buttons functions
-    button functions are passed to the GPIO, so they can not have parameters
-    Paramaters are set in Goop, then used by the functions
+    Button functions are passed to the GPIO, so they can not have arguements
+    To pass paramaters to a bettun, set in Goop, then use with the functions
 
 special instruction:
     All buttons functions must be here
