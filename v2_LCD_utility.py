@@ -97,6 +97,7 @@ class LCD_manager:
         '''shows message using standard voyager2 dict in this format
 
         '''
+        print('\n### display menus')
         display_list = []
         display_list.append((menu_dict.get('line1'), menu_dict.get('line1_justification'), ))
         display_list.append((menu_dict.get('line2'), menu_dict.get('line2_justification'), ))

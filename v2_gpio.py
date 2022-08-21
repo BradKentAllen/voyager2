@@ -69,6 +69,28 @@ class Machine:
             else:
                 print('error v2_gpio: called for key that is not in customizable objects')
 
+        # #### define button actions
+        self.redefine_button_actions(self.button_1_default, self.button_2_default, self.button_3_default)
+
+    def redefine_button_actions(self, button1_function, button2_function, button3_function):
+        self.gpio_objects.get('button_1').when_pressed = button1_function
+        self.gpio_objects.get('button_2').when_pressed = button2_function
+        self.gpio_objects.get('button_3').when_pressed = button3_function
+
+    def button_1_default(self):
+        ''' runs all button functions by passing function into the method.
+        '''
+        print('>>> button 1 pressed <<<')
+
+    def button_2_default(self):
+        ''' runs all button functions by passing function into the method.
+        '''
+        print('>>> button 2 pressed <<<')
+
+    def button_3_default(self):
+        ''' runs all button functions by passing function into the method.
+        '''
+        print('>>> button 3 pressed <<<')
 
     def LED(self, name, state):
         ''' turn LED on or off using name and state

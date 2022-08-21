@@ -73,9 +73,9 @@ RPi_PINOUT_BCM = {
     # availabe types:  'LED', 'Output'
 
         # Header 1 (by power jack, 6-pin) ONLY 4-PIN on Modem Rider
-    'i_o_4': {'name': 'button1', 'type': 'Button', 'pin': 4}, # Jim Hawkins, header 1, pin 1
-    'i_o_5': {'name': 'button1', 'type': 'Button', 'pin': 5}, # Jim Hawkins, header 1, pin 2
-    'i_o_8': {'name': 'button1', 'type': 'Button', 'pin': 8}, # Jim Hawkins, header 1, pin 3
+    'i_o_4': {'name': 'button_1', 'type': 'Button', 'pin': 14}, # Jim Hawkins, header 1, pin 1
+    'i_o_5': {'name': 'button_2', 'type': 'Button', 'pin': 15}, # Jim Hawkins, header 1, pin 2
+    'i_o_8': {'name': 'button_3', 'type': 'Button', 'pin': 18}, # Jim Hawkins, header 1, pin 3
     'i_o_23': {'name': 'modem', 'type': 'Output', 'pin': 23}, # Jim Hawkins, header 1, pin 5
     'i_o_24': {'name': 'router', 'type': 'Output', 'pin': 24}, # Jim Hawkins, header 1, pin 6
 
@@ -124,6 +124,8 @@ button_hold_time = 2
 
 #### (3.3) # Display Scroll Interface
 # this is the source for all material put on LCD display
+
+
 display_dict = {
     'welcome': {
         'screen': {
@@ -131,33 +133,35 @@ display_dict = {
             'line1_justification': 'left',
             'line2': f'revision: {__revision__}',
             'line2_justification': 'left',
-        },
+            },
         'button2': None,
         'button3': None,
-    }
+        },
     'home': {
         'main': {
             'screen': {
                 'line1': 'home screen',
                 'line1_justification': 'left',
-                'line2': 'line 2'
+                'line2': 'line 2',
                 'line2_justification': 'left',
-            }
+                },
             'button2': None,
             'button3': None,
-        },
+            },
         'shut_down': {
             'screen': {
                 'line1': 'shut down RPi',
                 'line1_justification': 'left',
-                'line2': 'push/hold >'
+                'line2': 'push/hold >',
                 'line2_justification': 'right',
-            }
+                },
             'button2': None,
             'button3': None,
-        }
-    }  
-} 
+            }
+        }     
+    }
+
+
 
 
 

@@ -15,8 +15,11 @@ special instruction:
     Should not contain any class objects (e.g. sensors, etc.)
     brain contains gpio, sensors, LCD manager, etc.
     goop contains data (Goop)
+
+rev 0.0.1 initial DEV
+rev 0.0.2 updating with buttons for use with sailboat
 '''
-__revision__ = 'v0.0.1'
+__revision__ = 'v0.0.2'
 __status__ = 'DEV' # 'DEV', 'alpha', 'beta', 'production'
 
 
@@ -27,7 +30,7 @@ from time import time
 from v2_gpio import Machine
 import RPi_utilities as RPi_util
 from v2_LCD_utility import LCD_manager
-from .sensors.check_internet import check_URL
+from sensors.check_internet import check_URL
 
 # #### Application-Specific Imports ####
 import config
@@ -43,6 +46,9 @@ start_milli = time() * 1000
 (last_hour, last_minute, last_second) = RPi_util.get_time(config.local_time_zone)
 
 # LCD welcome display
+print('\nDEBUG LCD call')
+print(type(config.display_dict['welcome'].get('screen')))
+print(config.display_dict['welcome'].get('screen'))
 lcd_mgr.display_menu(config.display_dict['welcome'].get('screen'))
 
 
@@ -68,6 +74,7 @@ while True:
             last_second = HHMMSS[2]
             #### Every second jobs ####
             print(f'\n{HHMMSS}')
+            ''' XXX test flash LED's
             if goop.flash_flag is True:
                 machine.LED("blue_LED_1", "ON")
                 machine.LED("blue_LED_2", "OFF")
@@ -81,6 +88,7 @@ while True:
                 machine.LED("red_LED", "OFF")
                 
                 goop.flash_flag = True
+            '''
 
             # ### cycle modem and WIFI
             # IMPORANT: check Internet is called in 15 sec functions
@@ -94,18 +102,18 @@ while True:
             # ----------------------------------------------
 
             #### On second jobs ####
-            if int(HHMMSS[2])%5 == 0 or int(HHMMSS[2]) == 0:
+            if int(HHMMSS[2]) % 5 == 0 or int(HHMMSS[2]) == 0:
                 ### every 5 second jobs ####
                 print('run 5 second job')
                 # ----------------------------------------------
 
-            if int(HHMMSS[2])%15 == 0 or int(HHMMSS[2]) == 0:
+            if int(HHMMSS[2]) % 15 == 0 or int(HHMMSS[2]) == 0:
                 ### every 15 second jobs ####
                 print('run 15 second job')
 
                 # ### check internet
                 # IMPORTANT: more logic and cycling LED are in 1 second functions
-                goop.internet_good = self.check_URL(config.check_URL2, config.URL_timeout)
+                goop.internet_good = check_URL(config.check_URL2, config.URL_timeout)
 
                 if goop.internet_good is True:
                     machine.LED("Internet_Bad_LED", "OFF")
