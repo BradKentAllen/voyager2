@@ -45,6 +45,11 @@ class Goop():
     button2: bool = False
     button3: bool = False
 
+    # ### buttons args
+    button1_args = [None]
+    button2_args = [None]
+    button3_args = [None]
+
 
 
     

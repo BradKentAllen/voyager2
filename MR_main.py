@@ -53,14 +53,6 @@ print(config.display_dict['welcome'].get('screen'))
 lcd_mgr.display_menu(config.display_dict['welcome'].get('screen'))
 
 
-# ### set up button function for lambda call
-def button_func(func):
-    func()
-
-def button_func_test():
-    print('DEBUG button_func_test only')
-
-
 while True:
     milli = (time() * 1000) - start_milli
     
@@ -121,7 +113,8 @@ while True:
                 print('run 15 second job')
 
                 # XXXX DEBUG - test
-                machine.redefine_button_actions(buttons.next_screen, button_func_test, buttons.test)
+                goop.button3_args[0] = 'new button 3'
+                machine.redefine_button_actions(buttons.next_screen, buttons.test, buttons.test3_with_args)
 
                 # ### check internet
                 # IMPORTANT: more logic and cycling LED are in 1 second functions
