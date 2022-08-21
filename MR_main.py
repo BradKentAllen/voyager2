@@ -121,7 +121,7 @@ while True:
                 print('run 15 second job')
 
                 # XXXX DEBUG - test
-                machine.redefine_button_actions(buttons.next_screen, button_func_test, button_func(buttons.test))
+                machine.redefine_button_actions(buttons.next_screen, button_func_test, buttons.test)
 
                 # ### check internet
                 # IMPORTANT: more logic and cycling LED are in 1 second functions
