@@ -10,7 +10,9 @@ special instruction:
     Voyager2 files:
     1. MR_main.py # DO NOT PUT STATE PARAMETERS AND FLAGS HERE!
     2. v2_gpio.py # contains all gpio and sensor objects
-    3. MR_goop.py # contains all parameters
+    3. MR_goop.py # contains all parameters indluding sensor readings and state flags
+    4. MR_buttons.py # all button functions contained here, note how functions are passed. 
+        Button parameters are kept in Goop and then called by button function, not passed.
     configuration and timing loop
     Should not contain any class objects (e.g. sensors, etc.)
     brain contains gpio, sensors, LCD manager, etc.
