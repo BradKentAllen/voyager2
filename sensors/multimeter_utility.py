@@ -6,6 +6,8 @@ created by: Brad Allen
 project/support: voyager2      # root or script it supports
 description:  Full package for ina219 multimeter breakout
 
+default I2C address 0x40
+
 https://learn.adafruit.com/adafruit-ina219-current-sensor-breakout/python-circuitpython
 
 this is an alternative library
@@ -24,7 +26,7 @@ import adafruit_ina219
 i2c = busio.I2C(board.SCL, board.SDA)
 sensor = adafruit_ina219.INA219(i2c)
 
-print("Bus Voltage:   {} V".format(ina219.bus_voltage))
-print("Shunt Voltage: {} mV".format(ina219.shunt_voltage / 1000))
-print("Current:       {} mA".format(ina219.current))
+print("Bus Voltage:   {} V".format(sensor.bus_voltage))
+print("Shunt Voltage: {} mV".format(sensor.shunt_voltage / 1000))
+print("Current:       {} mA".format(sensor.current))
 

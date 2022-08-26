@@ -128,7 +128,17 @@ sudo systemctl enable pigpiod
 
 # install RPi_voyager package
 
-XXXX - GitHub????
+Required for Adafruit Circtui Python sensors:
+
+```
+udo pip3 install Adafruit-Blinka
+
+sudo pip3 install adafruit-circuitpython-adxl34x
+sudo pip3 install adafruit-circuitpython-bno055
+sudo pip3 install adafruit-circuitpython-ina219
+```
+
+
 
 
 
