@@ -81,7 +81,7 @@ def shutdown_RPi():
 
 
 def reboot_RPi():
-    print('RPiUtilities reboot')
+    #print('RPiUtilities reboot')
     os.system("sudo reboot")
 
 def get_IP_address():

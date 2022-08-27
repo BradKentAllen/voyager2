@@ -39,7 +39,8 @@ class Goop():
     day_min_No_Internet: int = 0
 
     #### general voyager2 parameters ####
-    startup_seconds = 15 # must be greater than 10 seconds
+    main_thread_inhibit: bool = False  # inhibits main thread, particular for button thread
+    startup_seconds: int = 15 # must be greater than 10 seconds
     flash_flag: bool = True
 
     button1: bool = False
@@ -54,13 +55,13 @@ class Goop():
     button3_args = {}
 
     # ### Screens
-    current_screen_group = 'home'
-    current_screen = 'main'
+    current_screen_group: str = 'home'
+    current_screen: str = 'main'
 
     ''' init_UI flag
     if True, then will init UI.  Typically this includes new button functions
     '''
-    init_UI = False 
+    init_UI: bool = False 
 
 
     

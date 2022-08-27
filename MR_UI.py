@@ -22,9 +22,8 @@ import time
 # standard voyager imports
 import RPi_utilities as RPi_util
 
-# project-specific imports
-import config
-from MR_goop import Goop as goop
+# goop is filled by XXX_main
+goop = None
 
 
     #########################
@@ -44,16 +43,21 @@ def test3_with_args():
 
 
 def shutdown_RPi():
-    print('SHUTDOWN')
-    #RPi_util.shutdown_RPi()
+    goop.main_thread_inhibit = True
+    goop.button1_args['lcd'].display_multi_line(
+        message_list = [('will shut down', 'left'),]
+        )
+    time.sleep(5)
+    RPi_util.shutdown_RPi()
 
 
 def reboot_RPi():
     print('>>>> reboot RPi in UI')
+    goop.main_thread_inhibit = True
     goop.button1_args['lcd'].display_multi_line(
         message_list = [('will reboot', 'left'),]
         )
-    time.sleep(10)
+    time.sleep(5)
     print('start reboot')
     RPi_util.reboot_RPi()
 
@@ -138,8 +142,11 @@ def next_screen():
     # update the new screen
     goop.current_screen  = new_screen
     goop.init_UI = True # will run full init of UI
+    print(f'updated screen to: {goop.current_screen}')
+    print(f'updated goop.init_UI to: {goop.init_UI}')
 
     # update the button functions
+    '''
     print('redefine buttons in next_screen')
     goop.button1_args['machine'].redefine_button_actions(
         button1_function = next_screen,
@@ -147,6 +154,8 @@ def next_screen():
         button3_function = UI_dict[goop.current_screen_group][goop.current_screen].get('button3')
         )
     print('buttons redefined\n')
+    '''
+    print('end of next_screen <<< \n')
     
 
 

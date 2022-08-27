@@ -42,7 +42,11 @@ import MR_UI as UI
 
 # instantiate key objects
 machine = Machine()
+
+# goop is instantiated here and then placed in other modules if needed
 goop = Goop()
+UI.goop = goop  # put goop into UI
+
 lcd_mgr = LCD_manager()
 
 last_milli = 0
@@ -62,7 +66,7 @@ goop.button1_args['machine'] = machine  # this allows next screen to modify butt
 goop.button1_args['lcd'] = lcd_mgr  # this allows UI to print to lcd
 
 
-while True:
+while True and goop.main_thread_inhibit is False:
     milli = (time() * 1000) - start_milli
     
     #### deal with millis rolling
@@ -127,11 +131,11 @@ while True:
 
             else:
                 # #### Regular Actions (after startup) ####
+                print(f'regular actions: goop.init_UI: {goop.init_UI}')
 
                 # ### Change button functions once
                 if goop.init_UI is True:
-                    # XXXX DEBUG - test args
-                    goop.button3_args['dogs'] = 'five dogs'
+                    print('\n>>> run UI init in MR_main start up area')
                     machine.redefine_button_actions(
                         button1_function = UI.next_screen,
                         button2_function = UI.UI_dict[goop.current_screen_group][goop.current_screen].get('button2'),
