@@ -17,6 +17,8 @@ rev 0.0.1 initial DEV
 rev 0.0.2 updating with buttons for use with sailboat
 '''
 
+import time
+
 # standard voyager imports
 import RPi_utilities as RPi_util
 
@@ -46,7 +48,14 @@ def shutdown_RPi():
 
 
 def reboot_RPi():
+    print('>>>> reboot RPi in UI')
+    '''
+    goop.button1_args['lcd'].display_multi_line(
+        message_list = [('rebooting', 'center'),])
+    time.sleep(2)
+    print('start reboot')
     RPi_util.reboot_RPi()
+    '''
 
     ###################################
     #### User Interface Dictionary ####
@@ -86,7 +95,7 @@ UI_dict = {
                 'line2': 'reboot RPi >',
                 'line2_justification': 'right',
                 },
-            'button2': shutdown_RPi,
+            'button2': None,
             'button3': reboot_RPi,
             }
         }     
@@ -101,7 +110,7 @@ UI_dict = {
 def next_screen():
     '''changes to next screen
     '''
-    print('>>>> run UI.next_screen')
+    print('\n>>>> run UI.next_screen')
     next_screen_flag = False
     first_screen_group = None
     new_screen = None
@@ -129,11 +138,13 @@ def next_screen():
     goop.init_UI = True # will run full init of UI
 
     # update the button functions
+    print('redefine buttons in next_screen')
     goop.button1_args['machine'].redefine_button_actions(
         button1_function = next_screen,
         button2_function = UI_dict[goop.current_screen_group][goop.current_screen].get('button2'),
         button3_function = UI_dict[goop.current_screen_group][goop.current_screen].get('button3')
         )
+    print('buttons redefined\n')
     
 
 

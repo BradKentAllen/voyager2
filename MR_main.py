@@ -57,6 +57,7 @@ lcd_mgr.display_menu(_menu_dict)
 # initialize key parameters
 goop.init_UI = True  # requires init at end of startup
 goop.button1_args['machine'] = machine  # this allows next screen to modify buttons
+goop.button1_args['lcd'] = lcd_mgr  # this allows UI to print to lcd
 
 
 while True:
