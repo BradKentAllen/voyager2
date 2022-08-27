@@ -44,6 +44,7 @@ def test3_with_args():
 
 def shutdown_RPi():
     goop.main_thread_inhibit = True
+    goop.button1_args['lcd'].display_clear()
     goop.button1_args['lcd'].display_multi_line(
         message_list = [('will shut down', 'left'),]
         )
@@ -54,6 +55,7 @@ def shutdown_RPi():
 def reboot_RPi():
     print('>>>> reboot RPi in UI')
     goop.main_thread_inhibit = True
+    goop.button1_args['lcd'].display_clear()
     goop.button1_args['lcd'].display_multi_line(
         message_list = [('will reboot', 'left'),]
         )
@@ -116,7 +118,7 @@ UI_dict = {
 def next_screen():
     '''changes to next screen
     '''
-    print('\n>>>> run UI.next_screen')
+    #print('\n>>>> run UI.next_screen')
     next_screen_flag = False
     first_screen_group = None
     new_screen = None
@@ -142,20 +144,7 @@ def next_screen():
     # update the new screen
     goop.current_screen  = new_screen
     goop.init_UI = True # will run full init of UI
-    print(f'updated screen to: {goop.current_screen}')
-    print(f'updated goop.init_UI to: {goop.init_UI}')
 
-    # update the button functions
-    '''
-    print('redefine buttons in next_screen')
-    goop.button1_args['machine'].redefine_button_actions(
-        button1_function = next_screen,
-        button2_function = UI_dict[goop.current_screen_group][goop.current_screen].get('button2'),
-        button3_function = UI_dict[goop.current_screen_group][goop.current_screen].get('button3')
-        )
-    print('buttons redefined\n')
-    '''
-    print('end of next_screen <<< \n')
     
 
 

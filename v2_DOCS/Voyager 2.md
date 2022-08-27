@@ -17,20 +17,10 @@ gpiozero docs:  https://gpiozero.readthedocs.io/en/stable/
 
 ## Voyager Concept
 
-##### 
-
-* read_xxx    -  a sensor
-* set_xxx       - this is an output such as a servo or LED
-
-Initiate class objects
-
-1. Goop - data class with all data
-   * 
-2. Brain
-   1. sensor objects
-3. LCD_manager (UI.py)
-   1. instantiate LCD
-   2. methods for display, writing, clear, etc.
+* All gpio functions are in v2_gpio.py and instantiated as Machine.
+  * to use gpio in buttons, pass 'machine' to a button arg in goop, then use
+* LCD can be called by a button function by putting the LCD manager into a button_arg in goop 
+* XXX_goop must only be instantiated once then sent to other methods.  Otherwise, due to the threading in buttons, there ends up being multiple goops
 
 
 

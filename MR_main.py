@@ -19,10 +19,11 @@ special instruction:
     goop contains data (Goop)
 
 rev 0.0.1 initial DEV
-rev 0.0.2 updating with buttons for use with sailboat
+rev 0.0.2 updated to new button and UI functionality.
+rev 0.0.3 ready to put in sailboat
 '''
 __project_name__ = "Modem Runner"
-__revision__ = 'v0.0.2'
+__revision__ = 'v0.0.3'
 __status__ = 'DEV' # 'DEV', 'alpha', 'beta', 'production'
 
 
@@ -131,11 +132,8 @@ while True and goop.main_thread_inhibit is False:
 
             else:
                 # #### Regular Actions (after startup) ####
-                print(f'regular actions: goop.init_UI: {goop.init_UI}')
-
                 # ### Change button functions once
                 if goop.init_UI is True:
-                    print('\n>>> run UI init in MR_main start up area')
                     machine.redefine_button_actions(
                         button1_function = UI.next_screen,
                         button2_function = UI.UI_dict[goop.current_screen_group][goop.current_screen].get('button2'),
