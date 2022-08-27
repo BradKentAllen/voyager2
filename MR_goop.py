@@ -39,7 +39,7 @@ class Goop():
     day_min_No_Internet: int = 0
 
     #### general voyager2 parameters ####
-    startup_seconds = 15
+    startup_seconds = 15 # must be greater than 10 seconds
     flash_flag: bool = True
 
     button1: bool = False

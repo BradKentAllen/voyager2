@@ -49,7 +49,9 @@ start_milli = time() * 1000
 (last_hour, last_minute, last_second) = RPi_util.get_time(config.local_time_zone)
 
 # LCD welcome display (will stay on for goop.startup_seconds)
-lcd_mgr.display_menu(UI.UI_dict['welcome'].get('screen'))
+_menu_dict = UI.UI_dict['welcome'].get('screen')
+_menu_dict['line2'] = f'rev: {__revision__}'
+lcd_mgr.display_menu(_menu_dict)
 
 
 while True:
@@ -104,9 +106,16 @@ while True:
             # #### Startup and Regular Actions ####
             # #####################################
 
-            if goop.startup_seconds > 1:
+            if goop.startup_seconds > 1 and goop.startup_seconds != 10:
                 # #### Startup Actions Only ####
                 goop.startup_seconds -= 1
+            elif goop.startup_seconds == 10:
+                '''performs a screen change at 10 seconds'''
+                _menu_dict = UI.UI_dict['welcome'].get('screen')
+                IP_address = RPi_util.get_IP_address()
+                _menu_dict['line2'] = f'{IP_address}'
+                lcd_mgr.display_menu(_menu_dict)
+
             else:
                 # #### Regular Actions (after startup) ####
 

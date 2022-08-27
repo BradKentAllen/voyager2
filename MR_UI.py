@@ -88,7 +88,7 @@ UI_dict = {
         'screen': {
             'line1': 'Welcome',
             'line1_justification': 'left',
-            'line2': f'revision: {__revision__}',
+            'line2': 'MESSAGE',
             'line2_justification': 'left',
             },
         'button2': None,
