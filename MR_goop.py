@@ -47,14 +47,20 @@ class Goop():
     button3: bool = False
 
     # ### buttons args
-    button1_args = [None]
-    button2_args = [None]
-    button3_args = [None]
+    ''' used for passing arguements to button functions in UI
+    '''
+    button1_args = {}
+    button2_args = {}
+    button3_args = {}
 
     # ### Screens
     current_screen_group = 'home'
     current_screen = 'main'
 
+    ''' init_UI flag
+    if True, then will init UI.  Typically this includes new button functions
+    '''
+    init_UI = False 
 
 
     

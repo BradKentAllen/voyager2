@@ -37,7 +37,7 @@ from sensors.check_internet import check_URL
 # #### Application-Specific Imports ####
 import config
 from MR_goop import Goop
-import MR_buttons as buttons
+import MR_UI as UI
 
 # instantiate key objects
 machine = Machine()
@@ -49,7 +49,7 @@ start_milli = time() * 1000
 (last_hour, last_minute, last_second) = RPi_util.get_time(config.local_time_zone)
 
 # LCD welcome display (will stay on for goop.startup_seconds)
-lcd_mgr.display_menu(config.display_dict['welcome'].get('screen'))
+lcd_mgr.display_menu(UI.UI_dict['welcome'].get('screen'))
 
 
 while True:
@@ -107,17 +107,22 @@ while True:
             if goop.startup_seconds > 1:
                 # #### Startup Actions Only ####
                 goop.startup_seconds -= 1
-            elif goop.startup_seconds == 1:
-                # #### actions that run once after startup
-                # XXXX DEBUG - test
-                goop.button3_args[0] = 'new button 3'
-                machine.redefine_button_actions(buttons.next_screen, buttons.test, buttons.test3_with_args)
-                goop.startup_seconds -= 1
             else:
-                # #### Regular Actions (not startup) ####
+                # #### Regular Actions (after startup) ####
+
+                # ### Change button functions once
+                if goop.init_UI is True:
+                    # XXXX DEBUG - test args
+                    goop.button3_args['dogs'] = 'five dogs'
+                    machine.redefine_button_actions(
+                        button1_function = UI.next_screen,
+                        button2_function = UI.UI_dict[goop.current_screen_group][goop.current_screen].get('button2'),
+                        button3_function = UI.UI_dict[goop.current_screen_group][goop.current_screen].get('button3')
+                        )
+                    goop.init_UI = False
 
                 # ### update LCD
-                lcd_mgr.display_menu(config.display_dict[goop.current_screen_group][goop.current_screen].get('screen'))
+                lcd_mgr.display_menu(UI.UI_dict[goop.current_screen_group][goop.current_screen].get('screen'))
 
 
             

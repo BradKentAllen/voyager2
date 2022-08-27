@@ -126,52 +126,6 @@ button_hold_time = 2
 # this is the source for all material put on LCD display
 
 
-display_dict = {
-    'welcome': {
-        'screen': {
-            'line1': 'Welcome',
-            'line1_justification': 'left',
-            'line2': f'revision: {__revision__}',
-            'line2_justification': 'left',
-            },
-        'button2': None,
-        'button3': None,
-        },
-    'home': {
-        'main': {
-            'screen': {
-                'line1': 'home screen',
-                'line1_justification': 'left',
-                'line2': 'line 2',
-                'line2_justification': 'right',
-                },
-            'button2': None,
-            'button3': None,
-            },
-        'shut_down': {
-            'screen': {
-                'line1': 'shut down RPi',
-                'line1_justification': 'left',
-                'line2': 'push/hold >',
-                'line2_justification': 'right',
-                },
-            'button2': None,
-            'button3': None,
-            }
-        }     
-    }
-
-
-
-
-
-'''
-    ('S/W rev', 'IP address', 'clock', 'network',
-        'copy wpa', 'shutdown', 'reboot', 'Display Data'),
-    'data' : ('Internet', 'Internet day', 'climate', 'climate day', 'main')
-    }
-'''
-
 
     #####################################################
     #### (4.0) Sensors, Data, Data Recorder, Logging ####
