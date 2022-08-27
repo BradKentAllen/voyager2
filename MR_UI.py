@@ -49,13 +49,12 @@ def shutdown_RPi():
 
 def reboot_RPi():
     print('>>>> reboot RPi in UI')
-    '''
     goop.button1_args['lcd'].display_multi_line(
         message_list = [('rebooting', 'center'),])
     time.sleep(2)
     print('start reboot')
     RPi_util.reboot_RPi()
-    '''
+
 
     ###################################
     #### User Interface Dictionary ####
@@ -95,8 +94,8 @@ UI_dict = {
                 'line2': 'reboot RPi >',
                 'line2_justification': 'right',
                 },
-            'button2': None,
-            'button3': reboot_RPi,
+            'button2': reboot_RPi,
+            'button3': shutdown_RPi,
             }
         }     
     }
