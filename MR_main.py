@@ -48,11 +48,15 @@ last_milli = 0
 start_milli = time() * 1000
 (last_hour, last_minute, last_second) = RPi_util.get_time(config.local_time_zone)
 
+# #### Initialize UI
 # LCD welcome display (will stay on for goop.startup_seconds)
 _menu_dict = UI.UI_dict['welcome'].get('screen')
 _menu_dict['line2'] = f'rev: {__revision__}'
 lcd_mgr.display_menu(_menu_dict)
-goop.init_UI = True # requires init at end of startup
+
+# initialize key parameters
+goop.init_UI = True  # requires init at end of startup
+goop.button1_args['machine'] = machine  # this allows next screen to modify buttons
 
 
 while True:
@@ -107,8 +111,6 @@ while True:
             # #### Startup and Regular Actions ####
             # #####################################
 
-            print(f'init_UI: {goop.init_UI}')
-
             if goop.startup_seconds > 1 and goop.startup_seconds != 10:
                 # #### Startup Actions Only ####
                 goop.startup_seconds -= 1
@@ -125,7 +127,6 @@ while True:
 
                 # ### Change button functions once
                 if goop.init_UI is True:
-                    print('\n!!! run init_UI !!!')
                     # XXXX DEBUG - test args
                     goop.button3_args['dogs'] = 'five dogs'
                     machine.redefine_button_actions(

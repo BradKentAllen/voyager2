@@ -75,12 +75,12 @@ def get_cpu_temp():
 
 
 
-def shutdownRPI():
+def shutdown_RPi():
     #print('RPiUtilities shutdownRPI')
     os.system("sudo shutdown -h now")
 
 
-def rebootRPI():
+def reboot_RPi():
     #print('RPiUtilities reboot')
     os.system("sudo reboot")
 

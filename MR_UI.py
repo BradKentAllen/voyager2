@@ -41,6 +41,13 @@ def test3_with_args():
         print('IndexError in buttons test3_with args')
 
 
+def shutdown_RPi():
+    RPi_util.shutdown_RPi()
+
+
+def reboot_RPi():
+    RPi_util.reboot_RPi()
+
     ###################################
     #### User Interface Dictionary ####
     ###################################
@@ -72,15 +79,15 @@ UI_dict = {
             'button2': test,
             'button3': test3_with_args,
             },
-        'shut_down': {
+        'MX': {
             'screen': {
-                'line1': 'shut down RPi',
-                'line1_justification': 'left',
-                'line2': 'push/hold >',
+                'line1': 'shut down RPi >',
+                'line1_justification': 'right',
+                'line2': 'reboot RPi >',
                 'line2_justification': 'right',
                 },
-            'button2': None,
-            'button3': None,
+            'button2': shutdown_RPi,
+            'button3': reboot_RPi,
             }
         }     
     }
@@ -120,5 +127,21 @@ def next_screen():
     # update the new screen
     goop.current_screen  = new_screen
     goop.init_UI = True # will run full init of UI
+
+    # update the button functions
+    goop.button1_args['machine'].redefine_button_actions(
+        button1_function = next_screen,
+        button2_function = UI_dict[goop.current_screen_group][goop.current_screen].get('button2'),
+        button3_function = UI_dict[goop.current_screen_group][goop.current_screen].get('button3')
+        )
+    
+
+
+
+
+
+
+
+
 
 
