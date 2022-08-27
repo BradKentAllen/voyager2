@@ -17,6 +17,10 @@ rev 0.0.1 initial DEV
 rev 0.0.2 updating with buttons for use with sailboat
 '''
 
+# standard voyager imports
+import RPi_utilities as RPi_util
+
+# project-specific imports
 import config
 from MR_goop import Goop as goop
 
