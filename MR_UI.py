@@ -24,39 +24,6 @@ import RPi_utilities as RPi_util
 import config
 from MR_goop import Goop as goop
 
-    ###############################
-    #### Button 1 - Next Screen####
-    ###############################
-
-def next_screen():
-    '''changes to next screen
-    '''
-    next_screen_flag = False
-    first_screen_group = None
-    new_screen = None
-
-    # work through all screens in the current screen group
-    for count, _screen in enumerate(config.display_dict.get(goop.current_screen_group)):
-        # save the first screen, for use if on the last screen
-        if count == 0:
-            first_screen_group = _screen
-
-        # retain new screen (this has to be before the test)
-        if next_screen_flag is True:
-            new_screen = _screen
-
-        # test for current screen
-        if _screen == goop.current_screen:
-            next_screen_flag = True
-
-    # this happens if on the last screen in the screen_group
-    if new_screen is None:
-        new_screen = first_screen_group
-
-    # update the new screen
-    goop.current_screen  = new_screen
-    goop.init_UI = True # will run full init of UI
-
 
     #########################
     #### Button Function ####
@@ -119,6 +86,39 @@ UI_dict = {
     }
 
 
+    ###############################
+    #### Button 1 - Next Screen####
+    ###############################
+    # IMPORTANT:  this must be after the UI_dict
 
+def next_screen():
+    '''changes to next screen
+    '''
+    print('>>>> run UI.next_screen')
+    next_screen_flag = False
+    first_screen_group = None
+    new_screen = None
+
+    # work through all screens in the current screen group
+    for count, _screen in enumerate(UI_dict.get(goop.current_screen_group)):
+        # save the first screen, for use if on the last screen
+        if count == 0:
+            first_screen_group = _screen
+
+        # retain new screen (this has to be before the test)
+        if next_screen_flag is True:
+            new_screen = _screen
+
+        # test for current screen
+        if _screen == goop.current_screen:
+            next_screen_flag = True
+
+    # this happens if on the last screen in the screen_group
+    if new_screen is None:
+        new_screen = first_screen_group
+
+    # update the new screen
+    goop.current_screen  = new_screen
+    goop.init_UI = True # will run full init of UI
 
 
