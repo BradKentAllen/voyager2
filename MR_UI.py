@@ -44,16 +44,19 @@ def test3_with_args():
 
 
 def shutdown_RPi():
-    RPi_util.shutdown_RPi()
+    print('SHUTDOWN')
+    #RPi_util.shutdown_RPi()
 
 
 def reboot_RPi():
     print('>>>> reboot RPi in UI')
     goop.button1_args['lcd'].display_multi_line(
-        message_list = [('rebooting', 'center'),])
-    time.sleep(2)
+        message_list = [('will reboot', 'left'),]
+        )
+    time.sleep(10)
     print('start reboot')
     RPi_util.reboot_RPi()
+
 
 
     ###################################
@@ -70,7 +73,7 @@ UI_dict = {
         'screen': {
             'line1': 'Welcome',
             'line1_justification': 'left',
-            'line2': 'MESSAGE',
+            'line2': 'to Voyager',
             'line2_justification': 'left',
             },
         'button2': None,

@@ -185,7 +185,7 @@ class LCD_manager:
         '''
         lcd_digits = int(config.LCD_TYPE[4:6])
         if justification == 'center':
-            even_space = (lcd_digits - length) / 2
+            even_space = int((lcd_digits - length) / 2)
             message = (even_space * ' ') + message + (even_space * ' ')
         elif justification == 'right':         
             message = ((lcd_digits - length) * ' ') + message

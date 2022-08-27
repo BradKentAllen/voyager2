@@ -21,6 +21,7 @@ special instruction:
 rev 0.0.1 initial DEV
 rev 0.0.2 updating with buttons for use with sailboat
 '''
+__project_name__ = "Modem Runner"
 __revision__ = 'v0.0.2'
 __status__ = 'DEV' # 'DEV', 'alpha', 'beta', 'production'
 
@@ -51,6 +52,7 @@ start_milli = time() * 1000
 # #### Initialize UI
 # LCD welcome display (will stay on for goop.startup_seconds)
 _menu_dict = UI.UI_dict['welcome'].get('screen')
+_menu_dict['line1'] = f'{__project_name__}'
 _menu_dict['line2'] = f'rev: {__revision__}'
 lcd_mgr.display_menu(_menu_dict)
 
