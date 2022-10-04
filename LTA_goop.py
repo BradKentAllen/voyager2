@@ -1,14 +1,19 @@
 #!/usr/bin/env python
 '''
-file name:  Modem_Rider_goop.py
-date created:
-created by:
-project/support:                # root or script it supports
+file name:  LTA_goop.py
+date created:  October 4, 2022
+created by:  Brad Allen, AditNW LLC
+project/support: Life Tester A      # root or script it supports
 description:
 
 special instruction:
+
+copyright 2022, MIT License, AditNW LLC
+
+rev 1.0 initial creation from MR_UI.py
 '''
-__revision__ = 'v0.0.1'
+__project_name__ = "Life Tester"
+__revision__ = 'v1.0'
 __status__ = 'DEV' # 'DEV', 'alpha', 'beta', 'production'
 
 from dataclasses import dataclass

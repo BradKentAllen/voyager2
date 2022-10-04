@@ -1,31 +1,25 @@
 #!/usr/bin/env python
 '''
-file name:  MR_main.py
-date created:  July 10, 2022
-created by:
-project/support: voyager2       # root or script it supports
-description:  initial tests for timing loop, runs on MacPro
+file name:  LTA_main.py
+date created:  October 4, 2022
+created by:  Brad Allen, AditNW LLC
+project/support: Life Tester A       # root or script it supports
+description:  main timing featues for Life Tester
 
 special instruction:
     Voyager2 files:
-    1. MR_main.py # DO NOT PUT STATE PARAMETERS AND FLAGS HERE!
+    1. LTA_main.py # DO NOT PUT STATE PARAMETERS AND FLAGS HERE!
     2. v2_gpio.py # contains all gpio and sensor objects
-    3. MR_goop.py # contains all parameters indluding sensor readings and state flags
-    4. MR_buttons.py # all button functions contained here, note how functions are passed. 
+    3. LTA_goop.py # contains all parameters indluding sensor readings and state flags
+    4. LTA_UI.py # all button functions contained here, note how functions are passed. 
         Button parameters are kept in Goop and then called by button function, not passed.
     configuration and timing loop
     Should not contain any class objects (e.g. sensors, etc.)
-    brain contains gpio, sensors, LCD manager, etc.
-    goop contains data (Goop)
 
-rev 0.0.1 initial DEV
-rev 0.0.2 updated to new button and UI functionality.
-rev 0.0.3 ready to put in sailboat
+copyright 2022, MIT License, AditNW LLC
+
+rev 1.0 initial creation from MR_main.py
 '''
-__project_name__ = "Modem Runner"
-__revision__ = 'v0.0.3'
-__status__ = 'DEV' # 'DEV', 'alpha', 'beta', 'production'
-
 
 # standard imports
 from time import time

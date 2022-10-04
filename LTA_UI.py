@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 '''
-file name:  MR_buttons.py
-date created:  August 21, 2022
-created by:
-project/support: voyager2       # root or script it supports
+file name:  LTA_UI.py
+date created:  October 4, 2022
+created by:  Brad Allen, AditNW LLC
+project/support: Life Tester A      # root or script it supports
 description:  
-    MR_buttons has all buttons functions
+    Has all buttons functions
     Button functions are passed to the GPIO, so they can not have arguements
     To pass paramaters to a bettun, set in Goop, then use with the functions
 
@@ -13,8 +13,10 @@ special instruction:
     All buttons functions must be here
     Button functions are passed to v2_gpio for action
 
-rev 0.0.1 initial DEV
-rev 0.0.2 updating with buttons for use with sailboat
+copyright 2022, MIT License, AditNW LLC
+
+rev 1.0 initial creation from MR_UI.py
+
 '''
 
 import time
