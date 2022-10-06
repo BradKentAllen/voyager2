@@ -12,9 +12,7 @@ copyright 2022, MIT License, AditNW LLC
 
 rev 1.0 initial creation from MR_UI.py
 '''
-__project_name__ = "Life Tester"
-__revision__ = 'v1.0'
-__status__ = 'DEV' # 'DEV', 'alpha', 'beta', 'production'
+
 
 from dataclasses import dataclass
 
@@ -22,26 +20,26 @@ from dataclasses import dataclass
 class Goop():
     ''' data
     '''
-    ### Internet Monitor
-    internet_good: bool = False
-    modem_cycle_monitor = {
-        'off count': 15,
-        'modem count': 15,
-        'WIFI count': 15,
-        'cycling': False,
+    ### Life Tester Parameters
+    input_dict = {
+        'input1': {'name': input1_name,
+            'status': False,
+            },
+        'input2': {'name': input2_name,
+            'status': False,
+            },
         }
 
-    modem_cycle_monitor_DEFAULTS = {
-        'off count': 15,
-        'modem count': 15,
-        'WIFI count': 15,
-        'cycling': False,
+    output_dict = {
+        'output1': {'name': output1_name,
+            'status': False,
+            },
+        'output2': {'name': output2_name,
+            'status': False,
+            },
         }
 
-    min_Good_Internet: int = 0
-    min_No_Internet: int = 0
-    day_min_Good_Internet: int = 0
-    day_min_No_Internet: int = 0
+
 
     #### general voyager2 parameters ####
     main_thread_inhibit: bool = False  # inhibits main thread, particular for button thread

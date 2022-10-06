@@ -24,6 +24,9 @@ import time
 # standard voyager imports
 import RPi_utilities as RPi_util
 
+# application specific imports
+import config
+
 # goop is filled by XXX_main
 goop = None
 
@@ -32,8 +35,8 @@ goop = None
     #### Button Function ####
     #########################
 
-def test():
-    print('MR_buttons test only')
+def start():
+    print('START Life Tester')
 
 
 def test3_with_args():
@@ -83,6 +86,10 @@ UI_dict = {
             'line1_justification': 'left',
             'line2': 'to Voyager',
             'line2_justification': 'left',
+            'line3': f'rev {config.__revision__}',
+            'line3_justification': 'left',
+            'line4': 'line 4',
+            'line4_justification': 'left',
             },
         'button2': None,
         'button3': None,
@@ -90,10 +97,28 @@ UI_dict = {
     'home': {
         'main': {
             'screen': {
-                'line1': 'home screen',
+                'line1': 'main - start',
                 'line1_justification': 'left',
                 'line2': 'line 2',
-                'line2_justification': 'right',
+                'line2_justification': 'left',
+                'line3': f'{RPi_util.get_IP_address}',
+                'line3_justification': 'left',
+                'line4': '<next     START>',
+                'line4_justification': 'left',
+                },
+            'button2': start,
+            'button3': None,
+            },
+        'run': {
+            'screen': {
+                'line1': 'run',
+                'line1_justification': 'left',
+                'line2': 'line 2',
+                'line2_justification': 'left',
+                'line3': f'{RPi_util.get_IP_address}',
+                'line3_justification': 'left',
+                'line4': '<next     STOP>',
+                'line4_justification': 'left',
                 },
             'button2': test,
             'button3': test3_with_args,
