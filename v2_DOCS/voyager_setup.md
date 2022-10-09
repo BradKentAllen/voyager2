@@ -35,8 +35,6 @@ Why not Raspberry Pi OS lite? - Raspberry Lite is useful in memory constrained m
 
 1. **SD Card**:  Start with a high quality SD card such as the SanDisk Ultra.  It is a false savings to use an old, off-brand, or questionable SD card.  A minimum 16GB card is recommended.  For more on card requirements: https://www.raspberrypi.org/documentation/installation/sd-cards.md
 
-![Sandisc_ultra](../static/markdown_images/Sandisc_ultra.jpg)
-
 2. **Format the SD Card**:  It is a good idea, although not mandatory, to format your SD card first.  Do not use the utilities in your PC or laptop.  Use a high-quality tool such as SD Card Formatter: https://www.sdcard.org/downloads/formatter/
 3. **Install Raspberry Pi OS**:  The Raspberry Pi Imager is the official method to install the operating system on the SD card.  It is simple and free.  Use this link for download and instructions:  https://www.raspberrypi.org/software/ .  Key steps after downloading the Raspberry Pi OS image tool:
    * **Choose OS**:  Select the Raspberry Pi OS (32 bit) - this the default option
@@ -47,16 +45,13 @@ Why not Raspberry Pi OS lite? - Raspberry Lite is useful in memory constrained m
 
 ### Step 2: Set up with Monitor, Keyboard, and Mouse
 
+Although there are ways to "start up headless" it is far easier to set up the RPi initially using a monitor, keyboard, and mouse.
+
 1. Insert SD card, connect monitor, keyboard, and mouse
-2. Turn power on and follow instructions to set up
-3. 
 
-```
-#### get network info
-ifconfig	# this will give you your IP address
-```
+2. Turn power on and follow instructions to set up (this will be a lengthy process that involves updating software)
 
-
+   
 
 ### Step 3:  Update Key Settings
 
@@ -64,10 +59,12 @@ By default, your RPi will boot up with a username of 'pi' and a hostname of rasp
 
 ##### Using raspi-config
 
+Raspi-Config can be accessed two ways:  through a terminal window by entering sudo raspi-config or throuh the desktop in preferences-Raspberry Pi Configuration
+
 open a terminal window by clicking the small black box in the top bar:
 
 ```
-# enter raspi-config:
+# enter raspi-config either using Pi-Preferences-Raspberry Pi Configuration:
 sudo raspi-config
 
 # follow instructions to do the following:
@@ -84,19 +81,42 @@ sudo raspi-config
 
 
 
+you can also manually change the hostname in the CLI:
+
 ```
 sudo nano /etc/hostname		# file only contains the hostname, change it and 
 							save (ctl-X then Yes)
 sudo nano /etc/hosts		# last line is host name, change it and save
 ```
 
+### Step 4:  Access with SSH
+
+You will usually access your RPi "headless" using SSH ("Secure SHell").  
+
+```
+#### get your IP address (on most WIFI routers this may change)
+ifconfig	# this will give you your IP address, it is in the second "paragraph"
+
+ssh <user name>@<IP address>
+# example:  ssh raven@192.168.1.6
+
+# #### If you get a "host key verification fail" message, it is because this key has been used previously.  You can fix that with the following command:
+
+ssh-keygen -R <IP address>
+
+```
 
 
-### Step 4:  Install Software
+
+You will now be able to interact with the RPi as if you were using a terminal window.
+
+
+
+### Step 5:  Install Software
 
 You will be installing various software libraries required for RPi_voyager.  The following is all done in terminal.  
 
-note on sudo:  As RPi_voyager is intended for standalone machines, all software is installed at the root permission level using sudo ('super user do').  This is especially important as the input output requires root (super user) access.
+note on sudo:  As RPi_voyager is intended for standalone machines, all software is installed at the root permission level using sudo ('super user do').  This is especially important as the input output requires root (super user) access.  If you accidentally install using just pip3, then do a pip3 uninstall of the package and then re-install with sudo.
 
 ```
 # update the Ubuntu software list
@@ -115,9 +135,10 @@ sudo apt install python3-pip
 gpiozero	# to install:  sudo pip3 install python3-gpiozero
 
 # the following software is most likely not there and needs installed:
-sudo pip3 install smbus
-sudo pip3 install pytz
-sudo apt-get install -y i2c-tools
+sudo pip3 install smbus  # required for I2C device bus
+sudo pip3 install pytz  # timezone support including within voyager packages
+sudo apt-get install -y i2c-tools  # primarily to use this commend to see all I2C devices and their addresses:
+i2cdetect -y 1
 
 # with some machines we will use pigpio (primarily for machines with servos).  You will need to enable a daemon for this to run:
 sudo systemctl enable pigpiod
@@ -126,16 +147,18 @@ sudo systemctl enable pigpiod
 
 
 
-# install RPi_voyager package
+# install RPi_voyager support packages
 
-Required for Adafruit Circtui Python sensors:
+Required for Adafruit Circuit Python sensors:
+
+You can use any Adafruit sensor designed
 
 ```
-udo pip3 install Adafruit-Blinka
+sudo pip3 install Adafruit-Blinka  # needed for all devices
 
-sudo pip3 install adafruit-circuitpython-adxl34x
-sudo pip3 install adafruit-circuitpython-bno055
-sudo pip3 install adafruit-circuitpython-ina219
+sudo pip3 install adafruit-circuitpython-adxl34x  # accelerometer
+sudo pip3 install adafruit-circuitpython-bno055	  # 9-axis plus compass
+sudo pip3 install adafruit-circuitpython-ina219   # ammeter and voltmeter
 ```
 
 

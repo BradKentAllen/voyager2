@@ -26,70 +26,12 @@ gpiozero docs:  https://gpiozero.readthedocs.io/en/stable/
 
 ## Technical
 
+##### self tests
 
+The following modules have self test scripts if run independently:
 
-##### install packages
-
-```
-sudo apt-get update && sudo apt-get dist-upgrade -y   # update software
-sudo apt install python3-pip		# install pip3
-
-#### Enable I2C in raspi config
-sudo raspi-config	# enable I2C
-
-pip3 install pip --upgrade
-pip3 install pip-tools
-
-sudo pip3 install smbus		# for LCD (remember must load as sudo)
-sudo apt-get install -y i2c-tools	# includes i2c detect
-sudo i2cdetec -y 1		# see all I2C devices
-sudo pip3 install gpiozero		# uses RPI.GPIO in more convenient way
-sudo pip3 install pigpio
-
-```
-
-Startup
-
-Timing Loop
-
-```python
-from datetime import datetime
-from time import time, sleep
-import pytz
-
-while True:
-    milli = (time() * 1000) - start_milli
-    
-    #### set up last varables
-    (last_hour, last_minute, last_second) = get_time(self.local_time_zone)
-    last_milli = 0
-    start_milli = time() * 1000
-
-	#### update milli
-    milli = (time() * 1000) - start_milli
-    
-def get_time_stamp(local_time_zone='UTC', time_format='HMS'):
-    now_local = datetime.now(pytz.timezone(local_time_zone))
-    if time_format == 'YMD:HM':
-        return now_local.strftime('%Y-%m-%d' + '-' + '%H:%M')
-    else:
-        return now_local.strftime('%H:%M:%S')
-
-def get_time(local_time_zone='UTC'):
-    now_local = datetime.now(pytz.timezone(local_time_zone))
-    HH = now_local.strftime('%H')
-    MM = now_local.strftime('%M')
-    SS = now_local.strftime('%S')
-    return (HH, MM, SS)
-```
-
-
-
-Utility functions 
-
-* display (use LCD_manager)
-
-
+1. v2_LCD_utility.py
+2. 
 
 ## Sensors
 

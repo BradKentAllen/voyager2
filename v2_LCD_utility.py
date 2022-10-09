@@ -14,6 +14,7 @@ or, second LCD object must be managed in parent object
 
 rev:
 8/21/22 - changed display_line to include spaces and overwrite old content
+10/9/22 - added self test
 '''
 
 import config
@@ -260,6 +261,64 @@ class LCD_manager:
                 this_lcd.write_char(this_byte)
 
 
+# #### LCD Test ####
+if __name__ == "__main__":
+    import time
+    # Initialize the LCD
+    lcd_mgr = LCD_manager()
 
+    # clear LCD
+    lcd_mgr.display_clear()
+
+    if config.LCD_TYPE == 'I2C/20x4':
+        # #### 20x4 LCD test
+        print('run 4-line LCD test')
+
+        _menu_dict = {
+            'line1': '4-line LCD Test',
+            'line1_justification': 'left',
+            'line2': 'ABCDEFGHIJKLMNOPQRST',
+            'line2_justification': 'left',
+            'line3': '01234567890123456789',
+            'line3_justification': 'left',
+            'line4': 'Start',
+            'line4_justification': 'left',
+            }
+
+        lcd_mgr.display_menu(_menu_dict)
+
+        time.sleep(5)
+        lcd_mgr.display_line('Counting Down:', 4, 'left')
+
+        for i in range(9, 0, -1):
+            lcd_mgr.display_char(ord(str(i)), 4, 15)
+            time.sleep(1)
+
+        lcd_mgr.display_clear()
+        lcd_mgr.display_line('test complete', 2, 'left')
+    else:
+        # #### 16x2 LCD test
+        print('run 2-line LCD test')
+
+        _menu_dict = {
+            'line1': '4-line LCD Test',
+            'line1_justification': 'left',
+            'line2': 'ABCDEFGHIJKLMNOPQRST',
+            'line2_justification': 'left',
+            }
+
+        lcd_mgr.display_menu(_menu_dict)
+
+        time.sleep(5)
+        lcd_mgr.display_line('Counting Down:', 2, 'left')
+
+        for i in range(9, 0, -1):
+            lcd_mgr.display_char(ord(str(i)), 2, 15)
+            time.sleep(1)
+
+        lcd_mgr.display_clear()
+        lcd_mgr.display_line('test complete', 2, 'left')
+
+    print('end LCD test')
 
 

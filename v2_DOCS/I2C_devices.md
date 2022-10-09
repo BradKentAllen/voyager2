@@ -1,10 +1,22 @@
 # I2C Device on Raspberry Pi
 
+Most I2C sensors require some sort of interface or driver package.  On RPi, it is usually easier to use a .py file that you download.  It is convenient to build a self-test into the package so if it is run independently it will test the sensor.
+
+### I2C Addresses
+
+```
+LCD					0x27  # can be changed with jumper to 0x23
+BNo055				0x28
+ADS1115 (A to D)	0x48  # requires ads1115driver.py
+ADXL345				0x53
+DS1307 RTC			0x68 (will show as UU)
+BNo055 (compass)	0x69
+Ultimate GPS
+```
+
 
 
 ## Working with I2C Devices
-
-
 
 ```
 # view all connected I2C devices
