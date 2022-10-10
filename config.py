@@ -84,7 +84,7 @@ RPi_PINOUT_BCM = {
 
 #### (3.1) # LCD setup
 # 'I2C/16x2', 'I2C/20x4', 'wired/16x2', None
-LCD_TYPE = 'I2C/16x2'
+LCD_TYPE = 'I2C/20x4'
 I2C_LCD_ADDRESS = 0x27
 BACKLIGHT_OFF_TIME = 3  # minutes until backlight goes off
 

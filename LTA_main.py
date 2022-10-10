@@ -28,12 +28,11 @@ from time import time
 from v2_gpio import Machine
 import RPi_utilities as RPi_util
 from v2_LCD_utility import LCD_manager
-from sensors.check_internet import check_URL
 
 # #### Application-Specific Imports ####
 import config
-from MR_goop import Goop
-import MR_UI as UI
+from LTA_goop import Goop
+import LTA_UI as UI
 
 # instantiate key objects
 machine = Machine()

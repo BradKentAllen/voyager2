@@ -16,25 +16,27 @@ rev 1.0 initial creation from MR_UI.py
 
 from dataclasses import dataclass
 
+import config
+
 @dataclass
 class Goop():
     ''' data
     '''
     ### Life Tester Parameters
     input_dict = {
-        'input1': {'name': input1_name,
+        'input1': {'name': config.input1_name,
             'status': False,
             },
-        'input2': {'name': input2_name,
+        'input2': {'name': config.input2_name,
             'status': False,
             },
         }
 
     output_dict = {
-        'output1': {'name': output1_name,
+        'output1': {'name': config.output1_name,
             'status': False,
             },
-        'output2': {'name': output2_name,
+        'output2': {'name': config.output2_name,
             'status': False,
             },
         }
