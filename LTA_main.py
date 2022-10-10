@@ -50,8 +50,8 @@ start_milli = time() * 1000
 # #### Initialize UI
 # LCD welcome display (will stay on for goop.startup_seconds)
 _menu_dict = UI.UI_dict['welcome'].get('screen')
-_menu_dict['line1'] = f'{__project_name__}'
-_menu_dict['line2'] = f'rev: {__revision__}'
+_menu_dict['line1'] = f'{config.__project_name__}'
+_menu_dict['line2'] = f'rev: {config.__revision__}'
 lcd_mgr.display_menu(_menu_dict)
 
 # initialize key parameters
@@ -100,13 +100,6 @@ while True and goop.main_thread_inhibit is False:
                 goop.flash_flag = True
             '''
 
-            # ### cycle modem and WIFI
-            # IMPORANT: check Internet is called in 15 sec functions
-            if goop.modem_cycle_monitor.get('cycling') is True:
-                machine.LED("cycling_LED", "ON")
-                # XXXX add cycling logic here
-            else:
-                machine.LED("cycling_LED", "OFF")
 
             # #####################################
             # #### Startup and Regular Actions ####
@@ -152,25 +145,6 @@ while True and goop.main_thread_inhibit is False:
             if int(HHMMSS[2]) % 15 == 0 or int(HHMMSS[2]) == 0:
                 ### every 15 second jobs ####
                 print('run 15 second job')
-
-                # ### check internet
-                # IMPORTANT: more logic and cycling LED are in 1 second functions
-                goop.internet_good = check_URL(config.check_URL2, config.URL_timeout)
-
-                if goop.internet_good is True:
-                    machine.LED("Internet_Bad_LED", "OFF")
-                    machine.LED("Internet_Good_LED", "ON")
-
-                    # #### turn off cycling
-                    goop.modem_cycle_monitor = goop.modem_cycle_monitor_DEFAULTS
-
-                else:
-                    machine.LED("Internet_Bad_LED", "ON")
-                    machine.LED("Internet_Good_LED", "OFF")
-
-                    # ### start cycling modem and WIFI
-                    # this is the only place this occurs
-                    goop.modem_cycle_monitor['cycling'] = True
 
 
 

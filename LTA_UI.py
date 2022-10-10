@@ -97,13 +97,13 @@ UI_dict = {
     'home': {
         'main': {
             'screen': {
-                'line1': 'main - start',
+                'line1': 'ready to start',
                 'line1_justification': 'left',
                 'line2': 'line 2',
                 'line2_justification': 'left',
-                'line3': f'{RPi_util.get_IP_address}',
+                'line3': f'{RPi_util.get_IP_address()}',
                 'line3_justification': 'left',
-                'line4': '<next     START>',
+                'line4': '<next         START>',
                 'line4_justification': 'left',
                 },
             'button2': start,
@@ -111,16 +111,16 @@ UI_dict = {
             },
         'run': {
             'screen': {
-                'line1': 'run',
+                'line1': 'RUNNING',
                 'line1_justification': 'left',
                 'line2': 'line 2',
                 'line2_justification': 'left',
-                'line3': f'{RPi_util.get_IP_address}',
+                'line3': f'{RPi_util.get_IP_address()}',
                 'line3_justification': 'left',
-                'line4': '<next     STOP>',
+                'line4': '<next         STOP>',
                 'line4_justification': 'left',
                 },
-            'button2': test,
+            'button2': start,
             'button3': test3_with_args,
             },
         'MX': {
