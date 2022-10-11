@@ -61,20 +61,21 @@ RPi_PINOUT_BCM = {
     'blue_LED_2': 10,   # on Jim Hawkins board
 
     # these are customizable
-    # availabe types:  'LED', 'Output'
+    # availabe types:  'LED', 'Button', Output'
+    # these must match the available i/o in v2_gpio.py
 
         # Header 1 (by power jack, 6-pin) ONLY 4-PIN on Modem Rider
-    'i_o_14': {'name': 'UP_relay', 'type': 'LED', 'pin': 14}, # Jim Hawkins, header 1, pin 3
-    'i_o_15': {'name': 'DOWN_relay', 'type': 'LED', 'pin': 15}, # Jim Hawkins, header 1, pin 4
-    'i_o_18': {'name': 'input1', 'type': 'Button', 'pin': 18}, # Jim Hawkins, header 1, pin 5
-    'i_o_23': {'name': 'input2', 'type': 'Button', 'pin': 23}, # Jim Hawkins, header 1, pin 6
-    'i_o_24': {'name': 'input3', 'type': 'Button', 'pin': 24}, # Jim Hawkins, header 1, pin 7
+    "Header 1 - pin 3": {'name': 'UP_relay', 'type': 'LED', 'pin': 26}, # Jim Hawkins, header 1, pin 3
+    "Header 1 - pin 4": {'name': 'DOWN_relay', 'type': 'LED', 'pin': 15}, # Jim Hawkins, header 1, pin 4
+    "Header 1 - pin 5": {'name': 'input1', 'type': 'Button', 'pin': 18}, # Jim Hawkins, header 1, pin 5
+    "Header 1 - pin 6": {'name': 'input2', 'type': 'Button', 'pin': 23}, # Jim Hawkins, header 1, pin 6
+    "Header 1 - pin 7": {'name': 'input3', 'type': 'Button', 'pin': 24}, # Jim Hawkins, header 1, pin 7
 
         # Header 2 (on left side by i/o, 6-pin)
-    'i_o_12': {'name': 'button_1', 'type': 'Button', 'pin': 12},  # Jim Hawkins, header 2, pin 3
-    'i_o_16': {'name': 'button_2', 'type': 'Button', 'pin': 16},  # Jim Hawkins, header 2, pin 4
-    'i_o_20': {'name': 'button_3', 'type': 'Button', 'pin': 20},   # Jim Hawkins, header 2, pin 5
-    'i_o_21': {'name': 'input4', 'type': 'Button', 'pin': 21}, # Jim Hawkins, JUMPERED TO header 1, pin 8
+    "Header 2 - pin 3": {'name': 'button_1', 'type': 'Button', 'pin': 12},  # Jim Hawkins, header 2, pin 3
+    "Header 2 - pin 4": {'name': 'button_2', 'type': 'Button', 'pin': 16},  # Jim Hawkins, header 2, pin 4
+    "Header 2 - pin 5": {'name': 'button_3', 'type': 'Button', 'pin': 20},   # Jim Hawkins, header 2, pin 5
+    "Header 2 - pin 6": {'name': 'input4', 'type': 'Button', 'pin': 21}, # Jim Hawkins, JUMPERED TO header 1, pin 8
     
 }
 

@@ -43,17 +43,18 @@ class Machine:
             "red_LED": LED(config.RPi_PINOUT_BCM.get('red_LED')),
         }
 
+        # names in customizable_objects must exactly match those in config
         customizable_objects = {
-            "i_o_14": None,
-            "i_o_25": None,
-            "i_o_18": None,
-            "i_o_23": None,
-            "i_o_24": None,
+            "Header 1 - pin 3": None,
+            "Header 1 - pin 4": None,
+            "Header 1 - pin 5": None,
+            "Header 1 - pin 6": None,
+            "Header 1 - pin 7": None,
 
-            "i_o_12": None,
-            "i_o_16": None,
-            "i_o_20": None,
-            "i_o_21": None,
+            "Header 2 - pin 3": None,
+            "Header 2 - pin 4": None,
+            "Header 2 - pin 5": None,
+            "Header 2 - pin 6": None,
         }
 
         # add custom pins

@@ -1,17 +1,15 @@
 # Voyager 2
 
-ROS:  https://wiki.ros.org
-
-https://yoraish.com/2021/09/08/a-full-autonomous-stack-a-tutorial-ros-raspberry-pi-arduino-slam/
-
 gpiozero docs:  https://gpiozero.readthedocs.io/en/stable/
 
 
 
 ### TODO
 
-- [ ] switch message to Twillio
-  - [ ] write and test weather.
+- [ ] Shutdown and Reboot
+  - [ ] delay while writes to LCD with message on what it is doing
+  - [ ] shut down all outputs
+  
 
 
 

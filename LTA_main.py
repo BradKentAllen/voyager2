@@ -94,7 +94,7 @@ while True and goop.main_thread_inhibit is False:
                 #machine.LED("red_LED", "ON")
 
                 machine.output("UP_relay", "ON")
-                #machine.output("DOWN_relay", "OFF")
+                machine.output("DOWN_relay", "OFF")
 
                 goop.flash_flag = False
             else:
@@ -106,7 +106,7 @@ while True and goop.main_thread_inhibit is False:
                 #machine.LED("red_LED", "OFF")
 
                 machine.output("UP_relay", "OFF")
-                #machine.output("DOWN_relay", "OFF")
+                machine.output("DOWN_relay", "ON")
                 
                 goop.flash_flag = True
 
