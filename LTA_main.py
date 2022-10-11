@@ -40,6 +40,7 @@ machine = Machine()
 # goop is instantiated here and then placed in other modules if needed
 goop = Goop()
 UI.goop = goop  # put goop into UI
+UI.machine = machine  # put machine into UI
 
 lcd_mgr = LCD_manager()
 

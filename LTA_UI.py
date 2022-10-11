@@ -29,6 +29,7 @@ import config
 
 # goop is filled by XXX_main
 goop = None
+machine = None
 
 
     #########################
@@ -64,6 +65,7 @@ def shutdown_RPi():
         )
     time.sleep(5)
     RPi_util.shutdown_RPi()
+    
 
 
 def reboot_RPi():
@@ -121,7 +123,7 @@ UI_dict = {
 
         'manual up': {
             'screen': {
-                'line1': 'Manual Operation',
+                'line1': 'Manual Up',
                 'line1_justification': 'left',
                 'line2': 'manual UP >',
                 'line2_justification': 'right',
@@ -136,7 +138,7 @@ UI_dict = {
 
         'manual down': {
             'screen': {
-                'line1': 'Manual Operation',
+                'line1': 'Manual Down',
                 'line1_justification': 'left',
                 'line2': 'STOP >',
                 'line2_justification': 'right',

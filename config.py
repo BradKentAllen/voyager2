@@ -88,7 +88,7 @@ RPi_PINOUT_BCM = {
 # 'I2C/16x2', 'I2C/20x4', 'wired/16x2', None
 LCD_TYPE = 'I2C/20x4'
 I2C_LCD_ADDRESS = 0x27
-I2C_COM_DELAY = .001    # this fixes the OSError: Remote I/O error that some LCDs get.  Good displays are .0001
+I2C_COM_DELAY = .0001    # this fixes the OSError: Remote I/O error that some LCDs get.  Good displays are .0001
 BACKLIGHT_OFF_TIME = 3  # minutes until backlight goes off
 
 custom_chars = {
