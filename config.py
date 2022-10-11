@@ -64,8 +64,8 @@ RPi_PINOUT_BCM = {
     # availabe types:  'LED', 'Output'
 
         # Header 1 (by power jack, 6-pin) ONLY 4-PIN on Modem Rider
-    'i_o_14': {'name': 'UP_relay', 'type': 'Output', 'pin': 14}, # Jim Hawkins, header 1, pin 3
-    'i_o_15': {'name': 'DOWN_relay', 'type': 'Output', 'pin': 15}, # Jim Hawkins, header 1, pin 4
+    'i_o_14': {'name': 'UP_relay', 'type': 'LED', 'pin': 14}, # Jim Hawkins, header 1, pin 3
+    'i_o_15': {'name': 'DOWN_relay', 'type': 'LED', 'pin': 15}, # Jim Hawkins, header 1, pin 4
     'i_o_18': {'name': 'input1', 'type': 'Button', 'pin': 18}, # Jim Hawkins, header 1, pin 5
     'i_o_23': {'name': 'input2', 'type': 'Button', 'pin': 23}, # Jim Hawkins, header 1, pin 6
     'i_o_24': {'name': 'input3', 'type': 'Button', 'pin': 24}, # Jim Hawkins, header 1, pin 7

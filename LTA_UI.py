@@ -149,7 +149,7 @@ UI_dict = {
 def next_screen():
     '''changes to next screen
     '''
-    print('\n>>>> run UI.next_screen')
+    #print('\n>>>> run UI.next_screen')
     next_screen_flag = False
     first_screen_group = None
     new_screen = None

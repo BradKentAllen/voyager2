@@ -84,21 +84,32 @@ while True and goop.main_thread_inhibit is False:
             # print(f'\n{HHMMSS}')
 
             # ### always actions (startup and regular)
-            ''' XXX test flash LED's
+            # XXX test flash LED's
             if goop.flash_flag is True:
+                print('ON')
+
                 machine.LED("blue_LED_1", "ON")
-                machine.LED("blue_LED_2", "OFF")
-                machine.LED("yellow_LED", "OFF")
-                machine.LED("red_LED", "ON")
+                #machine.LED("blue_LED_2", "OFF")
+                #machine.LED("yellow_LED", "OFF")
+                #machine.LED("red_LED", "ON")
+
+                machine.output("UP_relay", "ON")
+                #machine.output("DOWN_relay", "OFF")
+
                 goop.flash_flag = False
             else:
+                print("OFF")
+
                 machine.LED("blue_LED_1", "OFF")
-                machine.LED("blue_LED_2", "ON")
-                machine.LED("yellow_LED", "ON")
-                machine.LED("red_LED", "OFF")
+                #machine.LED("blue_LED_2", "ON")
+                #machine.LED("yellow_LED", "ON")
+                #machine.LED("red_LED", "OFF")
+
+                machine.output("UP_relay", "OFF")
+                #machine.output("DOWN_relay", "OFF")
                 
                 goop.flash_flag = True
-            '''
+
 
 
             # #####################################
@@ -128,7 +139,7 @@ while True and goop.main_thread_inhibit is False:
                     goop.init_UI = False
 
                 # ### update LCD
-                print(f'>>>DEBUG {goop.current_screen_group} - {goop.current_screen}')
+                #print(f'>>>DEBUG {goop.current_screen_group} - {goop.current_screen}')
                 lcd_mgr.display_menu(UI.UI_dict[goop.current_screen_group][goop.current_screen].get('screen'))
 
 
