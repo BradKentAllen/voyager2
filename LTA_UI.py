@@ -38,6 +38,15 @@ goop = None
 def start():
     print('START Life Tester')
 
+def manual_up():
+    print('manual up')
+
+def manual_down():
+    print('manual down')
+
+def stop_all():
+    print('stop all')
+
 
 def test3_with_args():
     print('MR_buttons: test3_with_args')
@@ -109,13 +118,47 @@ UI_dict = {
             'button2': start,
             'button3': None,
             },
+
+        'manual up': {
+            'screen': {
+                'line1': 'Manual Operation',
+                'line1_justification': 'left',
+                'line2': 'manual UP >',
+                'line2_justification': 'right',
+                'line3': 'STOP >',
+                'line3_justification': 'right',
+                'line4': '<next',
+                'line4_justification': 'left',
+                },
+            'button2': stop_all,
+            'button3': manual_up,
+            },
+
+        'manual down': {
+            'screen': {
+                'line1': 'Manual Operation',
+                'line1_justification': 'left',
+                'line2': 'STOP >',
+                'line2_justification': 'right',
+                'line3': 'manual DOWN >',
+                'line3_justification': 'right',
+                'line4': '<next',
+                'line4_justification': 'left',
+                },
+            'button2': manual_down,
+            'button3': stop_all,
+            },
         
         'MX': {
             'screen': {
-                'line1': 'shut down RPi >',
-                'line1_justification': 'right',
-                'line2': 'reboot RPi >',
+                'line1': 'RPi OFF',
+                'line1_justification': 'left',
+                'line2': 'shut down RPi >',
                 'line2_justification': 'right',
+                'line3': 'reboot RPi >',
+                'line3_justification': 'right',
+                'line4': '<next',
+                'line4_justification': 'left',
                 },
             'button2': reboot_RPi,
             'button3': shutdown_RPi,
@@ -150,6 +193,8 @@ def next_screen():
     '''changes to next screen
     '''
     #print('\n>>>> run UI.next_screen')
+    #print(UI_dict.get(goop.current_screen_group))
+
     next_screen_flag = False
     first_screen_group = None
     new_screen = None
@@ -163,6 +208,7 @@ def next_screen():
         # retain new screen (this has to be before the test)
         if next_screen_flag is True:
             new_screen = _screen
+            break
 
         # test for current screen
         if _screen == goop.current_screen:
@@ -171,6 +217,8 @@ def next_screen():
     # this happens if on the last screen in the screen_group
     if new_screen is None:
         new_screen = first_screen_group
+
+    #print(f'new_screen: {new_screen}')
 
     # update the new screen
     goop.current_screen  = new_screen
