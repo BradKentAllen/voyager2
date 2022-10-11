@@ -64,16 +64,17 @@ RPi_PINOUT_BCM = {
     # availabe types:  'LED', 'Output'
 
         # Header 1 (by power jack, 6-pin) ONLY 4-PIN on Modem Rider
-    'i_o_4': {'name': 'button_1', 'type': 'Button', 'pin': 14}, # Jim Hawkins, header 1, pin 1
-    'i_o_5': {'name': 'button_2', 'type': 'Button', 'pin': 15}, # Jim Hawkins, header 1, pin 2
-    'i_o_8': {'name': 'button_3', 'type': 'Button', 'pin': 18}, # Jim Hawkins, header 1, pin 3
-    'i_o_23': {'name': 'output1', 'type': 'Output', 'pin': 23}, # Jim Hawkins, header 1, pin 5
-    'i_o_24': {'name': 'output2', 'type': 'Output', 'pin': 24}, # Jim Hawkins, header 1, pin 6
+    'i_o_14': {'name': 'UP_relay', 'type': 'Output', 'pin': 14}, # Jim Hawkins, header 1, pin 3
+    'i_o_15': {'name': 'DOWN_relay', 'type': 'Output', 'pin': 15}, # Jim Hawkins, header 1, pin 4
+    'i_o_18': {'name': 'input1', 'type': 'Button', 'pin': 18}, # Jim Hawkins, header 1, pin 5
+    'i_o_23': {'name': 'input2', 'type': 'Button', 'pin': 23}, # Jim Hawkins, header 1, pin 6
+    'i_o_24': {'name': 'input3', 'type': 'Button', 'pin': 24}, # Jim Hawkins, header 1, pin 7
 
         # Header 2 (on left side by i/o, 6-pin)
-    'i_o_12': {'name': 'input1', 'type': 'Button', 'pin': 12},  # Jim Hawkins, header 2, pin 3
-    'i_o_16': {'name': 'input2', 'type': 'Button', 'pin': 16},  # Jim Hawkins, header 2, pin 4
-    'i_o_20': {'name': 'input3', 'type': 'Button', 'pin': 20},   # Jim Hawkins, header 2, pin 5
+    'i_o_12': {'name': 'button_1', 'type': 'Button', 'pin': 12},  # Jim Hawkins, header 2, pin 3
+    'i_o_16': {'name': 'button_2', 'type': 'Button', 'pin': 16},  # Jim Hawkins, header 2, pin 4
+    'i_o_20': {'name': 'button_3', 'type': 'Button', 'pin': 20},   # Jim Hawkins, header 2, pin 5
+    'i_o_21': {'name': 'input4', 'type': 'Button', 'pin': 21}, # Jim Hawkins, JUMPERED TO header 1, pin 8
     
 }
 
@@ -86,6 +87,7 @@ RPi_PINOUT_BCM = {
 # 'I2C/16x2', 'I2C/20x4', 'wired/16x2', None
 LCD_TYPE = 'I2C/20x4'
 I2C_LCD_ADDRESS = 0x27
+I2C_COM_DELAY = .001    # this fixes the OSError: Remote I/O error that some LCDs get.  Good displays are .0001
 BACKLIGHT_OFF_TIME = 3  # minutes until backlight goes off
 
 custom_chars = {

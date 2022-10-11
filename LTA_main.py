@@ -128,6 +128,7 @@ while True and goop.main_thread_inhibit is False:
                     goop.init_UI = False
 
                 # ### update LCD
+                print(f'>>>DEBUG {goop.current_screen_group} - {goop.current_screen}')
                 lcd_mgr.display_menu(UI.UI_dict[goop.current_screen_group][goop.current_screen].get('screen'))
 
 

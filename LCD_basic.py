@@ -10,6 +10,11 @@ Based on I2C_LCD_driver5.py
 which was originally heavily modified code found at:
 https://gist.github.com/DenisFromHR/cc863375a6e19dce359d
 
+IMPORTANT: if you get this error:
+OSError: [Errno 121] Remote I/O error
+
+Try changing the com_delay to a longer value
+
 
 """
 Compiled, mashed and generally mutilated 2014-2015 by Denis Pleic
@@ -63,25 +68,26 @@ class wired_device:
 class i2c_device:
     '''utility function for I2C hardware
     '''
-    def __init__(self, addr):
+    def __init__(self, addr, com_delay=.0001):
         I2CBUS = 1  # This only varied with RPi version 1
         self.addr = addr
         self.bus = smbus.SMBus(I2CBUS)
+        self.com_delay = com_delay  # too short results in OSError: [Errno 121] Remote I/O error
 
     # Write a single command
     def write_cmd(self, cmd):
         self.bus.write_byte(self.addr, cmd)
-        sleep(0.0001)
+        sleep(self.com_delay)
 
     # Write a command and argument
     def write_cmd_arg(self, cmd, data):
         self.bus.write_byte_data(self.addr, cmd, data)
-        sleep(0.0001)
+        sleep(self.com_delay)
 
     # Write a block of data
     def write_block_data(self, cmd, data):
         self.bus.write_block_data(self.addr, cmd, data)
-        sleep(0.0001)
+        sleep(self.com_delay)
 
     # Read a single byte
     def read(self):
@@ -147,7 +153,7 @@ Rs = 0b00000001 # Register select bit
 class LCD:
     #### Stock LCD functions ####
     #initializes objects and lcd
-    def __init__(self, LCDaddress=None):
+    def __init__(self, LCDaddress=None, com_delay=.0001):
         '''LCD class for 2 or 4 line lcd display
         '''
         # this allows assigning a second LCD
@@ -157,7 +163,8 @@ class LCD:
             pass
         elif LCDaddress == 0 or LCDaddress == 'use config':
             LCDaddress = config.I2C_LCD_ADDRESS
-            self.lcd_device = i2c_device(LCDaddress)
+            com_delay = config.I2C_COM_DELAY
+            self.lcd_device = i2c_device(LCDaddress, com_delay)
         else:
             self.lcd_device = i2c_device(LCDaddress)
 

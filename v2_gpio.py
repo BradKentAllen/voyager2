@@ -44,15 +44,16 @@ class Machine:
         }
 
         customizable_objects = {
-            "i_o_4": None,
-            "i_o_5": None,
-            "i_o_8": None,
+            "i_o_14": None,
+            "i_o_15": None,
+            "i_o_18": None,
             "i_o_23": None,
             "i_o_24": None,
 
             "i_o_12": None,
             "i_o_16": None,
             "i_o_20": None,
+            "i_o_21": None,
         }
 
         # add custom pins
