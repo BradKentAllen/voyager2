@@ -41,12 +41,16 @@ def start():
 
 def manual_up():
     print('manual up')
+    machine.output("UP_relay", "ON")
 
 def manual_down():
     print('manual down')
+    machine.output("DOWN_relay", "ON")
 
 def stop_all():
     print('stop all')
+    machine.output("UP_relay", "OFF")
+    machine.output("DOWN_relay", "OFF")
 
 
 def test3_with_args():
@@ -63,7 +67,7 @@ def shutdown_RPi():
     goop.button1_args['lcd'].display_multi_line(
         message_list = [('will shut down', 'left'),]
         )
-    time.sleep(5)
+    time.sleep(10)
     RPi_util.shutdown_RPi()
     
 
@@ -75,7 +79,7 @@ def reboot_RPi():
     goop.button1_args['lcd'].display_multi_line(
         message_list = [('will reboot', 'left'),]
         )
-    time.sleep(5)
+    time.sleep(10)
     print('start reboot')
     RPi_util.reboot_RPi()
 
