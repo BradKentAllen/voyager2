@@ -33,17 +33,19 @@ from v2_LCD_utility import LCD_manager
 import config
 from LTA_goop import Goop
 import LTA_UI as UI
+import LTA_utilities as util
 
 # instantiate key objects
 machine = Machine()
-
-# goop is instantiated here and then placed in other modules if needed
 goop = Goop()
-UI.goop = goop  # put goop into UI
-UI.machine = machine  # put machine into UI
-
 lcd_mgr = LCD_manager()
 
+# make objects availabe in UI for customized methods
+UI.goop = goop  # put goop into UI
+UI.machine = machine  # put machine into UI
+UI.lcd_mgr = lcd_mgr
+
+# initiate key timing variables and update time
 last_milli = 0
 start_milli = time() * 1000
 (last_hour, last_minute, last_second) = RPi_util.get_time(config.local_time_zone)
@@ -55,10 +57,12 @@ _menu_dict['line1'] = f'{config.__project_name__}'
 _menu_dict['line2'] = f'rev: {config.__revision__}'
 lcd_mgr.display_menu(_menu_dict)
 
+# #### File Management
+util.validate_data_dir()
+goop.life_cycles = util.get_life_cycles()
+
 # initialize key parameters
 goop.init_UI = True  # requires init at end of startup
-goop.button1_args['machine'] = machine  # this allows next screen to modify buttons
-goop.button1_args['lcd'] = lcd_mgr  # this allows UI to print to lcd
 
 # ### Assign functions to interupts
 # Buttons 1, 2, and 3 are assigned dynamically but other "buttons", which
@@ -160,11 +164,10 @@ while True and goop.main_thread_inhibit is False:
             if int(HHMMSS[2]) % 5 == 0 or int(HHMMSS[2]) == 0:
                 ### every 5 second jobs ####
                 print('run 5 second job')
-                print(machine.gpio_objects.get('up_switch').is_pressed)
                 if machine.gpio_objects.get('up_switch').is_pressed is True:
-                    print('\nup switch engaged')
+                    print('>>>up switch engaged')
                 else:
-                    print('\nup switch open')
+                    print('>>>up switch open')
                 # ----------------------------------------------
 
             if int(HHMMSS[2]) % 15 == 0 or int(HHMMSS[2]) == 0:

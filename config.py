@@ -19,6 +19,10 @@ __status__ = 'DEV' # 'DEV', 'alpha', 'beta', 'production'
     #### (1.0) General Settings ####
     ################################
 
+# #### (1.1) File structure
+DATA_DIR = "data"
+LIFE_CYCLES_FILENAME = "life_cycles"
+
 #### (1.2) # Time Zone
 local_time_zone = 'US/Pacific'
 
@@ -26,14 +30,12 @@ local_time_zone = 'US/Pacific'
 # 'US/Aleutian', 'US/Hawaii', 'US/Alaska', 'US/Arizona', 'US/Michigan'
 # 'US/Pacific', 'US/Mountain', 'US/Central', 'US/Eastern'
 
-
 #### (1.3) # Polling Rate
 # RPi_voyager polls for systems on a set rate. Typically this is 100 milliseconds
 # If you have every poll timers that take more than the poll time, you can increase this
 # up to 999 millis
 # Polling faster than 10 hz is possible but you will start losing polling operations at some point
 POLL_MILLIS = 100
-
 
 # If DEBUG = True
 # For use when testing RPi using command line

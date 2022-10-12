@@ -27,9 +27,10 @@ import RPi_utilities as RPi_util
 # application specific imports
 import config
 
-# goop is filled by XXX_main
+# key objects filled by XXX_main.py
 goop = None
 machine = None
+lcd_mgr = None
 
 
     #########################
@@ -38,6 +39,7 @@ machine = None
 
 def start():
     print('START Life Tester')
+    goop.running = True
 
 def manual_up():
     print('manual up')
@@ -72,8 +74,8 @@ def test3_with_args():
 
 def shutdown_RPi():
     goop.main_thread_inhibit = True
-    goop.button1_args['lcd'].display_clear()
-    goop.button1_args['lcd'].display_multi_line(
+    lcd_mgr.display_clear()
+    lcd_mgr.display_multi_line(
         message_list = [('will shut down', 'left'),]
         )
     time.sleep(10)
@@ -84,8 +86,8 @@ def shutdown_RPi():
 def reboot_RPi():
     print('>>>> reboot RPi in UI')
     goop.main_thread_inhibit = True
-    goop.button1_args['lcd'].display_clear()
-    goop.button1_args['lcd'].display_multi_line(
+    lcd_mgr.display_clear()
+    lcd_mgr.display_multi_line(
         message_list = [('will reboot', 'left'),]
         )
     time.sleep(10)
@@ -123,7 +125,7 @@ UI_dict = {
             'screen': {
                 'line1': 'ready to start',
                 'line1_justification': 'left',
-                'line2': 'line 2',
+                'line2': f'life: {goop.life_cycles}',
                 'line2_justification': 'left',
                 'line3': f'{RPi_util.get_IP_address()}',
                 'line3_justification': 'left',
