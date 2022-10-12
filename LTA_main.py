@@ -44,8 +44,9 @@ lcd_mgr = LCD_manager()
 UI.goop = goop  # put goop into UI
 UI.machine = machine  # put machine into UI
 UI.lcd_mgr = lcd_mgr
+
 util.goop = goop
-util.machine = machine
+
 
 # initiate key timing variables and update time
 last_milli = 0
@@ -65,6 +66,11 @@ goop.life_cycles = util.get_life_cycles()
 
 # initialize key parameters
 goop.init_UI = True  # requires init at end of startup
+
+_status = UI.util.find_initial_position(
+    up_limit_switch=machine.gpio_objects.get('up_switch').is_pressed,
+    down_limit_switch=machine.gpio_objects.get('down_switch').is_pressed,
+    )
 
 # ### Assign functions to interupts
 # Buttons 1, 2, and 3 are assigned dynamically but other "buttons", which
@@ -163,18 +169,32 @@ while True and goop.main_thread_inhibit is False:
             # ----------------------------------------------
 
             #### On second jobs ####
+            if goop.running is True:
+                _status = util.run_logic(
+                    up_limit_switch=machine.gpio_objects.get('up_switch').is_pressed,
+                    down_limit_switch=machine.gpio_objects.get('down_switch').is_pressed,
+                    )
+                if _status != 'good':
+                    UI.fault(_status)
+            else:
+                UI.stop_all()
+
+
+
+
+
+
             if int(HHMMSS[2]) % 5 == 0 or int(HHMMSS[2]) == 0:
                 ### every 5 second jobs ####
-                print('run 5 second job')
-                if machine.gpio_objects.get('up_switch').is_pressed is True:
-                    print('>>>up switch engaged')
-                else:
-                    print('>>>up switch open')
+                #print('run 5 second job')
+                pass
+
                 # ----------------------------------------------
 
             if int(HHMMSS[2]) % 15 == 0 or int(HHMMSS[2]) == 0:
                 ### every 15 second jobs ####
-                print('run 15 second job')
+                #print('run 15 second job')
+                pass
 
 
 

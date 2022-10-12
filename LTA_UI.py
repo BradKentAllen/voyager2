@@ -40,6 +40,19 @@ lcd_mgr = None
 def start():
     print('START Life Tester')
     goop.running = True
+    goop.current_screen_group = "run"
+    goop.current_screen = "running"
+
+def stop():
+    stop_all()
+    goop.running = False
+    goop.current_screen_group = "home"
+    goop.current_screen = "main"
+
+def stop_all():
+    print('stop all')
+    machine.output("UP_relay", "OFF")
+    machine.output("DOWN_relay", "OFF")
 
 def manual_up():
     print('manual up')
@@ -49,11 +62,6 @@ def manual_down():
     print('manual down')
     machine.output("DOWN_relay", "ON")
 
-def stop_all():
-    print('stop all')
-    machine.output("UP_relay", "OFF")
-    machine.output("DOWN_relay", "OFF")
-
 def up_limit_switch_on_contact():
     print('CONTACT up limit switch')
 
@@ -62,6 +70,14 @@ def up_limit_switch_on_release():
 
 def down_limit_switch_function():
     print('down limit switch')
+
+def fault(msg='Fault: not specified'):
+    stop_all()
+    goop.running = False
+    goop.current_screen_group = "home"
+    goop.current_screen = "main"
+    print(msg)
+
 
 
 def test3_with_args():
@@ -192,15 +208,15 @@ UI_dict = {
             'screen': {
                 'line1': 'RUNNING',
                 'line1_justification': 'left',
-                'line2': 'line 2',
+                'line2': f'life: {get_life_cycles()}',
                 'line2_justification': 'left',
                 'line3': f'{RPi_util.get_IP_address()}',
                 'line3_justification': 'left',
-                'line4': '<next         STOP>',
+                'line4': '              STOP>',
                 'line4_justification': 'left',
                 },
-            'button2': start,
-            'button3': test3_with_args,
+            'button2': stop,
+            'button3': None,
             },
 
         },     

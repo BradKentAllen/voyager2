@@ -19,11 +19,49 @@ import config
 
 # key objects filled by XXX_main.py
 goop = None
-machine = None
 
 # ###################
 # #### Run Logic ####
 # ###################
+
+def run_logic(up_limit_switch, down_limit_switch):
+    '''Main logic for running life test.
+    Turns flags on and off but does not drive gpio
+    Drive gpio separately.
+    '''
+    print('run logic')
+    # #### Faults ####
+    if up_limit_switch is True and down_limit_switch is True:
+        return 'Fault:  Both limit switches are engaged'
+
+    if up_limit_switch is True:
+        pass
+    elif down_limit_switch is True:
+        pass
+    else:
+        pass
+
+    return "good"
+
+def find_initial_position(up_limit_switch, down_limit_switch):
+    '''logic to fill goop.position
+    ''' 
+    # #### Faults ####
+    if up_limit_switch is True and down_limit_switch is True:
+        return 'Fault: Both limit switches are engaged'
+
+    if up_limit_switch is True:
+        goop.position = 'up'
+    elif down_limit_switch is True:
+        goop.position = 'down'
+
+    else:
+        goop.position = 'going_down'
+
+    return "good"
+
+
+
 
 # #########################
 # #### File Management ####
