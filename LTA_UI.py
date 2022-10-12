@@ -94,6 +94,12 @@ def reboot_RPi():
     print('start reboot')
     RPi_util.reboot_RPi()
 
+def get_life_cycles():
+    try:
+        return goop.life_cycles
+    except AttributeError:
+        return 0
+
 
 
     ###################################
@@ -125,7 +131,7 @@ UI_dict = {
             'screen': {
                 'line1': 'ready to start',
                 'line1_justification': 'left',
-                'line2': f'life: {goop.life_cycles}',
+                'line2': f'life: {get_life_cycles()}',
                 'line2_justification': 'left',
                 'line3': f'{RPi_util.get_IP_address()}',
                 'line3_justification': 'left',

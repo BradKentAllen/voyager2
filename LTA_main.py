@@ -44,6 +44,8 @@ lcd_mgr = LCD_manager()
 UI.goop = goop  # put goop into UI
 UI.machine = machine  # put machine into UI
 UI.lcd_mgr = lcd_mgr
+util.goop = goop
+util.machine = machine
 
 # initiate key timing variables and update time
 last_milli = 0

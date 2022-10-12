@@ -20,7 +20,14 @@ import config
 # key objects filled by XXX_main.py
 goop = None
 machine = None
-lcd_mgr = None
+
+# ###################
+# #### Run Logic ####
+# ###################
+
+# #########################
+# #### File Management ####
+# #########################
 
 def save_life_cycles(cycles):
     _file_pathname = os.path.join(config.DATA_DIR, config.LIFE_CYCLES_FILENAME)
