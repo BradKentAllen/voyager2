@@ -24,7 +24,9 @@ class Goop():
     '''
     ### Life Tester Parameters
     running = False
-    position = None  # None, passed_down, down, going_up, going_down, up, passed_up
+    mx = False
+    run_direction = "stop" # 'stop', 'going up', 'going down'
+    position = None  # 'None', 'passed_down', 'down', 'between', 'up', 'passed_up'
     life_cycles = 0
     session_cycles = 0
 

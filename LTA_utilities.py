@@ -41,7 +41,7 @@ def run_logic(up_limit_switch, down_limit_switch):
     else:
         pass
 
-    return "good"
+    
 
 def find_initial_position(up_limit_switch, down_limit_switch):
     '''logic to fill goop.position
@@ -52,11 +52,14 @@ def find_initial_position(up_limit_switch, down_limit_switch):
 
     if up_limit_switch is True:
         goop.position = 'up'
+        goop.run_direction = 'stop'
     elif down_limit_switch is True:
         goop.position = 'down'
+        goop.run_direction = 'stop'
 
     else:
-        goop.position = 'going_down'
+        goop.position = 'between'
+        goop.run_direction = 'going_down'
 
     return "good"
 

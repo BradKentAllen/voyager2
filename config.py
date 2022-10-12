@@ -19,6 +19,10 @@ __status__ = 'DEV' # 'DEV', 'alpha', 'beta', 'production'
     #### (1.0) General Settings ####
     ################################
 
+# #### (1.0) Test Settings
+CAN_PASS_UP_SWITCH = False
+CAN_PASS_DOWN_SWITCH = False
+
 # #### (1.1) File structure
 DATA_DIR = "data"
 LIFE_CYCLES_FILENAME = "life_cycles"

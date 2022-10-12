@@ -174,8 +174,10 @@ while True and goop.main_thread_inhibit is False:
                     up_limit_switch=machine.gpio_objects.get('up_switch').is_pressed,
                     down_limit_switch=machine.gpio_objects.get('down_switch').is_pressed,
                     )
-                if _status != 'good':
+                if _status.split(':')[0] == "Fault":
                     UI.fault(_status)
+            elif goop.mx is True:
+                pass
             else:
                 UI.stop_all()
 

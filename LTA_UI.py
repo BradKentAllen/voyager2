@@ -38,44 +38,48 @@ lcd_mgr = None
     #########################
 
 def start():
-    print('START Life Tester')
+    goop.mx = False
     goop.running = True
     goop.current_screen_group = "run"
     goop.current_screen = "running"
     goop.init_UI = True # will run full init of UI
 
 def stop():
-    print('\n>>> STOP ')
     stop_all()
+    goop.mx = False
     goop.running = False
     goop.current_screen_group = "home"
     goop.current_screen = "main"
     goop.init_UI = True # will run full init of UI
 
 def stop_all():
-    print('stop all')
     machine.output("UP_relay", "OFF")
     machine.output("DOWN_relay", "OFF")
+    goop.mx = False
 
 def manual_up():
-    print('manual up')
+    goop.mx = True
     machine.output("UP_relay", "ON")
 
 def manual_down():
-    print('manual down')
+    goop.mx = True
     machine.output("DOWN_relay", "ON")
 
 def up_limit_switch_on_contact():
     print('CONTACT up limit switch')
+    if machine.gpio_objects.get('UP_relay').value == 1:
+        stop_all()
 
 def up_limit_switch_on_release():
     print('RELEASE up limit switch')
+
 
 def down_limit_switch_function():
     print('down limit switch')
 
 def fault(msg='Fault: not specified'):
     stop_all()
+    goop.mx = False
     goop.running = False
     goop.current_screen_group = "home"
     goop.current_screen = "main"
@@ -91,26 +95,49 @@ def test3_with_args():
     except IndexError:
         print('IndexError in buttons test3_with args')
 
+def os():
+    ''' returns to home screen
+    '''
+    stop_all()
+    goop.mx = False
+    goop.running = False
+    goop.current_screen_group = "os"
+    goop.current_screen = "reboot"
+    goop.init_UI = True # will run full init of UI
+
+def cancel():
+    ''' returns to home screen
+    '''
+    stop_all()
+    goop.mx = False
+    goop.running = False
+    goop.current_screen_group = "home"
+    goop.current_screen = "main"
+    goop.init_UI = True # will run full init of UI
 
 def shutdown_RPi():
+    stop_all()
+    time.sleep(5)
     goop.main_thread_inhibit = True
     lcd_mgr.display_clear()
     lcd_mgr.display_multi_line(
         message_list = [('will shut down', 'left'),]
         )
-    time.sleep(10)
+    time.sleep(15)
     RPi_util.shutdown_RPi()
     
 
 
 def reboot_RPi():
     print('>>>> reboot RPi in UI')
+    stop_all()
+    time.sleep(5)
     goop.main_thread_inhibit = True
     lcd_mgr.display_clear()
     lcd_mgr.display_multi_line(
         message_list = [('will reboot', 'left'),]
         )
-    time.sleep(10)
+    time.sleep(15)
     print('start reboot')
     RPi_util.reboot_RPi()
 
@@ -191,21 +218,50 @@ UI_dict = {
             'button2': manual_down,
             'button3': stop_all,
             },
-        
-        'MX': {
+        'settings': {
             'screen': {
-                'line1': 'RPi OFF',
+                'line1': 'Settings',
                 'line1_justification': 'left',
-                'line2': 'shut down RPi >',
+                'line2': 'OS >',
                 'line2_justification': 'right',
-                'line3': 'reboot RPi >',
+                'line3': 'Future >',
                 'line3_justification': 'right',
                 'line4': '<next',
                 'line4_justification': 'left',
                 },
-            'button2': reboot_RPi,
+            'button2': None,
+            'button3': os,
+            },
+        },
+    'os': {
+        'reboot': {
+            'screen': {
+                'line1': 'Reboot RPi',
+                'line1_justification': 'left',
+                'line2': 'Reboot NOW >',
+                'line2_justification': 'right',
+                'line3': 'cancel>',
+                'line3_justification': 'right',
+                'line4': '<next',
+                'line4_justification': 'left',
+                },
+            'button2': cancel,
+            'button3': reboot_RPi,
+            },
+        'shut down': {
+            'screen': {
+                'line1': 'Shut Down RPi',
+                'line1_justification': 'left',
+                'line2': 'Shut Down NOW >',
+                'line2_justification': 'right',
+                'line3': 'cancel>',
+                'line3_justification': 'right',
+                'line4': '<next',
+                'line4_justification': 'left',
+                },
+            'button2': cancel,
             'button3': shutdown_RPi,
-            }
+            },
         },
     'run': {
         'running': {
