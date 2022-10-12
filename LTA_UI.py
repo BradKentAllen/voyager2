@@ -52,6 +52,12 @@ def stop_all():
     machine.output("UP_relay", "OFF")
     machine.output("DOWN_relay", "OFF")
 
+def up_limit_switch_function():
+    print('up limit switch')
+
+def down_limit_switch_function():
+    print('down limit switch')
+
 
 def test3_with_args():
     print('MR_buttons: test3_with_args')

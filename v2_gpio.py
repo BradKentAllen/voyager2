@@ -65,7 +65,7 @@ class Machine:
                 elif config.RPi_PINOUT_BCM[key].get('type') == "Output":
                     self.gpio_objects[config.RPi_PINOUT_BCM[key].get('name')] = DigitalOutputDevice(config.RPi_PINOUT_BCM[key].get('pin'))
                 elif config.RPi_PINOUT_BCM[key].get('type') == "Button":
-                    self.gpio_objects[config.RPi_PINOUT_BCM[key].get('name')] = Button(config.RPi_PINOUT_BCM[key].get('pin'))
+                    self.gpio_objects[config.RPi_PINOUT_BCM[key].get('name')] = Button(config.RPi_PINOUT_BCM[key].get('pin'), bounce_time=.1)
                 else:
                     print('error v2_gpio: called output type that does not exist')
             else:
