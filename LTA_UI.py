@@ -52,8 +52,11 @@ def stop_all():
     machine.output("UP_relay", "OFF")
     machine.output("DOWN_relay", "OFF")
 
-def up_limit_switch_function():
-    print('up limit switch')
+def up_limit_switch_on_contact():
+    print('CONTACT up limit switch')
+
+def up_limit_switch_on_release():
+    print('RELEASE up limit switch')
 
 def down_limit_switch_function():
     print('down limit switch')

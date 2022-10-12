@@ -101,10 +101,12 @@ custom_chars = {
 #### (3.2) # Buttons
 # button pullup is True if button connects input to ground
 # button pullup is False if button connects input to 3V3
-button_pull_up = False
+BUTTON_PULLUP = False
+
+BUTTON_BOUNCE = .1  # debounce time for buttons.  0 to .3 seconds.  Limit switches are best at .1
 
 # button hold time is used for time it takes to hold a button for a function
-button_hold_time = 2
+BUTTON_HOLD_TIME = 2
 
 
     #############################

@@ -63,7 +63,8 @@ goop.button1_args['lcd'] = lcd_mgr  # this allows UI to print to lcd
 # ### Assign functions to interupts
 # Buttons 1, 2, and 3 are assigned dynamically but other "buttons", which
 # includes limit switches, are assinged here
-machine.gpio_objects.get('up_switch').when_pressed = UI.up_limit_switch_function
+machine.gpio_objects.get('up_switch').when_pressed = UI.up_limit_switch_on_contact
+machine.gpio_objects.get('up_switch').when_released = UI.up_limit_switch_on_release
 machine.gpio_objects.get('down_switch').when_pressed = UI.down_limit_switch_function
 
 
@@ -159,6 +160,11 @@ while True and goop.main_thread_inhibit is False:
             if int(HHMMSS[2]) % 5 == 0 or int(HHMMSS[2]) == 0:
                 ### every 5 second jobs ####
                 print('run 5 second job')
+                print(machine.gpio_objects.get('up_switch').is_pressed)
+                if machine.gpio_objects.get('up_switch').is_pressed is True:
+                    print('\nup switch engaged')
+                else:
+                    print('\nup switch open')
                 # ----------------------------------------------
 
             if int(HHMMSS[2]) % 15 == 0 or int(HHMMSS[2]) == 0:
