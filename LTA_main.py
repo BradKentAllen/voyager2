@@ -77,7 +77,7 @@ _status = util.find_initial_position(
 # includes limit switches, are assinged here
 machine.gpio_objects.get('up_switch').when_pressed = UI.up_limit_switch_on_contact
 machine.gpio_objects.get('up_switch').when_released = UI.up_limit_switch_on_release
-machine.gpio_objects.get('down_switch').when_pressed = UI.down_limit_switch_function
+machine.gpio_objects.get('down_switch').when_pressed = UI.down_limit_switch_on_contact
 
 
 while True and goop.main_thread_inhibit is False:

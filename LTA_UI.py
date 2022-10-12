@@ -73,9 +73,11 @@ def up_limit_switch_on_contact():
 def up_limit_switch_on_release():
     print('RELEASE up limit switch')
 
+def down_limit_switch_on_contact():
+    print('>>CONTACT down limit switch<<')
+    if machine.gpio_objects.get('DOWN_relay').value == 1:
+        stop_all()
 
-def down_limit_switch_function():
-    print('down limit switch')
 
 def fault(msg='Fault: not specified'):
     stop_all()
