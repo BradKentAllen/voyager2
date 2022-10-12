@@ -67,7 +67,7 @@ goop.life_cycles = util.get_life_cycles()
 # initialize key parameters
 goop.init_UI = True  # requires init at end of startup
 
-_status = UI.util.find_initial_position(
+_status = util.find_initial_position(
     up_limit_switch=machine.gpio_objects.get('up_switch').is_pressed,
     down_limit_switch=machine.gpio_objects.get('down_switch').is_pressed,
     )

@@ -42,12 +42,15 @@ def start():
     goop.running = True
     goop.current_screen_group = "run"
     goop.current_screen = "running"
+    goop.init_UI = True # will run full init of UI
 
 def stop():
+    print('\n>>> STOP ')
     stop_all()
     goop.running = False
     goop.current_screen_group = "home"
     goop.current_screen = "main"
+    goop.init_UI = True # will run full init of UI
 
 def stop_all():
     print('stop all')
@@ -76,6 +79,7 @@ def fault(msg='Fault: not specified'):
     goop.running = False
     goop.current_screen_group = "home"
     goop.current_screen = "main"
+    goop.init_UI = True # will run full init of UI
     print(msg)
 
 
