@@ -63,6 +63,7 @@ def run_logic(up_limit_switch, down_limit_switch):
 
     # ### position based actions
     if up_limit_switch is True:
+        print('HERE A')
         if goop.run_direction == "going up":
             print('>> start up stop timer')
             # arrived at top, trigger timer to go down
