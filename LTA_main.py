@@ -187,6 +187,8 @@ class voyager_runner():
                             up_limit_switch=self.machine.gpio_objects.get('up_switch').is_pressed,
                             down_limit_switch=self.machine.gpio_objects.get('down_switch').is_pressed,
                             )
+                        print(f'_actions_dict: ')
+                        print(_actions_dict)
                         if _actions_dict["fault"] is not None:
                             UI.fault(_actions_dict["fault"])
                         elif _actions_dict["run direction"] is not None:

@@ -66,6 +66,9 @@ def fault_decorator(func):
 def start():
     goop.mx = False
     goop.running = True
+    # XXXX change to down for initial direction
+    if goop.run_direction == 'stop' and goop.position == 'between':
+        goop.run_direction = "going up"
     goop.current_screen_group = "run"
     goop.current_screen = "running"
     goop.init_UI = True # will run full init of UI
@@ -97,7 +100,7 @@ def manual_down():
 
 @fault_decorator
 def up_limit_switch_on_contact():
-    print('CONTACT up limit switch')
+    print('\n>>>CONTACT up limit switch')
     if machine.gpio_objects.get('UP_relay').value == 1:
         stop_all()
 
@@ -356,6 +359,7 @@ def next_screen():
 
     # update the new screen
     goop.current_screen  = new_screen
+    goop.mx = False
     goop.init_UI = True # will run full init of UI
 
     

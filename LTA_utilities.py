@@ -49,7 +49,10 @@ def run_logic(up_limit_switch, down_limit_switch):
     Turns flags on and off but does not drive gpio
     Drive gpio separately.
     '''
-    print('run logic')
+    print(f'\nrun logic:')
+    print(f'{up_limit_switch}, {down_limit_switch}')
+    print(f'{goop.running}, {goop.run_direction}, {goop.position}')
+
     # #### Faults ####
     if up_limit_switch is True and down_limit_switch is True:
         actions_dict["fault"] = 'Both limit switches are engaged'
@@ -60,7 +63,8 @@ def run_logic(up_limit_switch, down_limit_switch):
 
     # ### position based actions
     if up_limit_switch is True:
-        if goop.run_direction == "going  up":
+        if goop.run_direction == "going up":
+            print('>> start up stop timer')
             # arrived at top, trigger timer to go down
             goop.run_direction = "stop"
             goop.position = "up"
@@ -70,11 +74,15 @@ def run_logic(up_limit_switch, down_limit_switch):
     else:
         pass
 
+
      # ### timer based actions
-     for _timer, attr_dict in timers_dict.items():
+    for _timer, attr_dict in timers_dict.items():
+        print(f'\n{attr_dict}')
         if attr_dict['status'] == "run":
+            print(f'increment: {_timer}')
             attr_dict['time count'] +=1
             if attr_dict['time count'] >= attr_dict['trigger count']:
+                print(f'!!! trigger {_timer}')
                 actions_dict[attr['trigger action'][0]] = attr['trigger action'][0]
 
     return actions_dict
