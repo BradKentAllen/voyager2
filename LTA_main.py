@@ -182,12 +182,23 @@ class voyager_runner():
 
                     #### On second jobs ####
                     if self.goop.running is True:
-                        _status = util.run_logic(
+                        # ### Use utilites and logic to set directions and actions
+                        _actions_dict = util.run_logic(
                             up_limit_switch=self.machine.gpio_objects.get('up_switch').is_pressed,
                             down_limit_switch=self.machine.gpio_objects.get('down_switch').is_pressed,
                             )
-                        if _status.split(':')[0] == "Fault":
-                            UI.fault(_status)
+                        if _actions_dict["fault"] is not None:
+                            UI.fault(_actions_dict["fault"])
+                        elif _actions_dict["run direction"] is not None:
+                            self.goop.run_direction = _actions_dict["run direction"]
+
+                        # #### Activate actions
+                        if self.goop.run_direction == 'going_up':
+                            self.machine.output("UP_relay", "ON")
+                        elif self.goop.run_direction == 'going_down':
+                            self.machine.output("DOWN_relay", "ON")
+
+
                     elif self.goop.mx is True:
                         pass
                     else:

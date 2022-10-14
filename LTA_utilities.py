@@ -20,9 +20,29 @@ import config
 # key objects filled by XXX_main.py
 goop = None
 
+timers_dict = {
+    "up stop timer": {
+        "status": "wait",  # "wait", "run", "stop"
+        "time count": 0,
+        "trigger count": 10,
+        "trigger action": ("run_direction", "going_down")
+        }
+    }
+
+def reset_timer(_timer):
+    _timer["status"] = "wait"
+    _timer["count"] = 0
+    return _timer
+
 # ###################
 # #### Run Logic ####
 # ###################
+
+def new_actions_dict():
+    return {
+        "fault": None,
+        "run direction": None,
+        }
 
 def run_logic(up_limit_switch, down_limit_switch):
     '''Main logic for running life test.
@@ -32,19 +52,40 @@ def run_logic(up_limit_switch, down_limit_switch):
     print('run logic')
     # #### Faults ####
     if up_limit_switch is True and down_limit_switch is True:
-        return 'Fault:  Both limit switches are engaged'
+        actions_dict["fault"] = 'Both limit switches are engaged'
+        return actions_dict
 
+    # set up clean actions_dict
+    actions_dict = new_actions_dict()
+
+    # ### position based actions
     if up_limit_switch is True:
-        pass
+        if goop.run_direction == "going  up":
+            # arrived at top, trigger timer to go down
+            goop.run_direction = "stop"
+            goop.position = "up"
+            timers_dict['up stop timer']['status'] = "run"
     elif down_limit_switch is True:
         pass
     else:
         pass
 
+     # ### timer based actions
+     for _timer, attr_dict in timers_dict.items():
+        if attr_dict['status'] == "run":
+            attr_dict['time count'] +=1
+            if attr_dict['time count'] >= attr_dict['trigger count']:
+                actions_dict[attr['trigger action'][0]] = attr['trigger action'][0]
+
+    return actions_dict
+
+
+
     
 
 def find_initial_position(up_limit_switch, down_limit_switch):
     '''logic to fill goop.position
+    Returns "up", "down", or "between"
     ''' 
     # #### Faults ####
     if up_limit_switch is True and down_limit_switch is True:
@@ -59,7 +100,8 @@ def find_initial_position(up_limit_switch, down_limit_switch):
 
     else:
         goop.position = 'between'
-        goop.run_direction = 'going_down'
+        # XXXX change to 'going_down'
+        goop.run_direction = 'going_up'
 
     return "good"
 
