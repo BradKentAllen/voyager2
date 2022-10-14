@@ -38,9 +38,16 @@ def fault_handler(e):
     Main loop handler is in main
     '''
     # XXXX - Change to show on LCD
-    UI.stop_all()
+    stop_all()
+    goop.fault = True
     print(f'\nTHREAD FAULT: {type(e).__name__}')
     print(f'reason: {e.args}')
+    goop.mx = False
+    goop.running = False
+    goop.current_screen_group = "home"
+    goop.current_screen = "main"
+    goop.init_UI = True # will run full init of UI
+    
     exit()
 
 def fault_decorator(func):
@@ -55,6 +62,7 @@ def fault_decorator(func):
     #### Button Function ####
     #########################
 
+@fault_decorator
 def start():
     goop.mx = False
     goop.running = True
@@ -62,6 +70,7 @@ def start():
     goop.current_screen = "running"
     goop.init_UI = True # will run full init of UI
 
+@fault_decorator
 def stop():
     stop_all()
     goop.mx = False
@@ -70,15 +79,18 @@ def stop():
     goop.current_screen = "main"
     goop.init_UI = True # will run full init of UI
 
+@fault_decorator
 def stop_all():
     machine.output("UP_relay", "OFF")
     machine.output("DOWN_relay", "OFF")
     goop.mx = False
 
+@fault_decorator
 def manual_up():
     goop.mx = True
     machine.output("UP_relay", "ON")
 
+@fault_decorator
 def manual_down():
     goop.mx = True
     machine.output("DOWN_relay", "ON")
@@ -86,29 +98,19 @@ def manual_down():
 @fault_decorator
 def up_limit_switch_on_contact():
     print('CONTACT up limit switch')
-    x = {'a': 1}
-    print(x['b'])
+    x = 1 + 'a'
     if machine.gpio_objects.get('UP_relay').value == 1:
         stop_all()
 
+@fault_decorator
 def up_limit_switch_on_release():
     print('RELEASE up limit switch')
 
+@fault_decorator
 def down_limit_switch_on_contact():
     print('>>CONTACT down limit switch<<')
     if machine.gpio_objects.get('DOWN_relay').value == 1:
         stop_all()
-
-
-def fault(msg='Fault: not specified'):
-    stop_all()
-    goop.mx = False
-    goop.running = False
-    goop.current_screen_group = "home"
-    goop.current_screen = "main"
-    goop.init_UI = True # will run full init of UI
-    print(msg)
-
 
 
 def test3_with_args():

@@ -113,11 +113,13 @@ class voyager_runner():
                     # XXX test flash LED's
                     if self.goop.flash_flag is True:
                         #print('ON')
-
-                        self.machine.LED("blue_LED_1", "ON")
-                        #machine.LED("blue_LED_2", "OFF")
-                        #machine.LED("yellow_LED", "OFF")
-                        #machine.LED("red_LED", "ON")
+                        if self.goop.fault is False:
+                            self.machine.LED("blue_LED_1", "ON")
+                            self.machine.LED("red_LED", "ON")
+                        else:
+                            self.machine.LED("yellow_LED", "ON")
+                        #machine.LED("blue_LED_2", "ON")
+                        #
 
                         #machine.output("UP_relay", "ON")
                         #machine.output("DOWN_relay", "OFF")
@@ -127,9 +129,9 @@ class voyager_runner():
                         #print("OFF")
 
                         self.machine.LED("blue_LED_1", "OFF")
-                        #machine.LED("blue_LED_2", "ON")
-                        #machine.LED("yellow_LED", "ON")
-                        #machine.LED("red_LED", "OFF")
+                        self.machine.LED("blue_LED_2", "OFF")
+                        self.machine.LED("yellow_LED", "OFF")
+                        self.machine.LED("red_LED", "OFF")
 
                         #machine.output("UP_relay", "OFF")
                         #machine.output("DOWN_relay", "ON")
