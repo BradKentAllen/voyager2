@@ -98,7 +98,6 @@ def manual_down():
 @fault_decorator
 def up_limit_switch_on_contact():
     print('CONTACT up limit switch')
-    x = 1 + 'a'
     if machine.gpio_objects.get('UP_relay').value == 1:
         stop_all()
 
@@ -120,6 +119,7 @@ def test3_with_args():
     except IndexError:
         print('IndexError in buttons test3_with args')
 
+@fault_decorator
 def os():
     ''' returns to home screen
     '''
@@ -130,6 +130,7 @@ def os():
     goop.current_screen = "reboot"
     goop.init_UI = True # will run full init of UI
 
+@fault_decorator
 def cancel():
     ''' returns to home screen
     '''
@@ -140,6 +141,7 @@ def cancel():
     goop.current_screen = "main"
     goop.init_UI = True # will run full init of UI
 
+@fault_decorator
 def shutdown_RPi():
     stop_all()
     time.sleep(5)
@@ -152,7 +154,7 @@ def shutdown_RPi():
     RPi_util.shutdown_RPi()
     
 
-
+@fault_decorator
 def reboot_RPi():
     print('>>>> reboot RPi in UI')
     stop_all()
@@ -166,12 +168,20 @@ def reboot_RPi():
     print('start reboot')
     RPi_util.reboot_RPi()
 
+
+# #### User interface information retrieval
+# these are required because goop is not available when UI is instantiated
 def get_life_cycles():
     try:
         return goop.life_cycles
     except AttributeError:
         return 0
 
+def get_message():
+    try:
+        return goop.screen_message
+    except AttributeError:
+        return "all is good today"
 
 
     ###################################
@@ -186,13 +196,13 @@ def get_life_cycles():
 UI_dict = {
     'welcome': {
         'screen': {
-            'line1': 'Welcome',
+            'line1': 'Loading...',
             'line1_justification': 'left',
-            'line2': 'to Voyager',
+            'line2': 'Voyager 2',
             'line2_justification': 'left',
             'line3': f'rev {config.__revision__}',
             'line3_justification': 'left',
-            'line4': 'line 4',
+            'line4': '',
             'line4_justification': 'left',
             },
         'button2': None,
@@ -201,7 +211,7 @@ UI_dict = {
     'home': {
         'main': {
             'screen': {
-                'line1': 'ready to start',
+                'line1': f'{get_message()}',
                 'line1_justification': 'left',
                 'line2': f'life: {get_life_cycles()}',
                 'line2_justification': 'left',

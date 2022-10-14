@@ -57,7 +57,6 @@ class voyager_runner():
         # LCD welcome display (will stay on for goop.startup_seconds)
         _menu_dict = UI.UI_dict['welcome'].get('screen')
         _menu_dict['line1'] = f'{config.__project_name__}'
-        _menu_dict['line2'] = f'rev: {config.__revision__}'
         self.lcd_mgr.display_menu(_menu_dict)
 
         # #### File Management
@@ -78,6 +77,8 @@ class voyager_runner():
         self.machine.gpio_objects.get('up_switch').when_pressed = UI.up_limit_switch_on_contact
         self.machine.gpio_objects.get('up_switch').when_released = UI.up_limit_switch_on_release
         self.machine.gpio_objects.get('down_switch').when_pressed = UI.down_limit_switch_on_contact
+
+        self.goop.screen_message = "Loading..."
 
 
     def run(self):
@@ -114,10 +115,14 @@ class voyager_runner():
                     if self.goop.flash_flag is True:
                         #print('ON')
                         if self.goop.fault is False:
-                            self.machine.LED("blue_LED_1", "ON")
+                            # normal pulse
+                            self.machine.LED("green_LED", "ON")
                             self.machine.LED("red_LED", "ON")
                         else:
-                            self.machine.LED("yellow_LED", "ON")
+                            # pulse in a fault
+                            # XXXX switch to red LED when fixed
+                            self.machine.LED("blue_LED_1", "ON")
+                            
                         #machine.LED("blue_LED_2", "ON")
                         #
 
@@ -126,11 +131,12 @@ class voyager_runner():
 
                         self.goop.flash_flag = False
                     else:
-                        #print("OFF")
+                        # green pulse
+                        self.machine.LED("green_LED", "OFF")
 
                         self.machine.LED("blue_LED_1", "OFF")
                         self.machine.LED("blue_LED_2", "OFF")
-                        self.machine.LED("yellow_LED", "OFF")
+                        
                         self.machine.LED("red_LED", "OFF")
 
                         #machine.output("UP_relay", "OFF")
@@ -144,15 +150,21 @@ class voyager_runner():
                     # #### Startup and Regular Actions ####
                     # #####################################
 
-                    if self.goop.startup_seconds > 1 and self.goop.startup_seconds != 10:
+                    # startup gives time to find IP address
+
+                    if self.goop.startup_seconds > 1 and self.goop.startup_seconds != 5:
                         # #### Startup Actions Only ####
                         self.goop.startup_seconds -= 1
-                    elif self.goop.startup_seconds == 10:
+                    elif self.goop.startup_seconds == 5:
                         '''performs a screen change at 10 seconds'''
                         _menu_dict = UI.UI_dict['welcome'].get('screen')
                         IP_address = RPi_util.get_IP_address()
                         _menu_dict['line2'] = f'{IP_address}'
                         self.lcd_mgr.display_menu(_menu_dict)
+                        self.goop.startup_seconds -= 1
+
+                    elif self.goop.startup_seconds == 1:
+                        self.goop.screen_message = "Ready to Run"
                         self.goop.startup_seconds -= 1
 
                     else:

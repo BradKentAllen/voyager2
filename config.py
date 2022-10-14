@@ -11,7 +11,7 @@ description:
 special instruction:
 '''
 __project_name__ = "Life Tester"
-__revision__ = 'v1.0'
+__revision__ = 'v1.1'
 __status__ = 'DEV' # 'DEV', 'alpha', 'beta', 'production'
 
 
@@ -62,7 +62,7 @@ DEBUG = False
 
 RPi_PINOUT_BCM = {
     'red_LED': 5,
-    'yellow_LED': 11,   # on Jim Hawkins board
+    'green_LED': 11,   # on Jim Hawkins board
     'blue_LED_1': 9,    # on Jim Hawkins board
     'blue_LED_2': 10,   # on Jim Hawkins board
 

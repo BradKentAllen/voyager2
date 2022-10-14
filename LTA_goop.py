@@ -36,7 +36,7 @@ class Goop():
 
     #### general voyager2 parameters ####
     main_thread_inhibit: bool = False  # inhibits main thread, particular for button thread
-    startup_seconds: int = 15 # must be greater than 10 seconds
+    startup_seconds: int = 10 # must be greater than 5 seconds
     flash_flag: bool = True
 
     button1: bool = False
@@ -53,6 +53,8 @@ class Goop():
     # ### Screens
     current_screen_group: str = 'home'
     current_screen: str = 'main'
+
+    screen_message: str = 'Loading'
 
     ''' init_UI flag
     if True, then will init UI.  Typically this includes new button functions
