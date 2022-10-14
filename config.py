@@ -43,10 +43,10 @@ POLL_MILLIS = 100
 
 # If DEBUG = True
 # For use when testing RPi using command line
+# IMPORTANT:  DEBUG disables the try/except in except-safe.  This means faults will not
+# clean up the gpio and outputs will stay on if on at exception or keyboard interrupt.
 # Will give results in print statements for locating issues
-# During config file validation, results are printed not sent to LCD and each error will stop
-# operation and raise a ConfigValueError.
-DEBUG = True
+DEBUG = False
 
 
 

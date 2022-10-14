@@ -33,6 +33,24 @@ machine = None
 lcd_mgr = None
 
 
+def fault_handler(e):
+    '''Decorator fault handler for threads
+    Main loop handler is in main
+    '''
+    # XXXX - Change to show on LCD
+    UI.stop_all()
+    print(f'\nTHREAD FAULT: {type(e).__name__}')
+    print(f'reason: {e.args}')
+    exit()
+
+def fault_decorator(func):
+    def wrapper():
+        try:
+            func()
+        except Exception as e:
+            fault_handler(e)
+    return wrapper
+
     #########################
     #### Button Function ####
     #########################
@@ -65,8 +83,11 @@ def manual_down():
     goop.mx = True
     machine.output("DOWN_relay", "ON")
 
+@fault_decorator
 def up_limit_switch_on_contact():
     print('CONTACT up limit switch')
+    x = {'a': 1}
+    print(x['b'])
     if machine.gpio_objects.get('UP_relay').value == 1:
         stop_all()
 

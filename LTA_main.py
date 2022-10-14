@@ -19,10 +19,12 @@ special instruction:
 copyright 2022, MIT License, AditNW LLC
 
 rev 1.0 initial creation from MR_main.py
+rev 1.1 move to class format for debug and except-safe
 '''
 
 # standard imports
 from time import time
+import signal
 
 # voyager2 imports
 from v2_gpio import Machine
@@ -35,212 +37,270 @@ from LTA_goop import Goop
 import LTA_UI as UI
 import LTA_utilities as util
 
-# instantiate key objects
-machine = Machine()
-goop = Goop()
-lcd_mgr = LCD_manager()
-
-# make objects availabe in UI for customized methods
-UI.goop = goop  # put goop into UI
-UI.machine = machine  # put machine into UI
-UI.lcd_mgr = lcd_mgr
-
-util.goop = goop
 
 
-# initiate key timing variables and update time
-last_milli = 0
-start_milli = time() * 1000
-(last_hour, last_minute, last_second) = RPi_util.get_time(config.local_time_zone)
+class voyager_runner():
+    def __init__(self):
+        # instantiate key objects
+        self.machine = Machine()
+        self.goop = Goop()
+        self.lcd_mgr = LCD_manager()
 
-# #### Initialize UI
-# LCD welcome display (will stay on for goop.startup_seconds)
-_menu_dict = UI.UI_dict['welcome'].get('screen')
-_menu_dict['line1'] = f'{config.__project_name__}'
-_menu_dict['line2'] = f'rev: {config.__revision__}'
-lcd_mgr.display_menu(_menu_dict)
+        # make objects availabe in UI for customized methods
+        UI.goop = self.goop  # put goop into UI
+        UI.machine = self.machine  # put machine into UI
+        UI.lcd_mgr = self.lcd_mgr
 
-# #### File Management
-util.validate_data_dir()
-goop.life_cycles = util.get_life_cycles()
+        util.goop = self.goop
 
-# initialize key parameters
-goop.init_UI = True  # requires init at end of startup
+        # #### Initialize UI
+        # LCD welcome display (will stay on for goop.startup_seconds)
+        _menu_dict = UI.UI_dict['welcome'].get('screen')
+        _menu_dict['line1'] = f'{config.__project_name__}'
+        _menu_dict['line2'] = f'rev: {config.__revision__}'
+        self.lcd_mgr.display_menu(_menu_dict)
 
-_status = util.find_initial_position(
-    up_limit_switch=machine.gpio_objects.get('up_switch').is_pressed,
-    down_limit_switch=machine.gpio_objects.get('down_switch').is_pressed,
-    )
+        # #### File Management
+        util.validate_data_dir()
+        self.goop.life_cycles = util.get_life_cycles()
 
-# ### Assign functions to interupts
-# Buttons 1, 2, and 3 are assigned dynamically but other "buttons", which
-# includes limit switches, are assinged here
-machine.gpio_objects.get('up_switch').when_pressed = UI.up_limit_switch_on_contact
-machine.gpio_objects.get('up_switch').when_released = UI.up_limit_switch_on_release
-machine.gpio_objects.get('down_switch').when_pressed = UI.down_limit_switch_on_contact
+        # initialize key parameters
+        self.goop.init_UI = True  # requires init at end of startup
+
+        _status = util.find_initial_position(
+            up_limit_switch=self.machine.gpio_objects.get('up_switch').is_pressed,
+            down_limit_switch=self.machine.gpio_objects.get('down_switch').is_pressed,
+            )
+
+        # ### Assign functions to interupts
+        # Buttons 1, 2, and 3 are assigned dynamically but other "buttons", which
+        # includes limit switches, are assinged here
+        self.machine.gpio_objects.get('up_switch').when_pressed = UI.up_limit_switch_on_contact
+        self.machine.gpio_objects.get('up_switch').when_released = UI.up_limit_switch_on_release
+        self.machine.gpio_objects.get('down_switch').when_pressed = UI.down_limit_switch_on_contact
 
 
-while True and goop.main_thread_inhibit is False:
-    milli = (time() * 1000) - start_milli
-    
-    #### deal with millis rolling
-    # this should never happen
-    if milli < 0:
-        milli = (time() * 1000)
+    def run(self):
+        # initiate key timing variables and update time
         last_milli = 0
+        start_milli = time() * 1000
+        (last_hour, last_minute, last_second) = RPi_util.get_time(config.local_time_zone)
+
+        while True and self.goop.main_thread_inhibit is False:
+            milli = (time() * 1000) - start_milli
+            
+            #### deal with millis rolling
+            # this should never happen
+            if milli < 0:
+                milli = (time() * 1000)
+                last_milli = 0
 
 
-    if (milli - last_milli) >= config.POLL_MILLIS:
-        HHMMSS = RPi_util.get_time(config.local_time_zone)
+            if (milli - last_milli) >= config.POLL_MILLIS:
+                HHMMSS = RPi_util.get_time(config.local_time_zone)
 
-        #### Jobs that run every poll
-        # none
+                #### Jobs that run every poll
+                # none
 
-        #### Second ####
-        if last_second != HHMMSS[2]:
-            # redo last_second
-            last_second = HHMMSS[2]
-            #### Every second jobs ####
-            # print(f'\n{HHMMSS}')
+                #### Second ####
+                if last_second != HHMMSS[2]:
+                    # redo last_second
+                    last_second = HHMMSS[2]
+                    #### Every second jobs ####
+                    # print(f'\n{HHMMSS}')
 
-            # ### always actions (startup and regular)
-            # XXX test flash LED's
-            if goop.flash_flag is True:
-                #print('ON')
+                    # ### always actions (startup and regular)
+                    # XXX test flash LED's
+                    if self.goop.flash_flag is True:
+                        #print('ON')
 
-                machine.LED("blue_LED_1", "ON")
-                #machine.LED("blue_LED_2", "OFF")
-                #machine.LED("yellow_LED", "OFF")
-                #machine.LED("red_LED", "ON")
+                        self.machine.LED("blue_LED_1", "ON")
+                        #machine.LED("blue_LED_2", "OFF")
+                        #machine.LED("yellow_LED", "OFF")
+                        #machine.LED("red_LED", "ON")
 
-                #machine.output("UP_relay", "ON")
-                #machine.output("DOWN_relay", "OFF")
+                        #machine.output("UP_relay", "ON")
+                        #machine.output("DOWN_relay", "OFF")
 
-                goop.flash_flag = False
-            else:
-                #print("OFF")
+                        self.goop.flash_flag = False
+                    else:
+                        #print("OFF")
 
-                machine.LED("blue_LED_1", "OFF")
-                #machine.LED("blue_LED_2", "ON")
-                #machine.LED("yellow_LED", "ON")
-                #machine.LED("red_LED", "OFF")
+                        self.machine.LED("blue_LED_1", "OFF")
+                        #machine.LED("blue_LED_2", "ON")
+                        #machine.LED("yellow_LED", "ON")
+                        #machine.LED("red_LED", "OFF")
 
-                #machine.output("UP_relay", "OFF")
-                #machine.output("DOWN_relay", "ON")
-                
-                goop.flash_flag = True
+                        #machine.output("UP_relay", "OFF")
+                        #machine.output("DOWN_relay", "ON")
+                        
+                        self.goop.flash_flag = True
 
 
 
-            # #####################################
-            # #### Startup and Regular Actions ####
-            # #####################################
+                    # #####################################
+                    # #### Startup and Regular Actions ####
+                    # #####################################
 
-            if goop.startup_seconds > 1 and goop.startup_seconds != 10:
-                # #### Startup Actions Only ####
-                goop.startup_seconds -= 1
-            elif goop.startup_seconds == 10:
-                '''performs a screen change at 10 seconds'''
-                _menu_dict = UI.UI_dict['welcome'].get('screen')
-                IP_address = RPi_util.get_IP_address()
-                _menu_dict['line2'] = f'{IP_address}'
-                lcd_mgr.display_menu(_menu_dict)
-                goop.startup_seconds -= 1
+                    if self.goop.startup_seconds > 1 and self.goop.startup_seconds != 10:
+                        # #### Startup Actions Only ####
+                        self.goop.startup_seconds -= 1
+                    elif self.goop.startup_seconds == 10:
+                        '''performs a screen change at 10 seconds'''
+                        _menu_dict = UI.UI_dict['welcome'].get('screen')
+                        IP_address = RPi_util.get_IP_address()
+                        _menu_dict['line2'] = f'{IP_address}'
+                        self.lcd_mgr.display_menu(_menu_dict)
+                        self.goop.startup_seconds -= 1
 
-            else:
-                # #### Regular Actions (after startup) ####
-                # ### Change button functions once
-                if goop.init_UI is True:
-                    machine.redefine_button_actions(
-                        button1_function = UI.next_screen,
-                        button2_function = UI.UI_dict[goop.current_screen_group][goop.current_screen].get('button2'),
-                        button3_function = UI.UI_dict[goop.current_screen_group][goop.current_screen].get('button3')
-                        )
-                    goop.init_UI = False
+                    else:
+                        # #### Regular Actions (after startup) ####
+                        # ### Change button functions once
+                        if self.goop.init_UI is True:
+                            self.machine.redefine_button_actions(
+                                button1_function = UI.next_screen,
+                                button2_function = UI.UI_dict[self.goop.current_screen_group][self.goop.current_screen].get('button2'),
+                                button3_function = UI.UI_dict[self.goop.current_screen_group][self.goop.current_screen].get('button3')
+                                )
+                            self.goop.init_UI = False
 
-                # ### update LCD
-                #print(f'>>>DEBUG {goop.current_screen_group} - {goop.current_screen}')
-                lcd_mgr.display_menu(UI.UI_dict[goop.current_screen_group][goop.current_screen].get('screen'))
+                        # ### update LCD
+                        #print(f'>>>DEBUG {goop.current_screen_group} - {goop.current_screen}')
+                        self.lcd_mgr.display_menu(UI.UI_dict[self.goop.current_screen_group][self.goop.current_screen].get('screen'))
 
+
+                    
+
+
+                    # ----------------------------------------------
+
+                    #### On second jobs ####
+                    if self.goop.running is True:
+                        _status = util.run_logic(
+                            up_limit_switch=self.machine.gpio_objects.get('up_switch').is_pressed,
+                            down_limit_switch=self.machine.gpio_objects.get('down_switch').is_pressed,
+                            )
+                        if _status.split(':')[0] == "Fault":
+                            UI.fault(_status)
+                    elif self.goop.mx is True:
+                        pass
+                    else:
+                        UI.stop_all()
+
+
+
+
+
+
+                    if int(HHMMSS[2]) % 5 == 0 or int(HHMMSS[2]) == 0:
+                        ### every 5 second jobs ####
+                        #print('run 5 second job')
+                        pass
+
+                        # ----------------------------------------------
+
+                    if int(HHMMSS[2]) % 15 == 0 or int(HHMMSS[2]) == 0:
+                        ### every 15 second jobs ####
+                        #print('run 15 second job')
+                        pass
+
+
+
+                        # ----------------------------------------------
+
+
+                    #### Minute ####
+                    if last_minute != HHMMSS[1]:
+                        last_minute = HHMMSS[1]
+                        #### Every minute jobs ####
+                        pass
+                        # ----------------------------------------------
+                        
+
+                        #### On minute jobs ####
+                        if int(HHMMSS[1])%5 == 0 or int(HHMMSS[1]) == 0:
+                            #### Every 5 minute jobs ####
+                            pass
+                            # ----------------------------------------------
+
+                        if int(HHMMSS[1])%15 == 0 or int(HHMMSS[1]) == 0:
+                            #### Every 15 minute jobs ####
+                            pass
+
+                            # ----------------------------------------------
+
+                        if int(HHMMSS[1])%30 == 0 or int(HHMMSS[1]) == 0:
+                            #### Every 30 minute jobs ####
+                            pass
+                            # ----------------------------------------------
+
+                        #### Hour ####
+                        if last_hour != HHMMSS[0]:
+                            last_hour = HHMMSS[0]
+                            #### Every hour jobs ####
+                            pass
+                            # ----------------------------------------------
+                            
+
+                #### polling marker
+                last_milli = milli
 
             
 
-
-            # ----------------------------------------------
-
-            #### On second jobs ####
-            if goop.running is True:
-                _status = util.run_logic(
-                    up_limit_switch=machine.gpio_objects.get('up_switch').is_pressed,
-                    down_limit_switch=machine.gpio_objects.get('down_switch').is_pressed,
-                    )
-                if _status.split(':')[0] == "Fault":
-                    UI.fault(_status)
-            elif goop.mx is True:
-                pass
-            else:
-                UI.stop_all()
+            #### update milli
+            milli = (time() * 1000) - start_milli
 
 
+def fault_handler(e):
+    '''Handles faults within the timing loops
+    Faults in gpio threads are handled by the decorator in UI
+    '''
+    # XXXX - Change to show on LCD
+    UI.stop_all()
+    print(f'\nFAULT: {type(e).__name__}')
+    if isinstance(e, str):
+        pass
+    else:
+        print(f'reason: {e.args}')
+    exit()
+
+def keyboardInterruptHandler(signal, frame):
+    '''safe handle ctl-c stop'''
+    UI.stop_all()
+    print("\nKeyboard Interrupt handler")
+    exit(0)
+
+
+if __name__ == "__main__":
+    app = voyager_runner()
+
+    if config.DEBUG is True:
+        print('!!! WARNING:  Runing in DEBUG mode')
+        app.run()
+    else:
+        try:
+            app.run()
+        except Exception as e:
+            fault_handler(e)
+        except:
+            fault_handler('unspecified fault')
+        else:
+            UI.stop_all()
+            print('nothing was caught, this is else')
+            exit()
+
+ 
 
 
 
 
-            if int(HHMMSS[2]) % 5 == 0 or int(HHMMSS[2]) == 0:
-                ### every 5 second jobs ####
-                #print('run 5 second job')
-                pass
-
-                # ----------------------------------------------
-
-            if int(HHMMSS[2]) % 15 == 0 or int(HHMMSS[2]) == 0:
-                ### every 15 second jobs ####
-                #print('run 15 second job')
-                pass
 
 
 
-                # ----------------------------------------------
 
 
-            #### Minute ####
-            if last_minute != HHMMSS[1]:
-                last_minute = HHMMSS[1]
-                #### Every minute jobs ####
-                pass
-                # ----------------------------------------------
-                
 
-                #### On minute jobs ####
-                if int(HHMMSS[1])%5 == 0 or int(HHMMSS[1]) == 0:
-                    #### Every 5 minute jobs ####
-                    pass
-                    # ----------------------------------------------
 
-                if int(HHMMSS[1])%15 == 0 or int(HHMMSS[1]) == 0:
-                    #### Every 15 minute jobs ####
-                    pass
 
-                    # ----------------------------------------------
 
-                if int(HHMMSS[1])%30 == 0 or int(HHMMSS[1]) == 0:
-                    #### Every 30 minute jobs ####
-                    pass
-                    # ----------------------------------------------
-
-                #### Hour ####
-                if last_hour != HHMMSS[0]:
-                    last_hour = HHMMSS[0]
-                    #### Every hour jobs ####
-                    pass
-                    # ----------------------------------------------
-                    
-
-        #### polling marker
-        last_milli = milli
-
-    
-
-    #### update milli
-    milli = (time() * 1000) - start_milli
-    
+        
