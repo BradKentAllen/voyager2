@@ -117,17 +117,9 @@ class voyager_runner():
                         if self.goop.fault is False:
                             # normal pulse
                             self.machine.LED("green_LED", "ON")
-                            self.machine.LED("red_LED", "ON")
                         else:
                             # pulse in a fault
-                            # XXXX switch to red LED when fixed
-                            self.machine.LED("blue_LED_1", "ON")
-                            
-                        #machine.LED("blue_LED_2", "ON")
-                        #
-
-                        #machine.output("UP_relay", "ON")
-                        #machine.output("DOWN_relay", "OFF")
+                            self.machine.LED("red_LED", "ON")
 
                         self.goop.flash_flag = False
                     else:
