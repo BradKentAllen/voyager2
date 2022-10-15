@@ -50,47 +50,52 @@ def run_logic(up_limit_switch, down_limit_switch):
     Drive gpio separately.
     '''
     print(f'\nrun logic:')
-    print(f'{up_limit_switch}, {down_limit_switch}')
-    print(f'{goop.running}, {goop.run_direction}, {goop.position}')
+    print(f'up switch: {up_limit_switch}, down switch: {down_limit_switch}')
+    print(f'stage: {goop.test_stage}')
+
+    _stage_data = goop.test_process.get(goop.test_stage)
+    _action = None
 
     # #### Faults ####
     if up_limit_switch is True and down_limit_switch is True:
         actions_dict["fault"] = 'Both limit switches are engaged'
         return actions_dict
 
-    # set up clean actions_dict
-    actions_dict = new_actions_dict()
+    # #### react to triggers
+    if _stage_data.get("trigger time") == "up limit switch" and up_limit_switch is True:
+        return "stop"
 
-    # ### position based actions
-    if up_limit_switch is True:
-        print('HERE A')
-        if goop.run_direction == "going up":
-            print('>> start up stop timer')
-            # arrived at top, trigger timer to go down
-            goop.run_direction = "stop"
-            goop.position = "up"
-            timers_dict['up stop timer']['status'] = "run"
-    elif down_limit_switch is True:
+    elif _stage_data.get("trigger time") == "down limit switch" and down_limit_switch is True:
         pass
+
+    elif isinstance(_stage_data.get("trigger time"), int) and _stage_data.get("trigger time") <= _stage_data.get("timer"):
+        pass
+
     else:
+        # #### perform current stage action
+        _action = _stage_data.get("action")
+
+    goop.test_process[goop.test_stage]["timer"] +=1
+
+
+
+
+
+
+def next_test_stage():
+    '''process finish actions from stage and start next stage
+    '''
+    pass
+
+def determine_initial_stage():
+    '''uses initial position to determine which stage in test_process to
+    start with
+    '''
+    for _stage, _data in goop.test_process.items():
+        # XXXX create logic
         pass
 
-
-     # ### timer based actions
-    for _timer, attr_dict in timers_dict.items():
-        print(f'\n{attr_dict}')
-        if attr_dict['status'] == "run":
-            print(f'increment: {_timer}')
-            attr_dict['time count'] +=1
-            if attr_dict['time count'] >= attr_dict['trigger count']:
-                print(f'!!! trigger {_timer}')
-                actions_dict[attr['trigger action'][0]] = attr['trigger action'][0]
-
-    return actions_dict
-
-
-
-    
+    return "1 up cycle"
 
 def find_initial_position(up_limit_switch, down_limit_switch):
     '''logic to fill goop.position

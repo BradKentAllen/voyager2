@@ -20,6 +20,7 @@ copyright 2022, MIT License, AditNW LLC
 
 rev 1.0 initial creation from MR_main.py
 rev 1.1 move to class format for debug and except-safe
+rev 1.2 rewrite run logic to test_process_dict
 '''
 
 # standard imports
@@ -63,13 +64,19 @@ class voyager_runner():
         util.validate_data_dir()
         self.goop.life_cycles = util.get_life_cycles()
 
-        # initialize key parameters
+        # #### initialize key parameters
         self.goop.init_UI = True  # requires init at end of startup
 
         _status = util.find_initial_position(
             up_limit_switch=self.machine.gpio_objects.get('up_switch').is_pressed,
             down_limit_switch=self.machine.gpio_objects.get('down_switch').is_pressed,
             )
+
+        # instantiate copy of test process dict (config parameters should not be modified)
+        self.goop.test_process = config.TEST_PROCESS_DICT.copy()
+
+        self.goop.test_stage = util.determine_initial_stage()
+
 
         # ### Assign functions to interupts
         # Buttons 1, 2, and 3 are assigned dynamically but other "buttons", which
@@ -182,24 +189,23 @@ class voyager_runner():
 
                     #### On second jobs ####
                     if self.goop.running is True:
-                        # ### Use utilites and logic to set directions and actions
-                        _actions_dict = util.run_logic(
+                        
+                        # ####################
+                        # #### RUN LOGIC #####
+                        # ####################
+                        _action = util.run_logic(
                             up_limit_switch=self.machine.gpio_objects.get('up_switch').is_pressed,
                             down_limit_switch=self.machine.gpio_objects.get('down_switch').is_pressed,
                             )
-                        print(f'_actions_dict: ')
-                        print(_actions_dict)
-                        if _actions_dict["fault"] is not None:
-                            UI.fault(_actions_dict["fault"])
-                        elif _actions_dict["run direction"] is not None:
-                            self.goop.run_direction = _actions_dict["run direction"]
 
-                        # #### Activate actions
-                        if self.goop.run_direction == 'going_up':
-                            self.machine.output("UP_relay", "ON")
-                        elif self.goop.run_direction == 'going_down':
-                            self.machine.output("DOWN_relay", "ON")
+                        print(f'>>action: {_action}')
 
+
+
+
+
+
+                        # ####################
 
                     elif self.goop.mx is True:
                         pass

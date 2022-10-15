@@ -11,8 +11,85 @@ description:
 special instruction:
 '''
 __project_name__ = "Life Tester"
-__revision__ = 'v1.1'
+__revision__ = 'v1.2'
 __status__ = 'DEV' # 'DEV', 'alpha', 'beta', 'production'
+
+
+    ################################
+    ####   (0.0) Test Process   ####
+    ################################
+
+'''
+Each stage as the following parameters:
+stage name: this can be any unique name
+
+action:  "go UP", "go DOWN", "stop"
+msg: up to 20 characters that appear on LCD
+timer:  0 (do not modify)
+trigger time:  integer (will trigger on time), "up limit switch", "down limit switch"
+    If trigger time is set to 0, then the action will occur immediately
+trigger action:  what occurs at trigger time or trigger action
+    "next action", "log", "fault" (log will log and go to next action)
+log name:  column data goes in on the log.  This is assigned to a goop parameter which is then used for the log.
+    If trigger action is "fault", log name is the fault message
+count cycle:  True or False, if True will record 1 cycle at end of stage
+
+'''
+
+TEST_PROCESS_DICT = {
+    "1 up cycle": {
+        "action": "go UP",
+        "message": "up cycle",
+        "timer": 0,
+        "trigger time": "up limit switch",
+        "trigger action": "next action",
+        
+        "log name": None,
+        "count cycle": False,
+        },
+    "2 top delay": {
+        "action": "stop",
+        "message": "up delay, 5 secs",
+        "timer": 0,
+        "trigger time": 5,
+        "trigger action": "next action",
+        
+        "log name": None,
+        "count cycle": False,
+        },
+    "3 down cycle": {
+        "action": "go DOWN",
+        "message": "down cycle",
+        "timer": 0,
+        "trigger time": 3,
+        "trigger action": "next action",
+        
+        "log name": None,
+        "count cycle": False,
+        },
+    "4 test stop": {
+        "action": "stop",
+        "message": "test complete",
+        "timer": 0,
+        "trigger time": 0,
+        "trigger action": "fault",
+        
+        "log name": "end of test",
+        "count cycle": False,
+        },
+        
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 
     ################################
