@@ -108,12 +108,18 @@ def next_test_stage():
         return "fault"
 
     _this_stage = False
+    _found = False
     for _stage_name, _stage_data in goop.test_process.items():
         if _this_stage is True:
             goop.test_stage = _stage_name
+            _found = True
             break
         if _stage_name == goop.test_stage:
             _this_stage = True
+
+    if _found is False:
+        # roll to top of dict
+        goop.test_stage = next(iter(goop.test_process))
 
     # initialize key parameters in new stage
     _stage_data = goop.test_process.get(goop.test_stage)

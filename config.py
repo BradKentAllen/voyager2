@@ -61,20 +61,20 @@ TEST_PROCESS_DICT = {
         "action": "go DOWN",
         "message": "down cycle",
         "timer": 0,
-        "trigger time": 3,
+        "trigger time": "down limit switch",
         "trigger action": "next action",
         
         "log name": None,
         "count cycle": False,
         },
-    "4 test stop": {
+    "4 down delay": {
         "action": "stop",
-        "message": "test complete",
+        "message": "down delay, 5 secs",
         "timer": 0,
-        "trigger time": 0,
-        "trigger action": "fault",
+        "trigger time": 5,
+        "trigger action": "next action",
         
-        "log name": "end of test",
+        "log name": None,
         "count cycle": False,
         },
         
