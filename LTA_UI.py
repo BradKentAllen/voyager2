@@ -58,6 +58,18 @@ def fault_decorator(func):
             fault_handler(e)
     return wrapper
 
+    ############################
+    #### GPIO Utility Calls ####
+    ############################
+
+@fault_decorator
+def LED_lights(blue1, blue2, green, red):
+    machine.LED("blue_LED_1", blue1)
+    machine.LED("blue_LED_2", blue2)
+    machine.LED("green_LED", green)
+    machine.LED("red_LED", red)
+
+
     #########################
     #### Button Function ####
     #########################

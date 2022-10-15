@@ -77,6 +77,8 @@ def run_logic(up_limit_switch, down_limit_switch):
 
     goop.test_process[goop.test_stage]["timer"] +=1
 
+    return _action
+
 
 
 

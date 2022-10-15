@@ -200,6 +200,16 @@ class voyager_runner():
 
                         print(f'>>action: {_action}')
 
+                        # execute gpio actions
+                        if _action == "go UP":
+                            self.machine.output("UP_relay", "ON")
+                        elif _action == "go DOWN":
+                            self.machine.output("DOWN_relay", "ON")
+                        elif _action == "stop":
+                            self.machine.output("UP_relay", "OFF")
+                            self.machine.output("DOWN_relay", "OFF")
+
+
 
 
 
@@ -292,12 +302,19 @@ def fault_handler(e):
 def keyboardInterruptHandler(signal, frame):
     '''safe handle ctl-c stop'''
     UI.stop_all()
+    UI.LED_lights(
+        blue1="ON",
+        blue2='ON',
+        green='OFF',
+        red='OFF')
     print("\nKeyboard Interrupt handler")
     exit(0)
 
 
 if __name__ == "__main__":
     app = voyager_runner()
+
+    signal.signal(signal.SIGINT, keyboardInterruptHandler)
 
     if config.DEBUG is True:
         print('!!! WARNING:  Runing in DEBUG mode')
