@@ -35,13 +35,20 @@ lcd_mgr = None
 
 def fault_handler(e):
     '''Decorator fault handler for threads
-    Main loop handler is in main
+    Can also be called individually
+
+    IMPORTANT:  the overall Main loop handler is in main
     '''
     # XXXX - Change to show on LCD
     stop_all()
     goop.fault = True
-    print(f'\nTHREAD FAULT: {type(e).__name__}')
-    print(f'reason: {e.args}')
+    
+    if isinstance(e, str):
+        print('\nCalled Fault')
+        print(e)
+    else:
+        print(f'\nTHREAD FAULT: {type(e).__name__}')
+        print(f'reason: {e.args}')
     goop.mx = False
     goop.running = False
     goop.current_screen_group = "home"
@@ -183,20 +190,6 @@ def reboot_RPi():
     RPi_util.reboot_RPi()
 
 
-# #### User interface information retrieval
-# these are required because goop is not available when UI is instantiated
-def get_life_cycles():
-    try:
-        return goop.life_cycles
-    except AttributeError:
-        return 0
-
-def get_message():
-    try:
-        return goop.screen_message
-    except AttributeError:
-        return "all is good today"
-
 
     ###################################
     #### User Interface Dictionary ####
@@ -225,9 +218,9 @@ UI_dict = {
     'home': {
         'main': {
             'screen': {
-                'line1': f'{get_message()}',
+                'line1': 'no message',
                 'line1_justification': 'left',
-                'line2': f'life: {get_life_cycles()}',
+                'line2': 'no life cycles',
                 'line2_justification': 'left',
                 'line3': f'{RPi_util.get_IP_address()}',
                 'line3_justification': 'left',
@@ -317,9 +310,9 @@ UI_dict = {
             'screen': {
                 'line1': 'RUNNING',
                 'line1_justification': 'left',
-                'line2': f'life: {get_life_cycles()}',
+                'line2': 'no message',
                 'line2_justification': 'left',
-                'line3': f'{RPi_util.get_IP_address()}',
+                'line3': 'no session cycles',
                 'line3_justification': 'left',
                 'line4': '              STOP>',
                 'line4_justification': 'left',

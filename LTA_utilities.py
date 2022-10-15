@@ -55,6 +55,8 @@ def run_logic(up_limit_switch, down_limit_switch):
 
     _stage_data = goop.test_process.get(goop.test_stage)
     _action = None
+    _update_UI = False
+    _status = "good"
 
     # #### Faults ####
     if up_limit_switch is True and down_limit_switch is True:
@@ -63,31 +65,63 @@ def run_logic(up_limit_switch, down_limit_switch):
 
     # #### react to triggers
     if _stage_data.get("trigger time") == "up limit switch" and up_limit_switch is True:
-        return "stop"
+        _status = next_test_stage()
+        _stage_data = goop.test_process.get(goop.test_stage)
+        _update_UI = True
+
 
     elif _stage_data.get("trigger time") == "down limit switch" and down_limit_switch is True:
-        pass
+        _status = next_test_stage()
+        _stage_data = goop.test_process.get(goop.test_stage)
+        _update_UI = True
 
     elif isinstance(_stage_data.get("trigger time"), int) and _stage_data.get("trigger time") <= _stage_data.get("timer"):
-        pass
+        _status = next_test_stage()
+        _stage_data = goop.test_process.get(goop.test_stage)
+        _update_UI = True
 
     else:
         # #### perform current stage action
         _action = _stage_data.get("action")
+        _stage_data = goop.test_process.get(goop.test_stage)
+
+        if goop.screen_message != _stage_data.get("message"):
+            goop.screen_message = _stage_data.get("message")
+            _update_UI = True
+            
+
 
     goop.test_process[goop.test_stage]["timer"] +=1
 
-    return _action
+    if _status == "fault":
+        return "fault", _stage_data.get("log name")
 
-
-
-
+    return _update_UI, _action
 
 
 def next_test_stage():
     '''process finish actions from stage and start next stage
     '''
-    pass
+    # execute trigger actions from current stage
+    _stage_data = goop.test_process.get(goop.test_stage)
+    if _stage_data.get("trigger action") == "fault":
+        return "fault"
+
+    _this_stage = False
+    for _stage_name, _stage_data in goop.test_process.items():
+        if _this_stage is True:
+            goop.test_stage = _stage_name
+            break
+        if _stage_name == goop.test_stage:
+            _this_stage = True
+
+    # initialize key parameters in new stage
+    _stage_data = goop.test_process.get(goop.test_stage)
+
+    goop.screen_message = _stage_data.get("message")
+
+    return "good"
+
 
 def determine_initial_stage():
     '''uses initial position to determine which stage in test_process to

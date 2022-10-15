@@ -193,10 +193,13 @@ class voyager_runner():
                         # ####################
                         # #### RUN LOGIC #####
                         # ####################
-                        _action = util.run_logic(
+                        _update_UI_flag, _action = util.run_logic(
                             up_limit_switch=self.machine.gpio_objects.get('up_switch').is_pressed,
                             down_limit_switch=self.machine.gpio_objects.get('down_switch').is_pressed,
                             )
+
+                        if _update_UI_flag == "fault":
+                            UI.fault_handler(_action)
 
                         print(f'>>action: {_action}')
 
@@ -208,6 +211,11 @@ class voyager_runner():
                         elif _action == "stop":
                             self.machine.output("UP_relay", "OFF")
                             self.machine.output("DOWN_relay", "OFF")
+
+                        if _update_UI_flag is True:
+                            UI.UI_dict.get("run")["running"]["screen"]["line2"] = self.goop.screen_message
+                            UI.UI_dict.get("run")["running"]["screen"]["line3"] = f'session: {str(self.goop.session_cycles)}'
+
 
 
 

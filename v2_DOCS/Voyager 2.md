@@ -11,7 +11,13 @@ gpiozero docs:  https://gpiozero.readthedocs.io/en/stable/
   - [ ] shut down all outputs
   
 
+### UI
 
+flashing green:  normal operation
+
+flashing red:  fault, all gpio should be stopped
+
+two blue:  keyboard interrupt has stopped function
 
 ## Voyager Concept
 
