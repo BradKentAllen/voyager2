@@ -199,7 +199,8 @@ def validate_data_dir():
     else:
         os.makedirs(config.DATA_DIR)
 
-    # #### life_cycles file
-    _file_pathname = os.path.join(config.DATA_DIR, config.LIFE_CYCLES_FILENAME)
-    with open(_file_pathname, "w") as file:
-        file.write("0")
+        # #### life_cycles file
+        _file_pathname = os.path.join(config.DATA_DIR, config.LIFE_CYCLES_FILENAME)
+        with open(_file_pathname, "w") as file:
+            file.write("0")
+

@@ -357,7 +357,7 @@ def next_screen():
     new_screen = None
 
     # work through all screens in the current screen group
-    for count, _screen in enumerate(UI_dict.get(goop.current_screen_group)):
+    for count, _screen in enumerate(return_UI_dict().get(goop.current_screen_group)):
         # save the first screen, for use if on the last screen
         if count == 0:
             first_screen_group = _screen
