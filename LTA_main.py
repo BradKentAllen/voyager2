@@ -21,6 +21,7 @@ copyright 2022, MIT License, AditNW LLC
 rev 1.0 initial creation from MR_main.py
 rev 1.1 move to class format for debug and except-safe
 rev 1.2 rewrite run logic to test_process_dict
+rev 1.3 refine
 '''
 
 # standard imports
@@ -56,7 +57,7 @@ class voyager_runner():
 
         # #### Initialize UI
         # LCD welcome display (will stay on for goop.startup_seconds)
-        _menu_dict = UI.UI_dict['welcome'].get('screen')
+        _menu_dict = UI.return_UI_dict()['welcome'].get('screen')
         _menu_dict['line1'] = f'{config.__project_name__}'
         self.lcd_mgr.display_menu(_menu_dict)
 
@@ -156,7 +157,7 @@ class voyager_runner():
                         self.goop.startup_seconds -= 1
                     elif self.goop.startup_seconds == 5:
                         '''performs a screen change at 10 seconds'''
-                        _menu_dict = UI.UI_dict['welcome'].get('screen')
+                        _menu_dict = UI.return_UI_dict()['welcome'].get('screen')
                         IP_address = RPi_util.get_IP_address()
                         _menu_dict['line2'] = f'{IP_address}'
                         self.lcd_mgr.display_menu(_menu_dict)
@@ -172,14 +173,14 @@ class voyager_runner():
                         if self.goop.init_UI is True:
                             self.machine.redefine_button_actions(
                                 button1_function = UI.next_screen,
-                                button2_function = UI.UI_dict[self.goop.current_screen_group][self.goop.current_screen].get('button2'),
-                                button3_function = UI.UI_dict[self.goop.current_screen_group][self.goop.current_screen].get('button3')
+                                button2_function = UI.return_UI_dict()[self.goop.current_screen_group][self.goop.current_screen].get('button2'),
+                                button3_function = UI.return_UI_dict()[self.goop.current_screen_group][self.goop.current_screen].get('button3')
                                 )
                             self.goop.init_UI = False
 
                         # ### update LCD
                         #print(f'>>>DEBUG {goop.current_screen_group} - {goop.current_screen}')
-                        self.lcd_mgr.display_menu(UI.UI_dict[self.goop.current_screen_group][self.goop.current_screen].get('screen'))
+                        self.lcd_mgr.display_menu(UI.return_UI_dict()[self.goop.current_screen_group][self.goop.current_screen].get('screen'))
 
 
                     
@@ -211,16 +212,6 @@ class voyager_runner():
                         elif _action == "stop":
                             self.machine.output("UP_relay", "OFF")
                             self.machine.output("DOWN_relay", "OFF")
-
-                        if _update_UI_flag is True:
-                            UI.UI_dict.get("run")["running"]["screen"]["line2"] = self.goop.screen_message
-                            UI.UI_dict.get("run")["running"]["screen"]["line3"] = f'session: {str(self.goop.session_cycles)}'
-
-
-
-
-
-
 
 
                         # ####################

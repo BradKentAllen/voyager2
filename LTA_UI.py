@@ -189,7 +189,21 @@ def reboot_RPi():
     print('start reboot')
     RPi_util.reboot_RPi()
 
+    #########################
+    #### UI Dict Methods ####
+    #########################
 
+def return_message():
+    try:
+        return goop.screen_message
+    except AttributeError:
+        return "no message"
+
+def return_life_cycles():
+    try:
+        return str(goop.life_cycles)
+    except AttributeError:
+        return "X"
 
     ###################################
     #### User Interface Dictionary ####
@@ -199,130 +213,131 @@ def reboot_RPi():
 
 '''
 
-
-UI_dict = {
-    'welcome': {
-        'screen': {
-            'line1': 'Loading...',
-            'line1_justification': 'left',
-            'line2': 'Voyager 2',
-            'line2_justification': 'left',
-            'line3': f'rev {config.__revision__}',
-            'line3_justification': 'left',
-            'line4': '',
-            'line4_justification': 'left',
-            },
-        'button2': None,
-        'button3': None,
-        },
-    'home': {
-        'main': {
+def return_UI_dict():
+    _UI_dict = {
+        'welcome': {
             'screen': {
-                'line1': 'no message',
+                'line1': 'Loading...',
                 'line1_justification': 'left',
-                'line2': 'no life cycles',
+                'line2': 'Voyager 2',
                 'line2_justification': 'left',
-                'line3': f'{RPi_util.get_IP_address()}',
+                'line3': f'rev {config.__revision__}',
                 'line3_justification': 'left',
-                'line4': '<next         START>',
-                'line4_justification': 'left',
-                },
-            'button2': start,
-            'button3': None,
-            },
-
-        'manual up': {
-            'screen': {
-                'line1': 'Manual Up',
-                'line1_justification': 'left',
-                'line2': 'manual UP >',
-                'line2_justification': 'right',
-                'line3': 'STOP >',
-                'line3_justification': 'right',
-                'line4': '<next',
-                'line4_justification': 'left',
-                },
-            'button2': stop_all,
-            'button3': manual_up,
-            },
-
-        'manual down': {
-            'screen': {
-                'line1': 'Manual Down',
-                'line1_justification': 'left',
-                'line2': 'STOP >',
-                'line2_justification': 'right',
-                'line3': 'manual DOWN >',
-                'line3_justification': 'right',
-                'line4': '<next',
-                'line4_justification': 'left',
-                },
-            'button2': manual_down,
-            'button3': stop_all,
-            },
-        'settings': {
-            'screen': {
-                'line1': 'Settings',
-                'line1_justification': 'left',
-                'line2': 'OS >',
-                'line2_justification': 'right',
-                'line3': 'Future >',
-                'line3_justification': 'right',
-                'line4': '<next',
+                'line4': '',
                 'line4_justification': 'left',
                 },
             'button2': None,
-            'button3': os,
-            },
-        },
-    'os': {
-        'reboot': {
-            'screen': {
-                'line1': 'Reboot RPi',
-                'line1_justification': 'left',
-                'line2': 'Reboot NOW >',
-                'line2_justification': 'right',
-                'line3': 'cancel>',
-                'line3_justification': 'right',
-                'line4': '<next',
-                'line4_justification': 'left',
-                },
-            'button2': cancel,
-            'button3': reboot_RPi,
-            },
-        'shut down': {
-            'screen': {
-                'line1': 'Shut Down RPi',
-                'line1_justification': 'left',
-                'line2': 'Shut Down NOW >',
-                'line2_justification': 'right',
-                'line3': 'cancel>',
-                'line3_justification': 'right',
-                'line4': '<next',
-                'line4_justification': 'left',
-                },
-            'button2': cancel,
-            'button3': shutdown_RPi,
-            },
-        },
-    'run': {
-        'running': {
-            'screen': {
-                'line1': 'RUNNING',
-                'line1_justification': 'left',
-                'line2': 'no message',
-                'line2_justification': 'left',
-                'line3': 'no session cycles',
-                'line3_justification': 'left',
-                'line4': '              STOP>',
-                'line4_justification': 'left',
-                },
-            'button2': stop,
             'button3': None,
             },
+        'home': {
+            'main': {
+                'screen': {
+                    'line1': f'{return_message()}',
+                    'line1_justification': 'left',
+                    'line2': f'total: {return_life_cycles()}',
+                    'line2_justification': 'left',
+                    'line3': f'{RPi_util.get_IP_address()}',
+                    'line3_justification': 'left',
+                    'line4': '<next         START>',
+                    'line4_justification': 'left',
+                    },
+                'button2': start,
+                'button3': None,
+                },
 
-        },     
-    }
+            'manual up': {
+                'screen': {
+                    'line1': 'Manual Up',
+                    'line1_justification': 'left',
+                    'line2': 'manual UP >',
+                    'line2_justification': 'right',
+                    'line3': 'STOP >',
+                    'line3_justification': 'right',
+                    'line4': '<next',
+                    'line4_justification': 'left',
+                    },
+                'button2': stop_all,
+                'button3': manual_up,
+                },
+
+            'manual down': {
+                'screen': {
+                    'line1': 'Manual Down',
+                    'line1_justification': 'left',
+                    'line2': 'STOP >',
+                    'line2_justification': 'right',
+                    'line3': 'manual DOWN >',
+                    'line3_justification': 'right',
+                    'line4': '<next',
+                    'line4_justification': 'left',
+                    },
+                'button2': manual_down,
+                'button3': stop_all,
+                },
+            'settings': {
+                'screen': {
+                    'line1': 'Settings',
+                    'line1_justification': 'left',
+                    'line2': 'OS >',
+                    'line2_justification': 'right',
+                    'line3': 'Future >',
+                    'line3_justification': 'right',
+                    'line4': '<next',
+                    'line4_justification': 'left',
+                    },
+                'button2': None,
+                'button3': os,
+                },
+            },
+        'os': {
+            'reboot': {
+                'screen': {
+                    'line1': 'Reboot RPi',
+                    'line1_justification': 'left',
+                    'line2': 'Reboot NOW >',
+                    'line2_justification': 'right',
+                    'line3': 'cancel>',
+                    'line3_justification': 'right',
+                    'line4': '<next',
+                    'line4_justification': 'left',
+                    },
+                'button2': cancel,
+                'button3': reboot_RPi,
+                },
+            'shut down': {
+                'screen': {
+                    'line1': 'Shut Down RPi',
+                    'line1_justification': 'left',
+                    'line2': 'Shut Down NOW >',
+                    'line2_justification': 'right',
+                    'line3': 'cancel>',
+                    'line3_justification': 'right',
+                    'line4': '<next',
+                    'line4_justification': 'left',
+                    },
+                'button2': cancel,
+                'button3': shutdown_RPi,
+                },
+            },
+        'run': {
+            'running': {
+                'screen': {
+                    'line1': 'RUNNING',
+                    'line1_justification': 'left',
+                    'line2': f'{return_message()}',
+                    'line2_justification': 'left',
+                    'line3': f'total: {return_life_cycles()}',
+                    'line3_justification': 'left',
+                    'line4': '              STOP>',
+                    'line4_justification': 'left',
+                    },
+                'button2': stop,
+                'button3': None,
+                },
+
+            },     
+        }
+    return _UI_dict
 
 
     ###############################
