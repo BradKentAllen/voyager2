@@ -64,8 +64,6 @@ class voyager_runner():
         # #### File Management
         util.validate_data_dir()
 
-        print('\n>>>DEBUG')
-        print(f'retrieved: {util.get_life_cycles()}')
         self.goop.life_cycles = util.get_life_cycles()
 
         # #### initialize key parameters
@@ -242,7 +240,7 @@ class voyager_runner():
                     if int(HHMMSS[2]) % 15 == 0 or int(HHMMSS[2]) == 0:
                         ### every 15 second jobs ####
                         #print('run 15 second job')
-                        util.save_life_cycles(self.goop.life_cycles)
+                        pass
 
 
 
@@ -253,7 +251,7 @@ class voyager_runner():
                     if last_minute != HHMMSS[1]:
                         last_minute = HHMMSS[1]
                         #### Every minute jobs ####
-                        pass
+                        util.save_life_cycles(self.goop.life_cycles)
                     
                         # ----------------------------------------------
                         
