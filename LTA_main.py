@@ -86,7 +86,7 @@ class voyager_runner():
         self.machine.gpio_objects.get('up_switch').when_released = UI.up_limit_switch_on_release
         self.machine.gpio_objects.get('down_switch').when_pressed = UI.down_limit_switch_on_contact
 
-        self.goop.screen_message = "Loading..."
+        self.goop.screen_message = "Ready after startup"
 
 
     def run(self):
@@ -150,13 +150,12 @@ class voyager_runner():
                     # #### Startup and Regular Actions ####
                     # #####################################
 
-                    # startup gives time to find IP address
-
+                    '''
                     if self.goop.startup_seconds > 1 and self.goop.startup_seconds != 5:
                         # #### Startup Actions Only ####
                         self.goop.startup_seconds -= 1
                     elif self.goop.startup_seconds == 5:
-                        '''performs a screen change at 10 seconds'''
+                        #performs a screen change at 10 seconds
                         _menu_dict = UI.return_UI_dict()['welcome'].get('screen')
                         IP_address = RPi_util.get_IP_address()
                         _menu_dict['line2'] = f'{IP_address}'
@@ -166,7 +165,11 @@ class voyager_runner():
                     elif self.goop.startup_seconds == 1:
                         self.goop.screen_message = "Ready to Run"
                         self.goop.startup_seconds -= 1
+                    '''
 
+                    if self.goop.startup_seconds > 1:
+                        # #### Startup Actions Only ####
+                        self.goop.startup_seconds -= 1
                     else:
                         # #### Regular Actions (after startup) ####
                         # ### Change button functions once

@@ -38,11 +38,11 @@ def reset_timer(_timer):
 # #### Run Logic ####
 # ###################
 
-def new_actions_dict():
-    return {
-        "fault": None,
-        "run direction": None,
-        }
+def reset_timer():
+    '''reset timer in current stage
+    '''
+    goop.test_process[goop.test_stage]["timer"] = 0
+    
 
 def run_logic(up_limit_switch, down_limit_switch):
     '''Main logic for running life test.
@@ -76,6 +76,7 @@ def run_logic(up_limit_switch, down_limit_switch):
         _update_UI = True
 
     elif isinstance(_stage_data.get("trigger time"), int) and _stage_data.get("trigger time") <= _stage_data.get("timer"):
+        # #### Timer Execution and Reset
         _status = next_test_stage()
         _stage_data = goop.test_process.get(goop.test_stage)
         _update_UI = True
@@ -106,7 +107,16 @@ def next_test_stage():
     _stage_data = goop.test_process.get(goop.test_stage)
     if _stage_data.get("trigger action") == "fault":
         return "fault"
+    elif _stage_data.get("trigger action") == "log":
+        # count cycles only after a full cycle
+        if goop.count_cycle is False:
+            goop.count_cycle = True
+        else:
+            goop.life_cycles +=1
 
+    reset_timer()
+
+    # #### convert to next stage
     _this_stage = False
     _found = False
     for _stage_name, _stage_data in goop.test_process.items():
@@ -132,12 +142,14 @@ def next_test_stage():
 def determine_initial_stage():
     '''uses initial position to determine which stage in test_process to
     start with
+
+    XXXX - problems here including logic and use of actual cycle name
     '''
     for _stage, _data in goop.test_process.items():
         # XXXX create logic
         pass
 
-    return "1 up cycle"
+    return "3 down cycle"
 
 def find_initial_position(up_limit_switch, down_limit_switch):
     '''logic to fill goop.position
@@ -156,8 +168,7 @@ def find_initial_position(up_limit_switch, down_limit_switch):
 
     else:
         goop.position = 'between'
-        # XXXX change to 'going_down'
-        goop.run_direction = 'going_up'
+        goop.run_direction = 'going_down'
 
     return "good"
 

@@ -98,6 +98,7 @@ def stop():
     goop.running = False
     goop.current_screen_group = "home"
     goop.current_screen = "main"
+    goop.screen_message = "PAUSED"
     goop.init_UI = True # will run full init of UI
 
 @fault_decorator

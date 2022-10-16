@@ -26,6 +26,7 @@ class Goop():
     running = False
     mx = False
     fault = False
+    count_cycle = False  # cycles are counted at bottom, must run down first
     position = None  # 'None', 'passed_down', 'down', 'between', 'up', 'passed_up'
     life_cycles = 0
     session_cycles = 0

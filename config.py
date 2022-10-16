@@ -72,7 +72,7 @@ TEST_PROCESS_DICT = {
         "message": "down delay, 5 secs",
         "timer": 0,
         "trigger time": 5,
-        "trigger action": "next action",
+        "trigger action": "log",
         
         "log name": None,
         "count cycle": False,
