@@ -14,6 +14,7 @@ rev 1.0 initial creation
 '''
 
 import os
+import datetime
 
 import config
 
@@ -179,6 +180,11 @@ def find_initial_position(up_limit_switch, down_limit_switch):
 # #### File Management ####
 # #########################
 
+def return_datetime_stamp():
+    '''returns string of datetime in format for log
+    '''
+    return datetime.datetime.strftime(datetime.datetime.now(), '%m/%d %H:%M')
+
 def save_life_cycles(cycles):
     _file_pathname = os.path.join(config.DATA_DIR, config.LIFE_CYCLES_FILENAME)
     with open(_file_pathname, "w") as file:
@@ -203,4 +209,52 @@ def validate_data_dir():
         _file_pathname = os.path.join(config.DATA_DIR, config.LIFE_CYCLES_FILENAME)
         with open(_file_pathname, "w") as file:
             file.write("0")
+
+def write_column_names(file):
+    for _column in config.LOG_COLUMNS:
+        file.write(f'{_column}, ')
+    file.write('\n')
+
+def log_new_session():
+    _file_pathname = os.path.join(config.DATA_DIR, config.LOG_FILENAME)
+    with open(_file_pathname, "a") as file:
+        file.write('\n')
+        file.write(f'New Session: {return_datetime_stamp()}\n')
+        write_column_names(file)
+
+def validate_log_file():
+    '''makes sure log file is present, creates if not
+    Should be preceded by validate_data_dir
+    '''
+    _file_pathname = os.path.join(config.DATA_DIR, config.LOG_FILENAME)
+    try:
+        with open(_file_pathname, "r") as file:
+            pass
+    except FileNotFoundError:
+        with open(_file_pathname, "w") as file:
+            write_column_names(file)
+
+    else:
+        log_new_session()
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

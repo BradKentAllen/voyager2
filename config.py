@@ -103,6 +103,9 @@ CAN_PASS_DOWN_SWITCH = False
 # #### (1.1) File structure
 DATA_DIR = "data"
 LIFE_CYCLES_FILENAME = "life_cycles"
+LOG_FILENAME = "log"
+
+LOG_COLUMNS = ('date', 'cycles', 'session cycles', 'up time', 'motor temp', 'ambient temp')
 
 #### (1.2) # Time Zone
 local_time_zone = 'US/Pacific'

@@ -63,6 +63,8 @@ class voyager_runner():
 
         # #### File Management
         util.validate_data_dir()
+        util.validate_log_file()
+
 
         self.goop.life_cycles = util.get_life_cycles()
 
