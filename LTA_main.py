@@ -253,7 +253,11 @@ class voyager_runner():
                     if last_minute != HHMMSS[1]:
                         last_minute = HHMMSS[1]
                         #### Every minute jobs ####
+                        # record life cycles to permanent disk file
                         util.save_life_cycles(self.goop.life_cycles)
+
+                        # write key parameters to log
+                        util.write_one_log_line()
                     
                         # ----------------------------------------------
                         

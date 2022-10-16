@@ -114,6 +114,7 @@ def next_test_stage():
             goop.count_cycle = True
         else:
             goop.life_cycles +=1
+            goop.session_cycles +=1
 
     reset_timer()
 
@@ -238,6 +239,16 @@ def validate_log_file():
         log_new_session()
             
 
+def write_one_log_line():
+    _file_pathname = os.path.join(config.DATA_DIR, config.LOG_FILENAME)
+    with open(_file_pathname, "a") as file:
+        file.write(f'{return_datetime_stamp()}, ')
+        file.write(f'{goop.life_cycles}, ')
+        file.write(f'{goop.session_cycles}, ')
+        file.write(f'{goop.up_time}, ')
+        file.write(f'{goop.motor_temp}, ')
+        file.write(f'{goop.ambient_temp}, ')
+        file.write('\n')
 
 
 

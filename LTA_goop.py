@@ -28,14 +28,17 @@ class Goop():
     fault = False
     count_cycle = False  # cycles are counted at bottom, must run down first
     position = None  # 'None', 'passed_down', 'down', 'between', 'up', 'passed_up'
-    life_cycles = 0
-    session_cycles = 0
-
+    
     test_stage = None
     test_process = {}
 
-
-
+    # logged data parameters (LTA_util write_one_log_line and write_column_names must 
+    # be set up consistently)
+    life_cycles = 0
+    session_cycles = 0
+    up_time = 0
+    motor_temp = 0
+    ambient_temp = 0
 
     #### general voyager2 parameters ####
     main_thread_inhibit: bool = False  # inhibits main thread, particular for button thread

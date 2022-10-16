@@ -206,6 +206,12 @@ def return_life_cycles():
     except AttributeError:
         return "X"
 
+def return_session_cycles():
+    try:
+        return str(goop.session_cycles)
+    except AttributeError:
+        return "X"
+
     ###################################
     #### User Interface Dictionary ####
     ###################################
@@ -327,7 +333,7 @@ def return_UI_dict():
                     'line1_justification': 'left',
                     'line2': f'{return_message()}',
                     'line2_justification': 'left',
-                    'line3': f'total: {return_life_cycles()}',
+                    'line3': f'{return_session_cycles()} / {return_life_cycles()}',
                     'line3_justification': 'left',
                     'line4': '              STOP>',
                     'line4_justification': 'left',
