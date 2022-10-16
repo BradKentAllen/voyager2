@@ -100,6 +100,13 @@ def run_logic(up_limit_switch, down_limit_switch):
 
     return _update_UI, _action
 
+def log_cycles():
+    # count cycles only after a full cycle
+    if goop.count_cycle is False:
+        goop.count_cycle = True
+    else:
+        goop.life_cycles +=1
+        goop.session_cycles +=1
 
 def next_test_stage():
     '''process finish actions from stage and start next stage
@@ -108,13 +115,15 @@ def next_test_stage():
     _stage_data = goop.test_process.get(goop.test_stage)
     if _stage_data.get("trigger action") == "fault":
         return "fault"
-    elif _stage_data.get("trigger action") == "log":
-        # count cycles only after a full cycle
-        if goop.count_cycle is False:
-            goop.count_cycle = True
-        else:
-            goop.life_cycles +=1
-            goop.session_cycles +=1
+    elif _stage_data.get("trigger action") == "log cycles":
+        log_cycles()
+    elif _stage_data.get("trigger action") == "log timer":
+        goop.up_time = _stage_data.get("timer")
+    elif _stage_data.get("trigger action") == "log timer and cycles":
+        goop.up_time = _stage_data.get("timer")
+        log_cycles()
+
+
 
     reset_timer()
 

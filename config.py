@@ -29,7 +29,7 @@ timer:  0 (do not modify)
 trigger time:  integer (will trigger on time), "up limit switch", "down limit switch"
     If trigger time is set to 0, then the action will occur immediately
 trigger action:  what occurs at trigger time or trigger action
-    "next action", "log", "fault" (log will log and go to next action)
+    "next action", "log cycles", "log timer", "log timer and cycles", fault" (log will log and go to next action)
 log name:  column data goes in on the log.  This is assigned to a goop parameter which is then used for the log.
     If trigger action is "fault", log name is the fault message
 count cycle:  True or False, if True will record 1 cycle at end of stage
@@ -42,7 +42,7 @@ TEST_PROCESS_DICT = {
         "message": "up cycle",
         "timer": 0,
         "trigger time": "up limit switch",
-        "trigger action": "next action",
+        "trigger action": "log timer",
         
         "log name": None,
         "count cycle": False,
@@ -72,7 +72,7 @@ TEST_PROCESS_DICT = {
         "message": "down delay, 5 secs",
         "timer": 0,
         "trigger time": 5,
-        "trigger action": "log",
+        "trigger action": "log cycles",
         
         "log name": None,
         "count cycle": False,
