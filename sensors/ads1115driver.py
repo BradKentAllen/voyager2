@@ -200,9 +200,14 @@ if __name__ == '__main__':
         while True:
             volt0 = ads.readADCSingleEnded(0)
             volt1 = ads.readADCSingleEnded(1)
+            volt2 = ads.readADCSingleEnded(2)
+            volt3 = ads.readADCSingleEnded(3)
             
-            print("{:.0f} mV AN0".format(volt0))
-            print("{:.0f} mV AN1".format(volt1))
+            print(f'{volt0:.0f} mV AN0')
+            print(f'{volt1:.0f} mV AN1')
+            print(f'{volt2:.0f} mV AN2')
+            print(f'{volt3:.0f} mV AN3')
+            #print("{:.0f} mV AN1".format(volt1))
             print('')
             
             time.sleep(2)

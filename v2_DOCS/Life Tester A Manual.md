@@ -47,6 +47,16 @@ nano ./data/life_cycles
 
 ```
 
+##### troubleshooting ssh
+
+Permission denied:  if password is correct, verify correct username (e.g. tester) and IP address
+
+connection refused:  this can be caused by several network issues:
+
+* wrong IP address
+* verify on same WIFI network
+* reboot RPi
+
 
 
 ### I2C Sensors and Devices

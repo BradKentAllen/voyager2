@@ -39,6 +39,8 @@ from LTA_goop import Goop
 import LTA_UI as UI
 import LTA_utilities as util
 
+from .sensors.ads1115driver import ADS1115
+
 
 
 class voyager_runner():
@@ -60,6 +62,9 @@ class voyager_runner():
         _menu_dict = UI.return_UI_dict()['welcome'].get('screen')
         _menu_dict['line1'] = f'{config.__project_name__}'
         self.lcd_mgr.display_menu(_menu_dict)
+
+        # #### Initiate I2C sensors
+        self.ads = ADS1115()
 
         # #### File Management
         util.validate_data_dir()
@@ -242,7 +247,12 @@ class voyager_runner():
                     if int(HHMMSS[2]) % 15 == 0 or int(HHMMSS[2]) == 0:
                         ### every 15 second jobs ####
                         #print('run 15 second job')
-                        pass
+                        # read motor temps
+                        self.goop.motor_temp = self.ads.readADCSingleEnded(0)
+                        self.goop.ambient_temp = self.ads.readADCSingleEnded(1)
+
+
+
 
 
 
