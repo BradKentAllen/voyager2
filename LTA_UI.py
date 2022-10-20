@@ -212,6 +212,23 @@ def return_session_cycles():
     except AttributeError:
         return "X"
 
+    #########################
+    #### Screen Updates ####
+    #########################
+    # screen updates modify a portion of the LCD
+    # this avoids flashing the LCD to change a monitored parameter such as time
+
+def update_current_timer():
+    try:
+        _time = str(goop.current_timer)
+    except AttributeError:
+        _time =  "X"
+
+    lcd_mgr.update_with_string(_time.rjust(4, ' '), 4, 0)
+
+
+
+
     ###################################
     #### User Interface Dictionary ####
     ###################################

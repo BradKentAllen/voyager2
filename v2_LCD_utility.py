@@ -15,6 +15,7 @@ or, second LCD object must be managed in parent object
 rev:
 8/21/22 - changed display_line to include spaces and overwrite old content
 10/9/22 - added self test
+10/20/22 - added update_with_string method
 '''
 
 import config
@@ -194,6 +195,13 @@ class LCD_manager:
             message = message + ((lcd_digits - length) * ' ')
 
         this_lcd.write_string(message, line, 0)
+
+    def update_with_string(self, string_to_write, line, pos=0, this_lcd=None):
+        '''places a string in a line without modifying rest of line
+        '''
+        if this_lcd is None:
+            this_lcd = self.main_lcd
+        this_lcd.write_string(string_to_write, line , pos)
 
     def display_char(self, char, line, pos, this_lcd=None):
         '''places cursor then character

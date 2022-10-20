@@ -224,6 +224,9 @@ class voyager_runner():
                             self.machine.output("UP_relay", "OFF")
                             self.machine.output("DOWN_relay", "OFF")
 
+                        # display timer
+                        UI.update_current_timer()
+
 
                         # ####################
 
@@ -251,8 +254,8 @@ class voyager_runner():
                         mv_A0 = self.ads.readADCSingleEnded(0)
                         mv_A1 = self.ads.readADCSingleEnded(1)
 
-                        self.goop.ambient_temp = util.return_TMP36_temp(mv_A0, f_degrees=True)
-                        self.goop.motor_temp = util.return_TMP36_temp(mv_A1, f_degrees=True)
+                        self.goop.ambient_temp = util.return_TMP36_temp(mv_A0, f_degrees=config.LOG_DEGREES_F)
+                        self.goop.motor_temp = util.return_TMP36_temp(mv_A1, f_degrees=config.LOG_DEGREES_F)
 
 
 
@@ -341,7 +344,7 @@ if __name__ == "__main__":
     signal.signal(signal.SIGINT, keyboardInterruptHandler)
 
     if config.DEBUG is True:
-        print('!!! WARNING:  Runing in DEBUG mode')
+        print('!!! WARNING:  Running in DEBUG mode')
         app.run()
     else:
         try:

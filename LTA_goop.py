@@ -23,12 +23,17 @@ class Goop():
     ''' data
     '''
     ### Life Tester Parameters
+    # settings
     running = False
     mx = False
     fault = False
     count_cycle = False  # cycles are counted at bottom, must run down first
     position = None  # 'None', 'passed_down', 'down', 'between', 'up', 'passed_up'
-    
+
+
+    # dynamic test parameters (set within the code)
+    current_timer = 0  # current stage timer value
+
     test_stage = None
     test_process = {}
 

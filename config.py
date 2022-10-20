@@ -83,15 +83,6 @@ TEST_PROCESS_DICT = {
 
 
 
-
-
-
-
-
-
-
-
-
     ################################
     #### (1.0) General Settings ####
     ################################
@@ -106,6 +97,8 @@ LIFE_CYCLES_FILENAME = "life_cycles"
 LOG_FILENAME = "log"
 
 LOG_COLUMNS = ('date', 'cycles', 'session cycles', 'up time', 'motor temp', 'ambient temp')
+
+LOG_DEGREES_F = True # False will log in C
 
 #### (1.2) # Time Zone
 local_time_zone = 'US/Pacific'
