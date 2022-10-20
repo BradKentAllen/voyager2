@@ -39,7 +39,7 @@ from LTA_goop import Goop
 import LTA_UI as UI
 import LTA_utilities as util
 
-from .sensors.ads1115driver import ADS1115
+from sensors.ads1115driver import ADS1115
 
 
 
