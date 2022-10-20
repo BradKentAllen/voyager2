@@ -35,6 +35,7 @@ def reset_timer(_timer):
     _timer["count"] = 0
     return _timer
 
+
 # ###################
 # #### Run Logic ####
 # ###################
@@ -255,12 +256,17 @@ def write_one_log_line():
         file.write(f'{goop.life_cycles}, ')
         file.write(f'{goop.session_cycles}, ')
         file.write(f'{goop.up_time}, ')
-        file.write(f'{goop.motor_temp}, ')
-        file.write(f'{goop.ambient_temp}, ')
+        file.write(f'{goop.motor_temp:.0f}, ')
+        file.write(f'{goop.ambient_temp:.0f}, ')
         file.write('\n')
 
 
-
+def return_TMP36_temp(signal_mv, f_degrees=False):
+    temp_C = ((signal_mv - 500) / 1000) * 100
+    if f_degrees is False:
+        return temp_C
+    else:
+        return (temp_C * 1.8) + 32
 
 
 

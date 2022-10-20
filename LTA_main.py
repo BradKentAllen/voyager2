@@ -248,8 +248,12 @@ class voyager_runner():
                         ### every 15 second jobs ####
                         #print('run 15 second job')
                         # read motor temps
-                        self.goop.motor_temp = self.ads.readADCSingleEnded(0)
-                        self.goop.ambient_temp = self.ads.readADCSingleEnded(1)
+                        mv_A0 = self.ads.readADCSingleEnded(0)
+                        mv_A1 = self.ads.readADCSingleEnded(1)
+
+                        self.goop.ambient_temp = util.return_TMP36_temp(mv_A0, f_degrees=True)
+                        self.goop.motor_temp = util.return_TMP36_temp(mv_A1, f_degrees=True)
+
 
 
 
