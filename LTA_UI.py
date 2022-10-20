@@ -13,6 +13,9 @@ special instruction:
     All buttons functions must be here
     Button functions are passed to v2_gpio for action
 
+    IMPORTANT:  Button functions are threads.  This can cause a number of issues including 
+    including with LCD functions and os functions.
+
 copyright 2022, MIT License, AditNW LLC
 
 rev 1.0 initial creation from MR_UI.py
@@ -180,19 +183,10 @@ def shutdown_RPi():
 def reboot_RPi():
     print('>>>> reboot RPi in UI')
     stop_all()
-    time.sleep(15)
-    print('A')
-    goop.main_thread_inhibit = True
-    print('B')
-    lcd_mgr.display_clear()
-    lcd_mgr.display_multi_line(
-        message_list = [('will reboot', 'left'),]
-        )
-    print('C')
-    time.sleep(45)
-    print('start reboot')
-    time.sleep(45)
-    RPi_util.reboot_RPi()
+    #goop.main_thread_inhibit = True
+    goop.mx = True
+    goop.os_operation = 'reboot'
+
 
     #########################
     #### UI Dict Methods ####

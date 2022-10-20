@@ -25,7 +25,7 @@ rev 1.3 refine
 '''
 
 # standard imports
-from time import time
+import time
 import signal
 
 # voyager2 imports
@@ -100,16 +100,16 @@ class voyager_runner():
     def run(self):
         # initiate key timing variables and update time
         last_milli = 0
-        start_milli = time() * 1000
+        start_milli = time.time() * 1000
         (last_hour, last_minute, last_second) = RPi_util.get_time(config.local_time_zone)
 
         while True and self.goop.main_thread_inhibit is False:
-            milli = (time() * 1000) - start_milli
+            milli = (time.time() * 1000) - start_milli
             
             #### deal with millis rolling
             # this should never happen
             if milli < 0:
-                milli = (time() * 1000)
+                milli = (time.time() * 1000)
                 last_milli = 0
 
 
@@ -231,7 +231,17 @@ class voyager_runner():
                         # ####################
 
                     elif self.goop.mx is True:
-                        pass
+                        # MX covers manual operations, when nothing happens here
+                        # and os operations
+                        if self.goop.os_operation == 'reboot':
+                            print('start reboot')
+                            self.lcd_mgr.display_multi_line(
+                                message_list = [('will Reboot', 'left'), ('NOW', 'left')]
+                                )
+                            time.sleep(10)
+                            print('reboot')
+                            RPi_util.reboot_RPi()
+
                     else:
                         UI.stop_all()
 
@@ -310,7 +320,7 @@ class voyager_runner():
             
 
             #### update milli
-            milli = (time() * 1000) - start_milli
+            milli = (time.time() * 1000) - start_milli
 
 
 def fault_handler(e):
