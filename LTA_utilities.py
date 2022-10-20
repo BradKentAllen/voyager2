@@ -95,6 +95,8 @@ def run_logic(up_limit_switch, down_limit_switch):
 
 
     goop.test_process[goop.test_stage]["timer"] +=1
+    # set current_timer for display
+    goop.current_timer = goop.test_process[goop.test_stage]["timer"]
 
     if _status == "fault":
         return "fault", _stage_data.get("log name")

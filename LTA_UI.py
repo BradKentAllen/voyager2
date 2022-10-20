@@ -180,14 +180,18 @@ def shutdown_RPi():
 def reboot_RPi():
     print('>>>> reboot RPi in UI')
     stop_all()
-    time.sleep(5)
+    time.sleep(15)
+    print('A')
     goop.main_thread_inhibit = True
+    print('B')
     lcd_mgr.display_clear()
     lcd_mgr.display_multi_line(
         message_list = [('will reboot', 'left'),]
         )
-    time.sleep(15)
+    print('C')
+    time.sleep(45)
     print('start reboot')
+    time.sleep(45)
     RPi_util.reboot_RPi()
 
     #########################
