@@ -231,16 +231,35 @@ class voyager_runner():
                         # ####################
 
                     elif self.goop.mx is True:
-                        # MX covers manual operations, when nothing happens here
+                        # MX covers manual operations, when nothing happens here,
                         # and os operations
                         if self.goop.os_operation == 'reboot':
                             print('start reboot')
                             self.lcd_mgr.display_multi_line(
-                                message_list = [('will Reboot', 'left'), ('NOW', 'left')]
+                                message_list = [('will Reboot', 'left'),
+                                    ('NOW', 'left'),
+                                    ('', 'left'),
+                                    ('Wait for Restart', 'left')]
                                 )
                             time.sleep(10)
-                            print('reboot')
+                            self.lcd_mgr.display_clear()
+                            time.sleep(2)
+
                             RPi_util.reboot_RPi()
+
+                        elif self.goop.os_operation == 'shut down':
+                            print('start shut down')
+                            self.lcd_mgr.display_multi_line(
+                                message_list = [('will shut down', 'left'),
+                                ('NOW', 'left'),
+                                ('', 'left'),
+                                ('wait for full off', 'left')]
+                                )
+                            time.sleep(10)
+                            self.lcd_mgr.display_clear()
+                            time.sleep(2)
+
+                            RPi_util.shutdown_RPi()
 
                     else:
                         UI.stop_all()
@@ -329,6 +348,11 @@ def fault_handler(e):
     '''
     # XXXX - Change to show on LCD
     UI.stop_all()
+    UI.LED_lights(
+        blue1="OFF",
+        blue2='OFF',
+        green='OFF',
+        red='ON')
     print(f'\nFAULT: {type(e).__name__}')
     if isinstance(e, str):
         pass

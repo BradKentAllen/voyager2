@@ -120,11 +120,14 @@ def manual_down():
     goop.mx = True
     machine.output("DOWN_relay", "ON")
 
+# #### Limit switches
+
 @fault_decorator
 def up_limit_switch_on_contact():
     print('\n>>>CONTACT up limit switch')
     if machine.gpio_objects.get('UP_relay').value == 1:
-        stop_all()
+        if config.CAN_PASS_UP_SWITCH is False:
+            stop_all()
 
 @fault_decorator
 def up_limit_switch_on_release():
@@ -134,7 +137,8 @@ def up_limit_switch_on_release():
 def down_limit_switch_on_contact():
     print('>>CONTACT down limit switch<<')
     if machine.gpio_objects.get('DOWN_relay').value == 1:
-        stop_all()
+        if config.CAN_PASS_DOWN_SWITCH is False:
+            stop_all()
 
 
 def test3_with_args():
@@ -143,6 +147,9 @@ def test3_with_args():
         print(f'the returned arg is: {goop.button3_args[0]}')
     except IndexError:
         print('IndexError in buttons test3_with args')
+
+
+# ### OS functions
 
 @fault_decorator
 def os():
@@ -168,22 +175,16 @@ def cancel():
 
 @fault_decorator
 def shutdown_RPi():
+    print('>>>> shut down RPi in UI')
     stop_all()
-    time.sleep(5)
-    goop.main_thread_inhibit = True
-    lcd_mgr.display_clear()
-    lcd_mgr.display_multi_line(
-        message_list = [('will shut down', 'left'),]
-        )
-    time.sleep(15)
-    RPi_util.shutdown_RPi()
+    goop.mx = True
+    goop.os_operation = 'shut down'
     
 
 @fault_decorator
 def reboot_RPi():
     print('>>>> reboot RPi in UI')
     stop_all()
-    #goop.main_thread_inhibit = True
     goop.mx = True
     goop.os_operation = 'reboot'
 

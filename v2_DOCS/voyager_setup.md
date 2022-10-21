@@ -163,19 +163,12 @@ sudo pip3 install adafruit-circuitpython-ina219   # ammeter and voltmeter
 
 
 
-
-
-# Test RPI_voyager is working
-
-XXXX - design a simple test program (e.g. alarm_clock style)
-
 # Set up auto start on boot up
 
-RPi_voyager is primarily intended for machines running autonomously and, as such, need to start their programs on boot.  To accomplish that, we will use the systemd package included with Raspbery Pi OS.  Using systemd, we can set up a 'service' that will start on boot.  The steps are:
+RPi_voyager is primarily intended for machines running autonomously and, as such, need to start their programs on boot.  To accomplish that, we will use the systemd package included with Raspbery Pi OS.  Using systemd, we can set up a 'service' that will start on boot.  The steps are: 
 
-1. Add a startUpProgram.py that calls the program you wish to start.  This is not required but allows you to easily change what program you want to start without using the systemctl.  (note: if you choose to start a program other than RPi_app.py, you will need to modify startUpProgram.py and add some code to your program.  See XXXXADD LINK Services and systemctl for more details)
-2. Create a service (script) that systemctl uses at boot to call the startUpProgram.  
-3. enable the system to run at boot
+1. Create a service (script) that systemctl uses at boot to call your program.  
+2. Use systemctl to enable the system to run at boot
 
 Once you have done this, there are some things to keep in mind:
 
@@ -197,13 +190,7 @@ sudo systemctl disable Start.service	# disables auto start
 
 ### Set up auto start
 
-##### Step 1:  Verify you have startUpProgram.py
-
-You must have startUpProgram.py in your /home/pi directory for this to work.  If it is not there:
-
-XXXX How to get startUpProgram.py
-
-**Step 2: Set up Start.service**
+##### Step 1:  Set up Start.service
 
 On command line, create Start.service: 
 
@@ -219,7 +206,7 @@ Description=serviceStart
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/python3 -u startUpProgram.py
+ExecStart=/usr/bin/python3 -u your_startup_program.py
 WorkingDirectory=/home/pi
 StandardOutput=inherit
 StandardError=inherit
@@ -232,7 +219,7 @@ WantedBy=multi-user.target
 Note some important things going on in this service:
 
 * ExecStart:  It is calling the program startUpProgram.py using python3
-* WorkingDirectory:  note this
+* WorkingDirectory:  note this needs to be your working directory.  By default this is /home/pi but may have a different name or even be another directory
 * User:  by designating user as "root" you give full root permission to the program call (equivalent to sudo python3).  This is required for the RPi to effectively call inputs and outputs under the RPi_voyager schema.
 
 It is a wise idea to test that your service is working.  To test:
@@ -251,7 +238,7 @@ sudo systemctl enable Start.service		# enable the startup.
 
 For more depth on how this works, see XXXXADD LINK Services and systemctl
 
-### XXX - Copied, not reviewd
+### XXX - DRAFT, not reviewed
 
 ### WIFI
 

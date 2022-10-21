@@ -180,6 +180,7 @@ custom_chars = {
 #### (3.2) # Buttons
 # button pullup is True if button connects input to ground
 # button pullup is False if button connects input to 3V3
+
 BUTTON_PULLUP = False
 
 BUTTON_BOUNCE = .1  # debounce time for buttons.  0 to .3 seconds.  Limit switches are best at .1
@@ -188,25 +189,10 @@ BUTTON_BOUNCE = .1  # debounce time for buttons.  0 to .3 seconds.  Limit switch
 BUTTON_HOLD_TIME = 2
 
 
-    #############################
-    #### 4.0 Life Test Timer ####
-    #############################
 
-# input names
-input1_name = 'lower limit switch'
-input2_name = 'upper limit switch'
 
-# output names
-output1_name = 'motor up'
-output2_name = 'motor down'
 
-timer_dict = {
-    'timer1': {'name': 'lower limit switch',
-        'countdown': 0,
-        'status': False,
-        'timer_time_sec': 25,
-        },
-    }
+
 
 
 
