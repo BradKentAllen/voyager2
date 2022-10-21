@@ -223,7 +223,7 @@ def update_current_timer():
     except AttributeError:
         _time =  "X"
 
-    lcd_mgr.update_with_string(_time.rjust(4, ' '), 4, 0)
+    lcd_mgr.update_with_string(_time.rjust(4, ' '), 1, 16)
 
 
 
@@ -240,11 +240,11 @@ def return_UI_dict():
     _UI_dict = {
         'welcome': {
             'screen': {
-                'line1': 'Loading...',
+                'line1': f'{config.__project_name__}',
                 'line1_justification': 'left',
                 'line2': 'Voyager 2',
                 'line2_justification': 'left',
-                'line3': f'rev {config.__revision__}',
+                'line3': f'rev {config.__revision__}, {config.__status__}',
                 'line3_justification': 'left',
                 'line4': '',
                 'line4_justification': 'left',
@@ -259,7 +259,7 @@ def return_UI_dict():
                     'line1_justification': 'left',
                     'line2': f'total: {return_life_cycles()}',
                     'line2_justification': 'left',
-                    'line3': f'{RPi_util.get_IP_address()}',
+                    'line3': f'IP: {RPi_util.get_IP_address()}',
                     'line3_justification': 'left',
                     'line4': '<next         START>',
                     'line4_justification': 'left',

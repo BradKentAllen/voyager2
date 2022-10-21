@@ -41,7 +41,7 @@ import LTA_utilities as util
 
 from sensors.ads1115driver import ADS1115
 
-
+keyboard_stop_flag = False  # used to bypass fault handler in keyboard interrupt
 
 class voyager_runner():
     def __init__(self):
@@ -60,7 +60,6 @@ class voyager_runner():
         # #### Initialize UI
         # LCD welcome display (will stay on for goop.startup_seconds)
         _menu_dict = UI.return_UI_dict()['welcome'].get('screen')
-        _menu_dict['line1'] = f'{config.__project_name__}'
         self.lcd_mgr.display_menu(_menu_dict)
 
         # #### Initiate I2C sensors
@@ -362,6 +361,7 @@ def fault_handler(e):
 
 def keyboardInterruptHandler(signal, frame):
     '''safe handle ctl-c stop'''
+    keyboard_stop_flag = True
     UI.stop_all()
     UI.LED_lights(
         blue1="ON",
@@ -369,7 +369,7 @@ def keyboardInterruptHandler(signal, frame):
         green='OFF',
         red='OFF')
     print("\nKeyboard Interrupt handler")
-    exit(0)
+    exit()
 
 
 if __name__ == "__main__":
@@ -384,7 +384,11 @@ if __name__ == "__main__":
         try:
             app.run()
         except Exception as e:
-            fault_handler(e)
+            if keyboard_stop_flag is False:
+                fault_handler(e)
+            else:
+                # this route prevents str fault in a keyboard interrupt
+                pass
         except:
             fault_handler('unspecified fault')
         else:

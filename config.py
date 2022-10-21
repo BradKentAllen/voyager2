@@ -10,9 +10,9 @@ description:
 
 special instruction:
 '''
-__project_name__ = "Life Tester"
-__revision__ = 'v1.3'
-__status__ = 'DEV' # 'DEV', 'alpha', 'beta', 'production'
+__project_name__ = "Life Tester A"
+__revision__ = 'v1.4'
+__status__ = 'alpha' # 'DEV', 'alpha', 'beta', 'production'
 
 
     ################################
