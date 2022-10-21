@@ -51,9 +51,10 @@ def run_logic(up_limit_switch, down_limit_switch):
     Turns flags on and off but does not drive gpio
     Drive gpio separately.
     '''
-    print(f'\nrun logic:')
-    print(f'up switch: {up_limit_switch}, down switch: {down_limit_switch}')
-    print(f'stage: {goop.test_stage}')
+    if config.DEBUG is True:
+        print(f'\nrun logic:')
+        print(f'up switch: {up_limit_switch}, down switch: {down_limit_switch}')
+        print(f'stage: {goop.test_stage}')
 
     _stage_data = goop.test_process.get(goop.test_stage)
     _action = None

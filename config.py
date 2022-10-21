@@ -49,9 +49,9 @@ TEST_PROCESS_DICT = {
         },
     "2 top delay": {
         "action": "stop",
-        "message": "up delay, 5 secs",
+        "message": "up delay, 15 secs",
         "timer": 0,
-        "trigger time": 5,
+        "trigger time": 15,
         "trigger action": "next action",
         
         "log name": None,
@@ -69,9 +69,9 @@ TEST_PROCESS_DICT = {
         },
     "4 down delay": {
         "action": "stop",
-        "message": "down delay, 5 secs",
+        "message": "down delay, 15 secs",
         "timer": 0,
-        "trigger time": 5,
+        "trigger time": 15,
         "trigger action": "log cycles",
         
         "log name": None,

@@ -26,9 +26,13 @@ Life testers cause machines to operate on their own, operate when no one is pres
 
 flashing green:  normal operation
 
-flashing red:  fault, all gpio should be stopped
-
 two blue:  keyboard interrupt has stopped function
+
+steady red:  main fault, all gpio should be stopped and script should have faulted out
+
+flashing red:  thread fault, all gpio should be stopped but main script is still functioning
+
+
 
 
 

@@ -41,7 +41,8 @@ import LTA_utilities as util
 
 from sensors.ads1115driver import ADS1115
 
-keyboard_stop_flag = False  # used to bypass fault handler in keyboard interrupt
+global keyboard_stop_flag  # used to bypass fault handler in keyboard interrupt
+keyboard_stop_flag = False
 
 class voyager_runner():
     def __init__(self):
@@ -212,7 +213,7 @@ class voyager_runner():
                         if _update_UI_flag == "fault":
                             UI.fault_handler(_action)
 
-                        print(f'>>action: {_action}')
+                        if config.DEBUG is True: print(f'## action: {_action}')
 
                         # execute gpio actions
                         if _action == "go UP":
@@ -345,22 +346,27 @@ def fault_handler(e):
     '''Handles faults within the timing loops
     Faults in gpio threads are handled by the decorator in UI
     '''
-    # XXXX - Change to show on LCD
+    global keyboard_stop_flag
     UI.stop_all()
-    UI.LED_lights(
-        blue1="OFF",
-        blue2='OFF',
-        green='OFF',
-        red='ON')
-    print(f'\nFAULT: {type(e).__name__}')
-    if isinstance(e, str):
-        pass
+
+    if keyboard_stop_flag is False:
+        UI.LED_lights(
+            blue1="OFF",
+            blue2='OFF',
+            green='OFF',
+            red='ON')
+        if isinstance(e, str):
+            pass
+        else:
+            print(f'reason: {e.args}')
     else:
-        print(f'reason: {e.args}')
+        # this should only occur in keyboard interrupt
+        pass
     exit()
 
 def keyboardInterruptHandler(signal, frame):
     '''safe handle ctl-c stop'''
+    global keyboard_stop_flag
     keyboard_stop_flag = True
     UI.stop_all()
     UI.LED_lights(
@@ -368,7 +374,6 @@ def keyboardInterruptHandler(signal, frame):
         blue2='ON',
         green='OFF',
         red='OFF')
-    print("\nKeyboard Interrupt handler")
     exit()
 
 
@@ -384,17 +389,14 @@ if __name__ == "__main__":
         try:
             app.run()
         except Exception as e:
-            if keyboard_stop_flag is False:
-                fault_handler(e)
-            else:
-                # this route prevents str fault in a keyboard interrupt
-                pass
+            fault_handler(e)
         except:
             fault_handler('unspecified fault')
         else:
             UI.stop_all()
             print('nothing was caught, this is else')
             exit()
+
 
  
 

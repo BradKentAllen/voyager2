@@ -257,7 +257,7 @@ def return_UI_dict():
                 'screen': {
                     'line1': f'{return_message()}',
                     'line1_justification': 'left',
-                    'line2': f'total: {return_life_cycles()}',
+                    'line2': f'total cycles: {return_life_cycles()}',
                     'line2_justification': 'left',
                     'line3': f'IP: {RPi_util.get_IP_address()}',
                     'line3_justification': 'left',
@@ -349,7 +349,7 @@ def return_UI_dict():
                     'line1_justification': 'left',
                     'line2': f'{return_message()}',
                     'line2_justification': 'left',
-                    'line3': f'{return_session_cycles()} / {return_life_cycles()}',
+                    'line3': f'cycles: {return_session_cycles()} / {return_life_cycles()}',
                     'line3_justification': 'left',
                     'line4': '              STOP>',
                     'line4_justification': 'left',
