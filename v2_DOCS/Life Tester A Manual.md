@@ -49,6 +49,10 @@ cat ./data/log	  # this shows the entire file
 # modify the stored cycles (modify then save with ctl-X and "Y")
 nano ./data/life_cycles
 
+# transfer files
+scp LTA_main.py tester@192.168.1.10:
+scp sensor_driver.py tester@192.168.1.10:./sensors
+
 ```
 
 ##### troubleshooting ssh

@@ -211,6 +211,12 @@ def return_session_cycles():
     except AttributeError:
         return "X"
 
+def return_temps():
+    try:
+        return f'{goop.motor_temp:.0f} / {goop.ambient_temp:.0f}'
+    except AttributeError:
+        return "X"
+
     #########################
     #### Screen Updates ####
     #########################
@@ -351,7 +357,7 @@ def return_UI_dict():
                     'line2_justification': 'left',
                     'line3': f'cycles: {return_session_cycles()} / {return_life_cycles()}',
                     'line3_justification': 'left',
-                    'line4': '              STOP>',
+                    'line4': f'{return_temps():<9}     STOP>',
                     'line4_justification': 'left',
                     },
                 'button2': stop,
