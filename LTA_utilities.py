@@ -65,6 +65,10 @@ def run_logic(up_limit_switch, down_limit_switch):
     if up_limit_switch is True and down_limit_switch is True:
         fault_msg = '2x switches engaged'
         return "fault", fault_msg
+    elif goop.test_process[goop.test_stage]["fault time"] is not None:
+        if goop.test_process[goop.test_stage]["timer"] >= goop.test_process[goop.test_stage]["fault time"]:
+            fault_msg = goop.test_process[goop.test_stage]["fault message"]
+            return "fault", fault_msg
 
     # #### react to triggers
     if _stage_data.get("trigger time") == "up limit switch" and up_limit_switch is True:

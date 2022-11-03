@@ -44,14 +44,14 @@ TEST_PROCESS_DICT = {
         "trigger time": "up limit switch",
         "trigger action": "log timer",
         
-        "fault time": None,
-        "fault message": False,
+        "fault time": 10,
+        "fault message": "excess up time",
         },
     "2 top delay": {
         "action": "stop",
         "message": "up delay, 15 secs",
         "timer": 0,
-        "trigger time": 15,
+        "trigger time": 3,
         "trigger action": "next action",
         
         "fault time": None,
@@ -71,7 +71,7 @@ TEST_PROCESS_DICT = {
         "action": "stop",
         "message": "down delay, 15 secs",
         "timer": 0,
-        "trigger time": 15,
+        "trigger time": 3,
         "trigger action": "log cycles",
         
         "fault time": None,
