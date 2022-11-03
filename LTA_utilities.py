@@ -166,10 +166,10 @@ def determine_initial_stage():
     XXXX - problems here including logic and use of actual cycle name
     '''
     for _stage, _data in goop.test_process.items():
-        # XXXX create logic
-        pass
+        if "down cycle" in _stage:
+            return _stage
 
-    return "3 down cycle"
+    return _stage
 
 def find_initial_position(up_limit_switch, down_limit_switch):
     '''logic to fill goop.position

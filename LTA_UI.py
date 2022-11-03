@@ -42,27 +42,24 @@ def fault_handler(e):
 
     IMPORTANT:  the overall Main loop handler is in main
     '''
-    # XXXX - Change to show on LCD
-    #stop_all()
     goop.fault = True
     
     if isinstance(e, str):
-        print('\nCalled Fault')
-        print(e)
+        if config.DEBUG is True:
+            print('\nCalled Fault')
+            print(e)
         goop.fault_msg = e
     else:
-        print(f'\nTHREAD FAULT: {type(e).__name__}')
-        print(f'reason: {e.args}')
+        if config.DEBUG is True:
+            print(f'\nTHREAD FAULT: {type(e).__name__}')
+            print(f'reason: {e.args}')
         goop.fault_msg = e
     goop.mx = False
-    print('A')
     goop.running = False
     goop.current_screen_group = "home"
     goop.current_screen = "main"
     goop.init_UI = True # will run full init of UI
-    print('>>>>>end')
-    
-    #exit()
+
 
 def fault_decorator(func):
     def wrapper():

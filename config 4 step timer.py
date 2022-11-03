@@ -47,27 +47,17 @@ TEST_PROCESS_DICT = {
         "fault time": 10,
         "fault message": "excess up time",
         },
-    "2 top switch delay": {
+    "2 top delay": {
         "action": "stop",
-        "message": "switch delay, 2 sec",
+        "message": "up delay, 15 secs",
         "timer": 0,
-        "trigger time": 2,
+        "trigger time": 3,
         "trigger action": "next action",
         
         "fault time": None,
         "fault message": False,
         },
-    "3 top delay": {
-        "action": "stop",
-        "message": "up delay, 5 secs",
-        "timer": 0,
-        "trigger time": 5,
-        "trigger action": "next action",
-        
-        "fault time": None,
-        "fault message": False,
-        },
-    "4 down cycle": {
+    "3 down cycle": {
         "action": "go DOWN",
         "message": "down cycle",
         "timer": 0,
@@ -77,21 +67,11 @@ TEST_PROCESS_DICT = {
         "fault time": None,
         "fault message": False,
         },
-    "5 top switch delay": {
+    "4 down delay": {
         "action": "stop",
-        "message": "switch delay, 2 sec",
+        "message": "down delay, 15 secs",
         "timer": 0,
-        "trigger time": 2,
-        "trigger action": "next action",
-        
-        "fault time": None,
-        "fault message": False,
-        },
-    "6 down delay": {
-        "action": "stop",
-        "message": "down delay, 5 secs",
-        "timer": 0,
-        "trigger time": 5,
+        "trigger time": 3,
         "trigger action": "log cycles",
         
         "fault time": None,
