@@ -11,8 +11,8 @@ description:
 special instruction:
 '''
 __project_name__ = "Life Tester A"
-__revision__ = 'v1.4'
-__status__ = 'alpha' # 'DEV', 'alpha', 'beta', 'production'
+__revision__ = 'v1.5'
+__status__ = 'beta' # 'DEV', 'alpha', 'beta', 'production'
 
 
     ################################
