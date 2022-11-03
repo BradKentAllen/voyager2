@@ -63,8 +63,8 @@ def run_logic(up_limit_switch, down_limit_switch):
 
     # #### Faults ####
     if up_limit_switch is True and down_limit_switch is True:
-        actions_dict["fault"] = 'Both limit switches are engaged'
-        return actions_dict
+        fault_msg = 'Both limit switches are engaged'
+        return "fault", fault_msg
 
     # #### react to triggers
     if _stage_data.get("trigger time") == "up limit switch" and up_limit_switch is True:
@@ -94,8 +94,9 @@ def run_logic(up_limit_switch, down_limit_switch):
             _update_UI = True
             
 
-
+    # increment the main stage time
     goop.test_process[goop.test_stage]["timer"] +=1
+
     # set current_timer for display
     goop.current_timer = goop.test_process[goop.test_stage]["timer"]
 
@@ -176,14 +177,10 @@ def find_initial_position(up_limit_switch, down_limit_switch):
 
     if up_limit_switch is True:
         goop.position = 'up'
-        goop.run_direction = 'stop'
     elif down_limit_switch is True:
         goop.position = 'down'
-        goop.run_direction = 'stop'
-
     else:
         goop.position = 'between'
-        goop.run_direction = 'going_down'
 
     return "good"
 

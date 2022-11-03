@@ -43,22 +43,26 @@ def fault_handler(e):
     IMPORTANT:  the overall Main loop handler is in main
     '''
     # XXXX - Change to show on LCD
-    stop_all()
+    #stop_all()
     goop.fault = True
     
     if isinstance(e, str):
         print('\nCalled Fault')
         print(e)
+        goop.fault_msg = e
     else:
         print(f'\nTHREAD FAULT: {type(e).__name__}')
         print(f'reason: {e.args}')
+        goop.fault_msg = e
     goop.mx = False
+    print('A')
     goop.running = False
     goop.current_screen_group = "home"
     goop.current_screen = "main"
     goop.init_UI = True # will run full init of UI
+    print('>>>>>end')
     
-    exit()
+    #exit()
 
 def fault_decorator(func):
     def wrapper():
@@ -88,8 +92,7 @@ def start():
     goop.mx = False
     goop.running = True
     # XXXX change to down for initial direction
-    if goop.run_direction == 'stop' and goop.position == 'between':
-        goop.run_direction = "going up"
+    goop.position = "down"
     goop.current_screen_group = "run"
     goop.current_screen = "running"
     goop.init_UI = True # will run full init of UI

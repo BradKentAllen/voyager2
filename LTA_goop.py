@@ -27,6 +27,7 @@ class Goop():
     running = False
     mx = False
     fault = False
+    fault_msg = None
     os_operation = None # None, 'reboot', 'shut down'
     count_cycle = False  # cycles are counted at bottom, must run down first
     position = None  # 'None', 'passed_down', 'down', 'between', 'up', 'passed_up'

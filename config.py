@@ -44,8 +44,8 @@ TEST_PROCESS_DICT = {
         "trigger time": "up limit switch",
         "trigger action": "log timer",
         
-        "log name": None,
-        "count cycle": False,
+        "fault time": None,
+        "fault message": False,
         },
     "2 top delay": {
         "action": "stop",
@@ -54,8 +54,8 @@ TEST_PROCESS_DICT = {
         "trigger time": 15,
         "trigger action": "next action",
         
-        "log name": None,
-        "count cycle": False,
+        "fault time": None,
+        "fault message": False,
         },
     "3 down cycle": {
         "action": "go DOWN",
@@ -64,8 +64,8 @@ TEST_PROCESS_DICT = {
         "trigger time": "down limit switch",
         "trigger action": "next action",
         
-        "log name": None,
-        "count cycle": False,
+        "fault time": None,
+        "fault message": False,
         },
     "4 down delay": {
         "action": "stop",
@@ -74,8 +74,8 @@ TEST_PROCESS_DICT = {
         "trigger time": 15,
         "trigger action": "log cycles",
         
-        "log name": None,
-        "count cycle": False,
+        "fault time": None,
+        "fault message": False,
         },
         
     }

@@ -200,7 +200,15 @@ class voyager_runner():
                     # ----------------------------------------------
 
                     #### On second jobs ####
-                    if self.goop.running is True:
+                    if self.goop.fault is True:
+                        screen_dict = UI.return_UI_dict()['home']['main']
+                        screen_dict['screen']['line1'] = 'Fault Shut Down'
+                        screen_dict['screen']['line3'] = self.goop.fault_msg
+                        screen_dict['screen']['line4'] = 'must restart'
+
+                        self.lcd_mgr.display_menu(UI.return_UI_dict()[self.goop.current_screen_group][self.goop.current_screen].get('screen'))
+
+                    elif self.goop.running is True:
                         
                         # ####################
                         # #### RUN LOGIC #####
@@ -280,6 +288,7 @@ class voyager_runner():
                         ### every 15 second jobs ####
                         #print('run 15 second job')
                         # read motor temps
+                        # Error traps if ADS1115 is not attached
                         try:
                             mv_A0 = self.ads.readADCSingleEnded(0)
                             mv_A1 = self.ads.readADCSingleEnded(1)
