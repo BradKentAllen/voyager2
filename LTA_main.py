@@ -120,7 +120,9 @@ class voyager_runner():
                 # none
 
                 #### Second ####
+
                 if last_second != HHMMSS[2]:
+                    print(f'fault: {self.goop.fault}')
                     # redo last_second
                     last_second = HHMMSS[2]
                     #### Every second jobs ####
@@ -179,19 +181,28 @@ class voyager_runner():
                         # #### Startup Actions Only ####
                         self.goop.startup_seconds -= 1
                     else:
-                        # #### Regular Actions (after startup) ####
-                        # ### Change button functions once
-                        if self.goop.init_UI is True:
-                            self.machine.redefine_button_actions(
-                                button1_function = UI.next_screen,
-                                button2_function = UI.return_UI_dict()[self.goop.current_screen_group][self.goop.current_screen].get('button2'),
-                                button3_function = UI.return_UI_dict()[self.goop.current_screen_group][self.goop.current_screen].get('button3')
-                                )
-                            self.goop.init_UI = False
+                        if self.goop.fault is True:
+                            if config.DEBUG is True: print('>>>> FAULT DISPLAY <<<<')
+                            # lead with fault during operation
+                            screen_dict = UI.return_UI_dict()['home']['main']['screen']
+                            screen_dict['line1'] = 'FAULT stop'
+                            screen_dict['line3'] = self.goop.fault_msg
 
-                        # ### update LCD
-                        #print(f'>>>DEBUG {goop.current_screen_group} - {goop.current_screen}')
-                        self.lcd_mgr.display_menu(UI.return_UI_dict()[self.goop.current_screen_group][self.goop.current_screen].get('screen'))
+                            self.lcd_mgr.display_menu(screen_dict)
+                        else:
+                            # #### Regular Actions (after startup) ####
+                            # ### Change button functions once
+                            if self.goop.init_UI is True:
+                                self.machine.redefine_button_actions(
+                                    button1_function = UI.next_screen,
+                                    button2_function = UI.return_UI_dict()[self.goop.current_screen_group][self.goop.current_screen].get('button2'),
+                                    button3_function = UI.return_UI_dict()[self.goop.current_screen_group][self.goop.current_screen].get('button3')
+                                    )
+                                self.goop.init_UI = False
+
+                            # ### update LCD
+                            #print(f'>>>DEBUG {goop.current_screen_group} - {goop.current_screen}')
+                            self.lcd_mgr.display_menu(UI.return_UI_dict()[self.goop.current_screen_group][self.goop.current_screen].get('screen'))
 
 
                     
@@ -200,15 +211,8 @@ class voyager_runner():
                     # ----------------------------------------------
 
                     #### On second jobs ####
-                    if self.goop.fault is True:
-                        screen_dict = UI.return_UI_dict()['home']['main']
-                        screen_dict['screen']['line1'] = 'Fault Shut Down'
-                        screen_dict['screen']['line3'] = self.goop.fault_msg
-                        screen_dict['screen']['line4'] = 'must restart'
-
-                        self.lcd_mgr.display_menu(UI.return_UI_dict()[self.goop.current_screen_group][self.goop.current_screen].get('screen'))
-
-                    elif self.goop.running is True:
+                    
+                    if self.goop.running is True:
                         
                         # ####################
                         # #### RUN LOGIC #####

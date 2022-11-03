@@ -63,7 +63,7 @@ def run_logic(up_limit_switch, down_limit_switch):
 
     # #### Faults ####
     if up_limit_switch is True and down_limit_switch is True:
-        fault_msg = 'Both limit switches are engaged'
+        fault_msg = '2x switches engaged'
         return "fault", fault_msg
 
     # #### react to triggers
