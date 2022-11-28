@@ -80,3 +80,28 @@ Voyager 2 setup has I2C tools loaded by default.  This is a command line set of 
 sudo i2cdetect -y 1		# see all I2C devices
 ```
 
+
+
+### Hardware Pinout
+
+On Jim Hawkins Board:
+
+Header 1 (8 pin):
+
+* pin 1:  Ground
+* pin 2:  3.3 VDC
+* pin 3:  (output 26, jumpered)  Up Relay
+* pin 4: (output 15)  Down Relay
+* pin 5: (output 18)  up limit switch
+* pin 6: (output 23)  down limit switch
+* pin 7: (output 24)  not used
+* pin 8: (output 21, jumpered)  not used
+
+Header 2 (6 pin):  Buttons
+
+* pin 1:  ground
+* pin 2:  3.3 VDC
+* pin 3:  (output 12)  button 1 (next screen)
+* pin 4:  (output 16) button 2 (right lower)
+* pin 5:  (output 20)  button 3 (right upper)
+* pin 6:  not used

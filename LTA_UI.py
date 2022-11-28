@@ -29,6 +29,7 @@ import RPi_utilities as RPi_util
 
 # application specific imports
 import config
+import LTA_utilities as util
 
 # key objects filled by XXX_main.py
 goop = None
@@ -49,11 +50,13 @@ def fault_handler(e):
             print('\nCalled Fault')
             print(e)
         goop.fault_msg = e
+        util.write_fault_log_line(e)
     else:
         if config.DEBUG is True:
             print(f'\nTHREAD FAULT: {type(e).__name__}')
             print(f'reason: {e.args}')
-        goop.fault_msg = e
+        goop.fault_msg = e.args
+        util.write_fault_log_line(e.args)
     goop.mx = False
     goop.running = False
     goop.current_screen_group = "home"

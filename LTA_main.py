@@ -369,9 +369,10 @@ def fault_handler(e):
             green='OFF',
             red='ON')
         if isinstance(e, str):
-            pass
+            util.write_fault_log_line(e)
         else:
             print(f'reason: {e.args}')
+            util.write_fault_log_line(e.args)
     else:
         # this should only occur in keyboard interrupt
         pass
@@ -380,6 +381,7 @@ def fault_handler(e):
 def keyboardInterruptHandler(signal, frame):
     '''safe handle ctl-c stop'''
     global keyboard_stop_flag
+    util.write_fault_log_line("keyboard interrupt")
     keyboard_stop_flag = True
     UI.stop_all()
     UI.LED_lights(

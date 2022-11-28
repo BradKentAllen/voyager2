@@ -265,6 +265,13 @@ def write_one_log_line():
         file.write('\n')
 
 
+def write_fault_log_line(fault_msg):
+    _file_pathname = os.path.join(config.DATA_DIR, config.LOG_FILENAME)
+    with open(_file_pathname, "a") as file:
+        file.write(f'{return_datetime_stamp()}, ')
+        file.write(f'{fault_msg}, ')
+        file.write('\n')
+
 def return_TMP36_temp(signal_mv, f_degrees=False):
     temp_C = ((signal_mv - 500) / 1000) * 100
     if f_degrees is False:
