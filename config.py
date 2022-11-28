@@ -11,7 +11,7 @@ description:
 special instruction:
 '''
 __project_name__ = "Life Tester A"
-__revision__ = 'v1.5'
+__revision__ = 'v1.6'
 __status__ = 'beta' # 'DEV', 'alpha', 'beta', 'production'
 
 
@@ -44,8 +44,8 @@ TEST_PROCESS_DICT = {
         "trigger time": "up limit switch",
         "trigger action": "log timer",
         
-        "fault time": 10,
-        "fault message": "excess up time",
+        "fault time": 1800,
+        "fault message": "up cycle time fault",
         },
     "2 top switch delay": {
         "action": "stop",
@@ -59,9 +59,9 @@ TEST_PROCESS_DICT = {
         },
     "3 top delay": {
         "action": "stop",
-        "message": "up delay, 5 secs",
+        "message": "up delay, 95 secs",
         "timer": 0,
-        "trigger time": 5,
+        "trigger time": 95,
         "trigger action": "next action",
         
         "fault time": None,
@@ -74,8 +74,8 @@ TEST_PROCESS_DICT = {
         "trigger time": "down limit switch",
         "trigger action": "next action",
         
-        "fault time": None,
-        "fault message": False,
+        "fault time": 1800,
+        "fault message": "down cycle time fault",
         },
     "5 top switch delay": {
         "action": "stop",
@@ -89,9 +89,9 @@ TEST_PROCESS_DICT = {
         },
     "6 down delay": {
         "action": "stop",
-        "message": "down delay, 5 secs",
+        "message": "down delay, 95 secs",
         "timer": 0,
-        "trigger time": 5,
+        "trigger time": 95,
         "trigger action": "log cycles",
         
         "fault time": None,
