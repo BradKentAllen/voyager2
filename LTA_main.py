@@ -198,7 +198,11 @@ class voyager_runner():
                             screen_dict['line4'] = self.goop.fault_msg
 
                         # ### update LCD
-                        self.lcd_mgr.display_menu(screen_dict)
+                        # try/except added Dec 6, 2022 based on tests with weather station
+                        try:
+                            self.lcd_mgr.display_menu(screen_dict)
+                        except OSError:
+                            self.lcd_mgr.restart_LCD()
 
 
                     
