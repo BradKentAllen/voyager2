@@ -50,3 +50,18 @@ kill <PID>
 
 ```
 
+### GPIO
+
+https://embeddedcomputing.com/technology/processing/interface-io/quick-start-raspberry-pi-gpio-terminal-interface
+
+```
+raspi-gpio get  # prints the state of all GPIO pins
+raspi-gpio get X  # prints the state of GPIO pin X
+raspi-gpio set X op  # sets GPIO pin X as an output
+raspi-gpio set X dh  # sets GPIO pin X to drive high
+raspi-gpio set X dl  # sets GPIO pin X to drive low
+
+# can be combined
+raspi-gpio set 10 op dh
+```
+

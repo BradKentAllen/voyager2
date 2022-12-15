@@ -79,10 +79,10 @@ class Machine:
         #self.redefine_button_actions(self.button_1_default, self.button_2_default, self.button_3_default)
 
     def redefine_button_actions(self, button1_function, button2_function, button3_function):
-        #print('### redefine_button_actions (in Machine/gpio')
-        #print('looking at button1_function:')
-        #print(button1_function.__name__)
-        #print(type(button1_function))
+        print('### redefine_button_actions (in Machine/gpio')
+        print('looking at button1_function:')
+        print(button1_function.__name__)
+        print(type(button1_function))
         self.gpio_objects.get('button_1').when_pressed = button1_function
         self.gpio_objects.get('button_2').when_pressed = button2_function
         self.gpio_objects.get('button_3').when_pressed = button3_function
