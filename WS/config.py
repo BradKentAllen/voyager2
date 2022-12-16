@@ -21,7 +21,11 @@ __status__ = 'DEV' # 'DEV', 'alpha', 'beta', 'production'
     #### (1.0) General Settings ####
     ################################
 
-# #### (1.0) Test Settings
+# #### (1.0) Weather Station Settings
+max_tide = 15.7
+min_tide = -4
+
+rain_gage_per_count = .0157  # inches per tip.  .0157 is .4 mm
 
 
 # #### (1.1) File structure
@@ -73,7 +77,7 @@ RPi_PINOUT_BCM = {
         # Header 1 (by power jack, 6-pin) ONLY 4-PIN on Modem Rider
     "Header 1 - pin 3": {'name': 'UP_relay', 'type': 'LED', 'pin': 26}, # Jim Hawkins, header 1, pin 3
     "Header 1 - pin 4": {'name': 'DOWN_relay', 'type': 'LED', 'pin': 15}, # Jim Hawkins, header 1, pin 4
-    "Header 1 - pin 5": {'name': 'up_switch', 'type': 'Button', 'pin': 18}, # Jim Hawkins, header 1, pin 5
+    "Header 1 - pin 5": {'name': 'rain_gage', 'type': 'Button', 'pin': 18}, # Jim Hawkins, header 1, pin 5
     "Header 1 - pin 6": {'name': 'down_switch', 'type': 'Button', 'pin': 23}, # Jim Hawkins, header 1, pin 6
     "Header 1 - pin 7": {'name': 'input3', 'type': 'Button', 'pin': 24}, # Jim Hawkins, header 1, pin 7
 

@@ -79,12 +79,19 @@ class voyager_runner():
         util.update_tides_with_API()
         retreived_tide_dict = util.get_pickled_cache('tide_dict')
 
-        self.goop.tide_data_dict = tides.tide_LCD(retreived_tide_dict)
+        self.goop.tide_data_dict = tides.tide_LCD(
+            tide_dict=retreived_tide_dict,
+            previous_tide_data=None,
+            tide_max=15.7,
+            tide_min=-4,
+            display_range=20,
+            )
 
         # ### Assign functions to interupts
         # Buttons 1, 2, and 3 are assigned dynamically but other "buttons", which
         # includes limit switches, are assinged here
         # example:  self.machine.gpio_objects.get('up_switch').when_pressed = UI.up_limit_switch_on_contact
+        self.machine.gpio_objects.get('rain_gage').when_pressed = UI.rain_gage_contact
 
 
 
@@ -251,6 +258,8 @@ class voyager_runner():
                                 self.goop.current_screen = 1
                             self.goop.init_UI = True
 
+                        self.goop.rain_hour = self.goop.rain_count * config.rain_gage_per_count
+
                         # ----------------------------------------------
 
                     if int(HHMMSS[2]) % 15 == 0 or int(HHMMSS[2]) == 0:
@@ -287,7 +296,15 @@ class voyager_runner():
                             # previous tide data is used after midnight until next tide change
                             previous_tide_data = self.goop.tide_data_dict.get('previous tide data')
                             
-                            self.goop.tide_data_dict = tides.tide_LCD(retreived_tide_dict, previous_tide_data)
+                            self.goop.tide_data_dict = tides.tide_LCD(
+                                tide_dict=retreived_tide_dict,
+                                previous_tide_data=previous_tide_data,
+                                tide_max=15.7,
+                                tide_min=-4,
+                                display_range=20,
+                                )
+
+
 
                             # ----------------------------------------------
 
@@ -307,6 +324,14 @@ class voyager_runner():
                             #### Every hour jobs ####
                             # update tide information
                             util.update_tides_with_API()
+
+                            # rain gage
+                            self.goop.rain_day +=self.goop.rain_hour
+                            self.goop.rain_hour = 0
+
+                            if HHMMSS[0] ==0:
+                                # clear rain for day
+                                self.goop.rain_day = 0
                             # ----------------------------------------------
                             
 

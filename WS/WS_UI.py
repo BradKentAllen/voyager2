@@ -102,6 +102,10 @@ def stop_all():
     goop.mx = False
     '''
 
+@fault_decorator
+def rain_gage_contact():
+    print('rain gage contact')
+    goop.rain_count +=1
 
 # #### Tests
 def test3_with_args():

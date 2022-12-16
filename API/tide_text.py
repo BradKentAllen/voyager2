@@ -198,7 +198,12 @@ def tide_LCD(tide_dict, previous_tide_data=None, tide_max=15.7, tide_min=-4, dis
     #print(f'tide_minutes: {(tide_minutes):.0f}: {sine_x:.2f}')
     #print(f'{tide_span=}, tide height: {tide_height:.1f}')
 
-    display_list = ['-', '-', '-', '0', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+']
+    if display_range == 20:
+        display_list = ['-', '-', '-', '-', '0', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+']
+
+    else:
+        display_list = ['-', '-', '-', '0', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+']
+        
     
     display_range_increment = (tide_max - tide_min) / display_range
 

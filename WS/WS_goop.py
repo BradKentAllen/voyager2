@@ -38,6 +38,10 @@ class Goop():
     RH = 0
     dew_point = 0
 
+    rain_count = 0
+    rain_hour = 0
+    rain_day = 0
+
 
     #### general voyager2 parameters ####
     main_thread_inhibit: bool = False  # inhibits main thread, particular for button thread
