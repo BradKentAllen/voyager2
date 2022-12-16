@@ -1,17 +1,17 @@
 #!/usr/bin/env python
 '''
-file name:  DD_main.py
+file name:  WS_main.py
 date created:  November 19, 2022
 created by:  Brad Allen, AditNW LLC
-project/support: DataDog       # root or script it supports
+project/support: Weather Station (voyager)      # root or script it supports
 description:  main timing featues for Life Tester
 
 special instruction:
     Voyager2 files:
-    1. LTA_main.py # DO NOT PUT STATE PARAMETERS AND FLAGS HERE!
+    1. WS_main.py # DO NOT PUT STATE PARAMETERS AND FLAGS HERE!
     2. v2_gpio.py # contains all gpio and sensor objects
-    3. LTA_goop.py # contains all parameters indluding sensor readings and state flags
-    4. LTA_UI.py # all button functions contained here, note how functions are passed. 
+    3. WS_goop.py # contains all parameters indluding sensor readings and state flags
+    4. WS_UI.py # all button functions contained here, note how functions are passed. 
         Button parameters are kept in Goop and then called by button function, not passed.
     configuration and timing loop
     Should not contain any class objects (e.g. sensors, etc.)
@@ -32,13 +32,14 @@ from v2_LCD_utility import LCD_manager
 
 # #### Application-Specific Imports ####
 import config
-from DD_goop import Goop
-import DD_UI as UI
-import DD_utilities as util
+from WS_goop import Goop
+import WS_UI as UI
+import WS_utilities as util
 
 import API.tide_text as tides
 import sensors.bmp280 as bmp280
-import sensors.TH02_RH_temp as TH02_RH
+#import sensors.TH02_RH_temp as TH02_RH
+import sensors.HIH6121 as HIH6121
 
 
 global keyboard_stop_flag  # used to bypass fault handler in keyboard interrupt
@@ -54,7 +55,8 @@ class voyager_runner():
 
         # initialize sensors
         self.bmp280 = bmp280.BMP280()
-        self.th02 = TH02_RH.TH02()
+        #self.th02 = TH02_RH.TH02()
+        self.HIH6121 = HIH6121.HIH6121sensor()
 
         # make objects availabe in UI for customized methods
         UI.goop = self.goop  # put goop into UI
@@ -255,7 +257,11 @@ class voyager_runner():
                         # update sensor data
                         self.goop.temp_in = self.bmp280.get_temp(F=True)
                         self.goop.pressure = self.bmp280.get_pressure(in_Hg=True)
-                        temp_C, self.goop.temp_out, self.goop.RH = self.th02.get_temp_RH()
+
+                        # Get outside temp and RH
+                        #temp_C, self.goop.temp_out, self.goop.RH = self.th02.get_temp_RH()
+                        self.goop.RH, temp_C, self.goop.temp_out = self.HIH6121.returnTempRH()
+
                         dew_point_C = temp_C - ((100 - self.goop.RH)/5)
                         self.goop.dew_point = (dew_point_C * 1.8) + 32
 

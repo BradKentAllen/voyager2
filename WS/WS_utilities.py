@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 '''
-file name:  DD_utilities.py
+file name:  WS_utilities.py
 date created:  October 12, 2022
 created by:  Brad Allen, AditNW LLC
-project/support: DataDog       # root or script it supports
+project/support: Weather Station (voyager)      # root or script it supports
 description:  utitilities for import into DD_main.py
 
 special instruction:

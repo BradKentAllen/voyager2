@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# config.py for DataDog
+# config.py for Weather Station
 '''
 file name: config.py
 date created: XXXXXX
 created by: Brad Allen
-project/support: DataDog (voyager2) # root or script it supports
+project/support: Weather Station (voyager2) # root or script it supports
 description:
 
 special instruction:
 '''
-__project_name__ = "DataDog"
+__project_name__ = "Weather Station"
 __revision__ = 'v1.1'
 __status__ = 'DEV' # 'DEV', 'alpha', 'beta', 'production'
 
@@ -92,7 +92,7 @@ RPi_PINOUT_BCM = {
 
 #### (3.1) # LCD setup
 # 'I2C/16x2', 'I2C/20x4', 'wired/16x2', None
-LCD_TYPE = 'I2C/16x2'
+LCD_TYPE = 'I2C/20x4'
 I2C_LCD_ADDRESS = 0x23
 I2C_COM_DELAY = .0001    # this fixes the OSError: Remote I/O error that some LCDs get.  Good displays are .0001
 BACKLIGHT_OFF_TIME = 3  # minutes until backlight goes off

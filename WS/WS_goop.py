@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 '''
-file name:  DD_goop.py
+file name:  WS_goop.py
 date created:  November 19, 2022
 created by:  Brad Allen, AditNW LLC
-project/support: DataDog      # root or script it supports
+project/support: Weather Station (voyager)      # root or script it supports
 description:
 
 special instruction:
@@ -22,7 +22,7 @@ import config
 class Goop():
     ''' data
     '''
-    ### DataDog Parameters
+    ### Weather Station Parameters
     # settings
     running = False
     mx = False

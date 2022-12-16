@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 '''
-file name:  LTA_UI.py
+file name:  WS_UI.py
 date created:  October 4, 2022
 created by:  Brad Allen, AditNW LLC
-project/support: Life Tester A      # root or script it supports
+project/support: Weather Station (voyager)      # root or script it supports
 description:  
     Has all buttons functions
     Button functions are passed to the GPIO, so they can not have arguements
