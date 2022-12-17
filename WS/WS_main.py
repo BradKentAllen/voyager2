@@ -234,7 +234,7 @@ class voyager_runner():
                                     elif character == 48:
                                         # zero tide marker
                                         character = config.custom_chars.get('buoy')
-                                    self.lcd_mgr.display_char(character, 1, count)
+                                    self.lcd_mgr.display_char(character, 4, count)
 
 
                     
@@ -333,7 +333,7 @@ class voyager_runner():
                             self.goop.rain_hour = 0
                             self.goop.rain_count = 0
 
-                            if HHMMSS[0] ==0:
+                            if int(HHMMSS[0]) == 0:
                                 # clear rain for day
                                 self.goop.rain_day = 0
                             # ----------------------------------------------
