@@ -197,7 +197,7 @@ def return_current_tide():
     _next_tide_height = goop.tide_data_dict.get('next tide height', 99)
     _next_tide_time = datetime.datetime.strftime(goop.tide_data_dict.get('next tide time'), '%I:%M')
 
-    return f"{_tide_height:.1f} > {_next_tide_height:.1f}"
+    return f"{_tide_height:.1f}\' going to {_next_tide_height:.1f}\'"
 
 
 def return_tide_string():
@@ -292,7 +292,7 @@ def return_UI_dict():
                     'line2_justification': 'left',
                     'line3': f"{return_current_tide()} ",
                     'line3_justification': 'left',
-                    'line4': f"{datetime.datetime.strftime(datetime.datetime.now(), '%-I:%M')} in: {goop.temp_in:.0f}  out: {goop.temp_out:.0f}",
+                    'line4': f"{datetime.datetime.strftime(datetime.datetime.now(), '%-I:%M')}   {goop.temp_in:.0f}{chr(223)} out: {goop.temp_out:.0f}{chr(223)}",
                     'line4_justification': 'left',
                     },
                 'button2': None,
@@ -300,7 +300,7 @@ def return_UI_dict():
                 },
             2: { # Conditions
                 'screen': {
-                    'line1': f"{goop.temp_out:.0f}, RH {goop.RH:.0f}% DP {goop.dew_point:.0f}",  # filled in main based on screen number
+                    'line1': f" {goop.temp_out:.0f}{chr(223)} RH {goop.RH:.0f}% DP {goop.dew_point:.0f}{chr(223)}",  # filled in main based on screen number
                     'line1_justification': 'left',
                     'line2': f"{goop.pressure:.1f}\" Hg",
                     'line2_justification': 'left',
