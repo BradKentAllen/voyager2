@@ -177,7 +177,14 @@ def return_next_tide():
     _next_tide_height = goop.tide_data_dict.get('next tide height', 99)
     _next_tide_time = datetime.datetime.strftime(goop.tide_data_dict.get('next tide time'), '%-I:%M')
 
-    return f"{_time_now} {_next_tide} at {_next_tide_time}"
+    if _next_tide == 'H':
+        _next_tide = 'High'
+    elif _next_tide == 'L':
+        _next_tide = "Low"
+    else:
+        _next_tide = "error"
+
+    return f"{_next_tide} at {_next_tide_time}"
 
 
 def return_current_tide():
@@ -190,7 +197,7 @@ def return_current_tide():
     _next_tide_height = goop.tide_data_dict.get('next tide height', 99)
     _next_tide_time = datetime.datetime.strftime(goop.tide_data_dict.get('next tide time'), '%I:%M')
 
-    return f"{_time_now} {_tide_height:.1f} > {_next_tide_height:.1f}"
+    return f"{_tide_height:.1f} > {_next_tide_height:.1f}"
 
 
 def return_tide_string():
@@ -277,60 +284,30 @@ def return_UI_dict():
                 },
             },
         'weather': {
-            1: {
+            1: { # Tide
                 'screen': {
-                    #'line1': f"{return_tide_string()}",
-                    'line1': None,
+                    'line1': None,  # filled in main based on screen number
                     'line1_justification': 'left',
                     'line2': f"{return_next_tide()} ",
                     'line2_justification': 'left',
-                    'line3': None,
-                    'line3_justification': None,
-                    'line4': None,
-                    'line4_justification': None,
+                    'line3': f"{return_current_tide()} ",
+                    'line3_justification': 'left',
+                    'line4': f"{datetime.datetime.strftime(datetime.datetime.now(), '%-I:%M')} in: {goop.temp_in:.0f}  out: {goop.temp_out:.0f}",
+                    'line4_justification': 'left',
                     },
                 'button2': None,
                 'button3': None,
                 },
-            2: {
+            2: { # Conditions
                 'screen': {
-                    #'line1': f"{return_tide_string()}",
-                    'line1': None,
+                    'line1': f"{goop.temp_out:.0f}, RH {goop.RH:.0f}% DP {goop.dew_point:.0f}",  # filled in main based on screen number
                     'line1_justification': 'left',
-                    'line2': f"{return_current_tide()} ",
+                    'line2': f"{goop.pressure:.1f}\" Hg",
                     'line2_justification': 'left',
-                    'line3': None,
-                    'line3_justification': None,
-                    'line4': None,
-                    'line4_justification': None,
-                    },
-                'button2': None,
-                'button3': None,
-                },
-            3: {
-                'screen': {
-                    'line1': f"in: {goop.temp_in:.0f}  out: {goop.temp_out:.0f}",
-                    'line1_justification': 'left',
-                    'line2': f"{datetime.datetime.strftime(datetime.datetime.now(), '%-I:%M')} RH {goop.RH:.0f}% {goop.dew_point:.0f}",
-                    'line2_justification': 'left',
-                    'line3': None,
-                    'line3_justification': None,
-                    'line4': None,
-                    'line4_justification': None,
-                    },
-                'button2': None,
-                'button3': None,
-                },
-            4: {
-                'screen': {
-                    'line1': f"in: {goop.temp_in:.0f}  out: {goop.temp_out:.0f}",
-                    'line1_justification': 'left',
-                    'line2': f"{datetime.datetime.strftime(datetime.datetime.now(), '%-I:%M')}   {goop.pressure:.1f}\" Hg",
-                    'line2_justification': 'left',
-                    'line3': None,
-                    'line3_justification': None,
-                    'line4': None,
-                    'line4_justification': None,
+                    'line3': f"rain {goop.rain_hour:.2f}\" {(goop.rain_day + goop.rain_hour):.2f}\"",
+                    'line3_justification': 'left',
+                    'line4': f"{datetime.datetime.strftime(datetime.datetime.now(), '%-I:%M')}",
+                    'line4_justification': 'left',
                     },
                 'button2': None,
                 'button3': None,

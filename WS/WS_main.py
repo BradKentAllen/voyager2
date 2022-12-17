@@ -215,7 +215,7 @@ class voyager_runner():
                         # ### fancy tide display
                         # Will overlay a custom tide display if appropriate menu
                         if self.goop.current_screen_group == 'weather':
-                            if self.goop.current_screen in (1, 2):
+                            if self.goop.current_screen in (1,):
                                 # overlay fancy tide
                                 for count, character in enumerate(UI.return_tide_string()):
                                     character = ord(character)
@@ -252,13 +252,7 @@ class voyager_runner():
 
                     if int(HHMMSS[2]) % 5 == 0 or int(HHMMSS[2]) == 0:
                         ### every 5 second jobs ####
-                        if self.goop.current_screen_group == "weather":
-                            self.goop.current_screen += 1
-                            if self.goop.current_screen > len(UI.return_UI_dict()[self.goop.current_screen_group]):
-                                self.goop.current_screen = 1
-                            self.goop.init_UI = True
-
-                        self.goop.rain_hour = self.goop.rain_count * config.rain_gage_per_count
+                        pass
 
                         # ----------------------------------------------
 
@@ -267,12 +261,21 @@ class voyager_runner():
                         self.goop.temp_in = self.bmp280.get_temp(F=True)
                         self.goop.pressure = self.bmp280.get_pressure(in_Hg=True)
 
+                        self.goop.rain_hour = self.goop.rain_count * config.rain_gage_per_count
+
                         # Get outside temp and RH
                         #temp_C, self.goop.temp_out, self.goop.RH = self.th02.get_temp_RH()
                         self.goop.RH, temp_C, self.goop.temp_out = self.HIH6121.returnTempRH()
 
                         dew_point_C = temp_C - ((100 - self.goop.RH)/5)
                         self.goop.dew_point = (dew_point_C * 1.8) + 32
+
+                        # change display
+                        if self.goop.current_screen_group == "weather":
+                            self.goop.current_screen += 1
+                            if self.goop.current_screen > len(UI.return_UI_dict()[self.goop.current_screen_group]):
+                                self.goop.current_screen = 1
+                            self.goop.init_UI = True
 
 
                         # ----------------------------------------------
@@ -328,6 +331,7 @@ class voyager_runner():
                             # rain gage
                             self.goop.rain_day +=self.goop.rain_hour
                             self.goop.rain_hour = 0
+                            self.goop.rain_count = 0
 
                             if HHMMSS[0] ==0:
                                 # clear rain for day

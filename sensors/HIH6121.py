@@ -14,8 +14,11 @@ class HIH6121sensor(object):
     def returnTempRH(self):
         '''returns data from HIH6121
         '''
-        self.bus.write_quick(0x27)
-        time.sleep(0.1)
+        try:
+            self.bus.write_quick(0x27)
+            time.sleep(0.1)
+        except OSError:
+            return 1, 99, 99
 
         # HIH6130 address, 0x27(39)
         # Read data back from 0x00(00), 4 bytes
