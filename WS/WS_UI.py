@@ -104,8 +104,9 @@ def stop_all():
 
 @fault_decorator
 def rain_gage_contact():
-    print('rain gage contact')
     goop.rain_count +=1
+    print(f'rain gage contact {goop.rain_count}')
+    
 
 # #### Tests
 def test3_with_args():
