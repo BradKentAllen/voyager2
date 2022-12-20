@@ -258,8 +258,13 @@ class voyager_runner():
 
                     if int(HHMMSS[2]) % 15 == 0 or int(HHMMSS[2]) == 0:
                         # update sensor data
-                        self.goop.temp_in = self.bmp280.get_temp(F=True)
-                        self.goop.pressure = self.bmp280.get_pressure(in_Hg=True)
+                        try:
+                            self.goop.temp_in = self.bmp280.get_temp(F=True)
+                            self.goop.pressure = self.bmp280.get_pressure(in_Hg=True)
+                        except OSError:
+                            self.goop.temp_in = 99
+                            self.goop.pressure = 99
+                            print(f'OSError in BMP280: {time.now()}')
 
                         self.goop.rain_hour = self.goop.rain_count * config.rain_gage_per_count
 

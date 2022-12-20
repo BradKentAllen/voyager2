@@ -92,6 +92,9 @@ class Tide_Text():
 
         tide_dict = {}
 
+        if tide_list is None:
+            return None
+
         for count, item in enumerate(tide_list):
             tide_dict[count + 1] = {}
 
