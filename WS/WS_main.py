@@ -264,7 +264,7 @@ class voyager_runner():
                         except OSError:
                             self.goop.temp_in = 99
                             self.goop.pressure = 99
-                            print(f'OSError in BMP280: {time.now()}')
+                            print(f'OSError in BMP280')
 
                         self.goop.rain_hour = self.goop.rain_count * config.rain_gage_per_count
 

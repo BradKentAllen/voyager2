@@ -315,6 +315,13 @@ if __name__ == "__main__":
             lcd_mgr.display_char(ord(str(i)), 4, 15)
             time.sleep(1)
 
+        time.sleep(2)
+        print('special test')
+        
+        for i in range(30, 0, -1):
+            lcd_mgr.display_line(f'{i}: {chr(i)}', 4, 'center')
+            time.sleep(1)
+
         lcd_mgr.display_clear()
         lcd_mgr.display_line('test complete', 2, 'left')
     else:
@@ -322,7 +329,7 @@ if __name__ == "__main__":
         print('run 2-line LCD test')
 
         _menu_dict = {
-            'line1': '4-line LCD Test',
+            'line1': '2-line LCD Test',
             'line1_justification': 'left',
             'line2': 'ABCDEFGHIJKLMNOPQRST',
             'line2_justification': 'left',
@@ -330,12 +337,20 @@ if __name__ == "__main__":
 
         lcd_mgr.display_menu(_menu_dict)
 
-        time.sleep(5)
+        time.sleep(2)
         lcd_mgr.display_line('Counting Down:', 2, 'left')
 
         for i in range(9, 0, -1):
             lcd_mgr.display_char(ord(str(i)), 2, 15)
             time.sleep(1)
+
+        time.sleep(2)
+        print('special test')
+        lcd_mgr.display_line('Special:', 2, 'left')
+        for i in range(30, 0, -1):
+            lcd_mgr.display_line(f'{i}: {chr(i)}', 2, 'center')
+            time.sleep(1)
+
 
         lcd_mgr.display_clear()
         lcd_mgr.display_line('test complete', 2, 'left')
