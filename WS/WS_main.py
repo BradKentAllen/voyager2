@@ -87,6 +87,27 @@ class voyager_runner():
             display_range=20,
             )
 
+        # set rain_day if restarting
+        try:
+            with open('day_rain.txt', 'r') as file:
+                line = file.readlines()
+        except FileNotFoundError:
+            pass
+        else:
+            try:
+                _date = line[5].split(',')[0]
+            except IndexError:
+                pass
+            else:
+                if _date == time.strftime('%d', time.gmtime()):
+                    try:
+                        _rain = line[0].split(',')[1]
+                    except IndexError:
+                        pass
+                    else:
+                        self.goop.rain_day = _rain
+
+
         # ### Assign functions to interupts
         # Buttons 1, 2, and 3 are assigned dynamically but other "buttons", which
         # includes limit switches, are assinged here
@@ -269,8 +290,7 @@ class voyager_runner():
                         self.goop.rain_hour = self.goop.rain_count * config.rain_gage_per_count
 
                         # Get outside temp and RH
-                        #temp_C, self.goop.temp_out, self.goop.RH = self.th02.get_temp_RH()
-                        self.goop.RH, temp_C, self.goop.temp_out = self.HIH6121.returnTempRH()
+                        self.goop.RH, temp_C, self.goop.temp_out = self.HIH6121.returnTempRH()  # error trap in sensor returns 1, 99, 99
 
                         dew_point_C = temp_C - ((100 - self.goop.RH)/5)
                         self.goop.dew_point = (dew_point_C * 1.8) + 32
@@ -337,6 +357,13 @@ class voyager_runner():
                             self.goop.rain_day +=self.goop.rain_hour
                             self.goop.rain_hour = 0
                             self.goop.rain_count = 0
+
+                            # save the rain for the day
+                            with open('day_rain.txt', 'w') as file:
+                                file.write(f"{time.strftime('%d', time.gmtime())}, {self.goop.rain_day}")
+
+
+                            # Midnight actions
 
                             if int(HHMMSS[0]) == 0:
                                 # clear rain for day

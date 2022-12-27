@@ -30,14 +30,17 @@ def update_tides_with_API():
     app = Tide_Text()
 
     # get tide dict and pickle
-    tide_dict = app.get_tide_dict()
-
-    if isinstance(tide_dict, str):
-        # if no response, pass.  Will get data at next try
-        print(f"no tide API response at {datetime.datetime.strftime(datetime.datetime.now(), '%H:%M')}")
+    try:
+        tide_dict = app.get_tide_dict()
+    except Exception as e:
+        print(f"{e} error in utility update_tides_with_API at {datetime.datetime.strftime(datetime.datetime.now(), '%H:%M')}")
     else:
-        validate_data_dir()
-        pickle_cache(tide_dict, 'tide_dict')
+        if isinstance(tide_dict, str):
+            # if no response, pass.  Will get data at next try
+            print(f"no tide API response at {datetime.datetime.strftime(datetime.datetime.now(), '%H:%M')}")
+        else:
+            validate_data_dir()
+            pickle_cache(tide_dict, 'tide_dict')
 
 
 

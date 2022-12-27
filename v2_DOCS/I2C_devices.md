@@ -6,6 +6,7 @@ Most I2C sensors require some sort of interface or driver package.  On RPi, it i
 
 ```
 LCD					0x27  # can be changed with jumper to 0x23
+HIH6121				0x27  #fixed
 BNo055				0x28
 ADS1115 (A to D)	0x48  # requires ads1115driver.py
 ADXL345				0x53
