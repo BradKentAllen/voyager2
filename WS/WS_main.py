@@ -99,7 +99,7 @@ class voyager_runner():
             except IndexError:
                 pass
             else:
-                if _date == time.strftime('%d', time.gmtime()):
+                if _date == time.strftime('%d', time.localtime()):
                     try:
                         _rain = line[0].split(',')[1]
                     except IndexError:
@@ -360,7 +360,7 @@ class voyager_runner():
 
                             # save the rain for the day
                             with open('day_rain.txt', 'w') as file:
-                                file.write(f"{time.strftime('%d', time.gmtime())}, {self.goop.rain_day}")
+                                file.write(f"{time.strftime('%d', time.localtime())}, {self.goop.rain_day}")
 
 
                             # Midnight actions
