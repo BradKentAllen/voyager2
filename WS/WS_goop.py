@@ -35,6 +35,7 @@ class Goop():
     temp_in = 99
     temp_out = 99
     pressure = 99
+    barometric_string = "no history"  # ten digit string
     RH = 0
     dew_point = 0
 

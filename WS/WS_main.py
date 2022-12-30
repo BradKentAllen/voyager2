@@ -9,12 +9,19 @@ description:  main timing featues for Life Tester
 special instruction:
     Voyager2 files:
     1. WS_main.py # DO NOT PUT STATE PARAMETERS AND FLAGS HERE!
-    2. v2_gpio.py # contains all gpio and sensor objects
-    3. WS_goop.py # contains all parameters indluding sensor readings and state flags
-    4. WS_UI.py # all button functions contained here, note how functions are passed. 
-        Button parameters are kept in Goop and then called by button function, not passed.
-    configuration and timing loop
-    Should not contain any class objects (e.g. sensors, etc.)
+    2. WS_goop.py # contains all parameters indluding sensor readings and state flags
+    3. v2_gpio.py # contains all gpio.  All gpio should be called rom within the Machine 
+    object created by the import from v2_gio.  Failure to do so will result in thread
+    conflicts.  Buttons use interrupts which are created in v2_gio.  If additional
+    interrupts are required, they are initiated from main (here)
+    3. LCD manager is important for driving the LCD.  Make sure you only end up with
+    one LCD_manager or the display will have all sorts of problems.
+    4. WS_UI.py # all button functions are contained here, note how functions are passed.
+    If a button function requires parameters, those button parameters are kept in Goop 
+    and then called by button function, not passed.
+    
+    5. I2C sensors are initiated and called from main.  If they are required elsewhere,
+    pass the sensor object to the function from main.
 
 copyright 2022, MIT License, AditNW LLC
 
@@ -24,21 +31,25 @@ rev 1.0 DEV
 # standard imports
 import time
 import signal
+import pickle
 
-# voyager2 imports
+# standard  voyager2 imports
 from v2_gpio import Machine
 import RPi_utilities as RPi_util
 from v2_LCD_utility import LCD_manager
 
 # #### Application-Specific Imports ####
+# These may require modification
 import config
 from WS_goop import Goop
 import WS_UI as UI
 import WS_utilities as util
 
+# other specialized utilities
 import API.tide_text as tides
+
+# sensors
 import sensors.bmp280 as bmp280
-#import sensors.TH02_RH_temp as TH02_RH
 import sensors.HIH6121 as HIH6121
 
 
@@ -48,22 +59,39 @@ keyboard_stop_flag = False
 
 class voyager_runner():
     def __init__(self):
-        # instantiate key objects
+        # #### instantiate key objects
+        # first the key voyager objects
+        # these will only be instantiated in main
         self.machine = Machine()
         self.goop = Goop()
         self.lcd_mgr = LCD_manager()
 
-        # initialize sensors
-        self.bmp280 = bmp280.BMP280()
-        #self.th02 = TH02_RH.TH02()
-        self.HIH6121 = HIH6121.HIH6121sensor()
-
-        # make objects availabe in UI for customized methods
+        # Assign the key objects to the voyager utilities
+        # IMPORTANT:  this prevents multiple instantiations of goop, machine,
+        # and lcd_mgr
         UI.goop = self.goop  # put goop into UI
         UI.machine = self.machine  # put machine into UI
         UI.lcd_mgr = self.lcd_mgr
 
         util.goop = self.goop
+
+        # #### Check for Persistent Data
+        # # set rain_day if restarting
+        try:
+            with open('persist_data.pkl', 'rb') as file:
+                persist_data = pickle.load(file)
+        except FileNotFoundError:
+            pass
+        else:
+            if isinstance(persist_data, dict):
+                # #### retreive and use persist data
+                if persist_data.get('date') == time.strftime('%d', time.localtime()):
+                    self.goop.rain_day = persist_data.get('rain_day')
+
+
+        # #### initialize I2C sensors
+        self.bmp280 = bmp280.BMP280()
+        self.HIH6121 = HIH6121.HIH6121sensor()
 
         # #### Initialize UI
         # LCD welcome display (will stay on for goop.startup_seconds)
@@ -86,27 +114,6 @@ class voyager_runner():
             tide_min=-4,
             display_range=20,
             )
-
-        # set rain_day if restarting
-        try:
-            with open('day_rain.txt', 'r') as file:
-                line = file.readlines()
-        except FileNotFoundError:
-            pass
-        else:
-            try:
-                _date = line[5].split(',')[0]
-            except IndexError:
-                pass
-            else:
-                if _date == time.strftime('%d', time.localtime()):
-                    try:
-                        _rain = line[0].split(',')[1]
-                    except IndexError:
-                        pass
-                    else:
-                        self.goop.rain_day = _rain
-
 
         # ### Assign functions to interupts
         # Buttons 1, 2, and 3 are assigned dynamically but other "buttons", which
@@ -358,13 +365,19 @@ class voyager_runner():
                             self.goop.rain_hour = 0
                             self.goop.rain_count = 0
 
-                            # save the rain for the day
-                            with open('day_rain.txt', 'w') as file:
-                                file.write(f"{time.strftime('%d', time.localtime())}, {self.goop.rain_day}")
+                            # #### Persist Data
+                            # this can be performed at any time
+                            persist_data = {
+                                'date': time.strftime('%d', time.localtime()),
+                                'rain_day': self.goop.rain_day,
+                                'barometric_string': self.goop.barometric_string,
+                            }
+
+                            with open('persist_data.pkl', 'wb') as file:
+                                pickle.dump(persist_data, file)
 
 
                             # Midnight actions
-
                             if int(HHMMSS[0]) == 0:
                                 # clear rain for day
                                 self.goop.rain_day = 0
