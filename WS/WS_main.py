@@ -361,9 +361,9 @@ class voyager_runner():
                             self.goop.rain_count = 0
 
                             # barometric pressure trend
-                            if self.goop.pressure > self.goop.barometric_string:
+                            if self.goop.pressure > self.goop.barometric_last_hour:
                                 _graphic = '^'
-                            elif self.goop.pressure > self.goop.barometric_string:
+                            elif self.goop.pressure < self.goop.barometric_last_hour:
                                 _graphic = 'v'
                             else:
                                 _graphic = '-'
