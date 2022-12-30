@@ -11,8 +11,8 @@ description:
 special instruction:
 '''
 __project_name__ = "Weather Station"
-__revision__ = 'v1.1'
-__status__ = 'DEV' # 'DEV', 'alpha', 'beta', 'production'
+__revision__ = 'v1.2'
+__status__ = 'alpha' # 'DEV', 'alpha', 'beta', 'production'
 
 
 

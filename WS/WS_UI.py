@@ -187,17 +187,20 @@ def return_next_tide():
 
     return f"{_next_tide} at {_next_tide_time}"
 
+
 def return_tide_height():
     try:
         return goop.tide_data_dict.get('tide height', 99)
     except AttributeError:
         return 99
 
+
 def return_next_tide_time():
     try:
         return datetime.datetime.strftime(goop.tide_data_dict.get('next tide time'), '%I:%M')
     except AttributeError:
         return "00:00"
+
 
 def return_next_tide_type():
     try:
@@ -213,6 +216,7 @@ def return_next_tide_type():
         _next_tide = "n"
 
     return _next_tide
+
 
 def return_next_tide_height():
     try:
@@ -338,7 +342,7 @@ def return_UI_dict():
                 'screen': {
                     'line1': f"{datetime.datetime.strftime(datetime.datetime.now(), '%-I:%M')}   {goop.temp_in:.0f}{chr(223)}  {goop.temp_out:.0f}{chr(223)} ",  # filled in main based on screen number
                     'line1_justification': 'left',
-                    'line2': f"{goop.pressure:.1f}\" Hg",
+                    'line2': f"{goop.barometric_string}  {goop.pressure:.1f}\" Hg",
                     'line2_justification': 'left',
                     'line3': f"RH {goop.RH:.0f}%  dew pt {goop.dew_point:.0f}{chr(223)}",
                     'line3_justification': 'left',

@@ -103,6 +103,8 @@ class voyager_runner():
         # #### initialize key parameters
         self.goop.init_UI = True  # requires init at end of startup
 
+        self.goop.barometric_last_hour = self.bmp280.get_pressure(in_Hg=True)
+
         # get tide data and save as pickle file
         util.update_tides_with_API()
         retreived_tide_dict = util.get_pickled_cache('tide_dict')
@@ -286,6 +288,7 @@ class voyager_runner():
                             self.goop.pressure = 99
                             print(f'OSError in BMP280')
 
+                        # rain gage count
                         self.goop.rain_hour = self.goop.rain_count * config.rain_gage_per_count
 
                         # Get outside temp and RH
@@ -356,6 +359,16 @@ class voyager_runner():
                             self.goop.rain_day +=self.goop.rain_hour
                             self.goop.rain_hour = 0
                             self.goop.rain_count = 0
+
+                            # barometric pressure trend
+                            if self.goop.pressure > self.goop.barometric_string:
+                                _graphic = '^'
+                            elif self.goop.pressure > self.goop.barometric_string:
+                                _graphic = 'v'
+                            else:
+                                _graphic = '-'
+
+                            self.goop.barometric_string = self.goop.barometric_string[1:] + _graphic
 
                             # #### Persist Data
                             # this can be performed at any time
