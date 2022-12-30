@@ -86,7 +86,9 @@ class voyager_runner():
             if isinstance(persist_data, dict):
                 # #### retreive and use persist data
                 if persist_data.get('date') == time.strftime('%d', time.localtime()):
-                    self.goop.rain_day = persist_data.get('rain_day')
+                    self.goop.rain_day = persist_data.get('rain_day', self.goop.rain_day)
+                    self.goop.barometric_string = persist_data.get('barometric_string', self.goop.barometric_string)
+
 
 
         # #### initialize I2C sensors
@@ -103,7 +105,7 @@ class voyager_runner():
         # #### initialize key parameters
         self.goop.init_UI = True  # requires init at end of startup
 
-        self.goop.barometric_last_hour = self.bmp280.get_pressure(in_Hg=True)
+        self.goop.barometric_last = int(self.bmp280.get_pressure(in_Hg=True) * 100)
 
         # get tide data and save as pickle file
         util.update_tides_with_API()
@@ -361,10 +363,13 @@ class voyager_runner():
                             self.goop.rain_count = 0
 
                             # barometric pressure trend
-                            if self.goop.pressure > self.goop.barometric_last_hour:
+                            _current_barometric = int(self.goop.pressure * 100)
+                            if (_current_barometric - self.goop.barometric_last) > config.barometric_hundredth_test:
                                 _graphic = '^'
-                            elif self.goop.pressure < self.goop.barometric_last_hour:
+                                self.goop.barometric_last = int(self.bmp280.get_pressure(in_Hg=True) * 100)
+                            elif (_current_barometric - self.goop.barometric_last) < -1 * config.barometric_hundredth_test:
                                 _graphic = 'v'
+                                self.goop.barometric_last = int(self.bmp280.get_pressure(in_Hg=True) * 100)
                             else:
                                 _graphic = '-'
 

@@ -27,6 +27,8 @@ min_tide = -4
 
 rain_gage_per_count = .0157  # inches per tip.  .0157 is .4 mm
 
+barometric_hundredth_test = 50  # how many hundredths of an inch to trigger graphic
+
 
 # #### (1.1) File structure
 DATA_DIR = "data"
