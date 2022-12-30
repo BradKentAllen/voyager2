@@ -129,6 +129,11 @@ class voyager_runner():
         start_milli = time.time() * 1000
         (last_hour, last_minute, last_second) = RPi_util.get_time(config.local_time_zone)
 
+
+
+        # #####################
+        # #### Timing Loop ####
+        # #####################
         while True and self.goop.main_thread_inhibit is False:
             milli = (time.time() * 1000) - start_milli
             
@@ -143,23 +148,29 @@ class voyager_runner():
                 HHMMSS = RPi_util.get_time(config.local_time_zone)
 
                 #### Jobs that run every poll
-                # none
+                # Jobs here will run with every poll.  This can be as fast as polling
+                # but may be less often if processing time consumes a poll time
+
+
+
+                # ----------------------------------------------
+
 
                 #### Second ####
 
                 if last_second != HHMMSS[2]:
-                    # redo last_second
+                    # update last_second
                     last_second = HHMMSS[2]
                     #### Every second jobs ####
                     # print(f'\n{HHMMSS}')
 
                     # ### always actions (startup and regular)
-                    # XXX test flash LED's
+                    # LED indicators
                     if self.goop.flash_flag is True:
-                        #print('ON')
                         if self.goop.fault is False:
                             # normal pulse
-                            self.machine.LED("green_LED", "ON")
+                            if config.flash_green_pulse is True:
+                                self.machine.LED("green_LED", "ON")
                         else:
                             # pulse in a fault
                             self.machine.LED("red_LED", "ON")
@@ -185,27 +196,11 @@ class voyager_runner():
                     # #### Startup and Regular Actions ####
                     # #####################################
 
-                    '''
-                    if self.goop.startup_seconds > 1 and self.goop.startup_seconds != 5:
-                        # #### Startup Actions Only ####
-                        self.goop.startup_seconds -= 1
-                    elif self.goop.startup_seconds == 5:
-                        #performs a screen change at 10 seconds
-                        _menu_dict = UI.return_UI_dict()['welcome'].get('screen')
-                        IP_address = RPi_util.get_IP_address()
-                        _menu_dict['line2'] = f'{IP_address}'
-                        self.lcd_mgr.display_menu(_menu_dict)
-                        self.goop.startup_seconds -= 1
-
-                    elif self.goop.startup_seconds == 1:
-                        self.goop.screen_message = "Ready to Run"
-                        self.goop.startup_seconds -= 1
-                    '''
-
                     if self.goop.startup_seconds > 1:
                         # #### Startup Actions Only ####
                         self.goop.startup_seconds -= 1
                     elif self.goop.startup_seconds in (1, 2):
+                        # allows intermediate display
                         self.goop.current_screen_group = "weather"
                         self.goop.current_screen = 1
                         self.goop.init_UI = True
@@ -230,14 +225,11 @@ class voyager_runner():
                             #screen_dict['line4'] = self.goop.fault_msg
 
                         # ### update LCD
-                        # DEBUG XXXXXX
                         try:
                             self.lcd_mgr.display_menu(screen_dict)
                         except OSError:
-                            # this appears to accur do to an I2C issue with other boards.
+                            # this may occur due to an I2C issue with other boards.
                             # restart is to get rid of bad graphics on LCD
-                            print(f'OS error in LCD second, restart LCD')
-                            print(f'{screen_dict}\n')
                             self.lcd_mgr.restart_LCD()
 
                         # ### fancy tide display
@@ -393,6 +385,11 @@ class voyager_runner():
             milli = (time.time() * 1000) - start_milli
 
 
+
+# ###############################################
+# #### Fault Handlers and Keyboard Interrupt ####
+# ###############################################
+
 def fault_handler(e):
     '''Handles faults within the timing loops
     Faults in gpio threads are handled by the decorator in UI
@@ -434,9 +431,13 @@ if __name__ == "__main__":
     signal.signal(signal.SIGINT, keyboardInterruptHandler)
 
     if config.DEBUG is True:
+        # ### DEBUG MODE
+        # in Debug there are no fail safes to make sure gpio is OFF
+        # in case of an error.  Be careful running from here.
         print('!!! WARNING:  Running in DEBUG mode')
         app.run()
     else:
+        # ### Normal run with fault handlers
         try:
             app.run()
         except Exception as e:

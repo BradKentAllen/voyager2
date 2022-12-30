@@ -94,6 +94,8 @@ RPi_PINOUT_BCM = {
     #### 3.0 UI, Buttons, Display ####
     ##################################
 
+flash_green_pulse = True
+
 #### (3.1) # LCD setup
 # 'I2C/16x2', 'I2C/20x4', 'wired/16x2', None
 LCD_TYPE = 'I2C/20x4'
