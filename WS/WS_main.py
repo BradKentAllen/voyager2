@@ -364,8 +364,15 @@ class voyager_runner():
 
                             # barometric pressure trend
                             _current_barometric = int(self.goop.pressure * 100)
-                            if (_current_barometric - self.goop.barometric_last) > config.barometric_hundredth_test:
+                            print(f'current: {_current_barometric}, last: {self.goop.barometric_last}, test delta: {config.barometric_hundredth_test}')
+                            if (_current_barometric - self.goop.barometric_last) > 2 * config.barometric_hundredth_test:
+                                _graphic = '+'
+                                self.goop.barometric_last = int(self.bmp280.get_pressure(in_Hg=True) * 100)
+                            elif (_current_barometric - self.goop.barometric_last) > config.barometric_hundredth_test:
                                 _graphic = '^'
+                                self.goop.barometric_last = int(self.bmp280.get_pressure(in_Hg=True) * 100)
+                            elif (_current_barometric - self.goop.barometric_last) < -2 * config.barometric_hundredth_test:
+                                _graphic = 'L'
                                 self.goop.barometric_last = int(self.bmp280.get_pressure(in_Hg=True) * 100)
                             elif (_current_barometric - self.goop.barometric_last) < -1 * config.barometric_hundredth_test:
                                 _graphic = 'v'
